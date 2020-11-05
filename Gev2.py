@@ -79,9 +79,9 @@ class Gev2():
             else:
                 webFolder = choiceT + '_' + reference
             if ( releaseExtent != '' ):
-                webFolder = shortRelease + "_" + releaseExtent + "_DQM_" + web_repo[1] + webFolder
+                webFolder = shortRelease + "_" + releaseExtent + "_DQM_" + web_repo[1] + '/' + webFolder
             else:
-                webFolder = shortRelease + "_DQM_" + web_repo[1] + webFolder
+                webFolder = shortRelease + "_DQM_" + web_repo[1] + '/' + webFolder
             webFolder = web_repo[0] + webFolder + '/'
             print('webFolder : %s' % webFolder)
             

@@ -81,11 +81,10 @@ class GevSeq():
             else:
                 webFolder = choiceT + '_' + reference
             if ( releaseExtent != '' ):
-                webFolder = shortRelease + "_" + releaseExtent + "_DQM_" + web_repo[1] + webFolder
+                webFolder = shortRelease + "_" + releaseExtent + "_DQM_" + web_repo[1] + '/' + webFolder
             else:
-                webFolder = shortRelease + "_DQM_" + web_repo[1] + webFolder
+                webFolder = shortRelease + "_DQM_" + web_repo[1] + '/' + webFolder
             webFolder = web_repo[0] + webFolder + '/'
-            print('webFolder : %s' % webFolder)
 
             if not os.path.exists(webFolder): # only create the first folder for saving gifs, i.e. release folder.
                 self.exist_webFolder = False
