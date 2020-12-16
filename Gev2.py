@@ -6,7 +6,8 @@ import concurrent.futures
 import time
 import numpy as np
 
-sys.path.append('/afs/cern.ch/user/a/archiron/lbin/ChiLib')
+#sys.path.append('/afs/cern.ch/user/a/archiron/lbin/ChiLib')
+sys.path.append('/eos/project-c/cmsweb/www/egamma/validation/Electrons/ChiLib/')
 
 from graphicFunctions import *
 from functions import *

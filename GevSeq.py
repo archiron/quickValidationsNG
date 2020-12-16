@@ -6,7 +6,8 @@ import concurrent.futures
 import time
 import numpy as np
 
-sys.path.append('/afs/cern.ch/user/a/archiron/lbin/ChiLib')
+#sys.path.append('/afs/cern.ch/user/a/archiron/lbin/ChiLib')
+sys.path.append('/eos/project-c/cmsweb/www/egamma/validation/Electrons/ChiLib/')
 
 from graphicFunctions import *
 from functions import *
@@ -367,6 +368,7 @@ class GevSeq():
                 if (DB_flag == True):
                     wp_DB = open('DB_quick_index.html', 'w') # web page for Decision Box
                     wp_Files.append(wp_DB)
+                    createDatasetFolder3() # create DBox folder
                     print('DB_flag = True')
                 #stop
                 extWrite("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">\n", wp_Files)
@@ -529,6 +531,10 @@ class GevSeq():
                             png_name = "pngs/" + short_histo_names[0] + ".png" # for DB yellow curves
                             png_cumul_name = "pngs/" + short_histo_names[0] + "_cum.png" # for DB yellow curves
 
+                            # creating shortHistoName file in DBox folder
+                            fHisto = open('DBox/' + short_histo_name + '.txt', 'w') # web page
+                            fHisto.write('<table border="1" bordercolor=green cellpadding="2" style="margin-left:auto;margin-right:auto">' + '\n')
+
                             #print('%s/%s' % (elt, short_histo_names[0]))
                             if checkRecompInName(short_histo_names[0]): #
                                 histo_name_recomp = short_histo_names[0].replace("_recomp", "") # without recomp
@@ -575,9 +581,25 @@ class GevSeq():
                                 extWrite( "<a id=\"" + short_histo_name + "\" name=\"" + short_histo_name + "\"" , wp_Files)
                                 extWrite( " href=\"" + gif_name + "\"><img border=\"0\" class=\"image\" width=\"440\" src=\"" + gif_name + "\"></a>" , wp_Files)
                                 extWrite( " </td>\n" , wp_Files)
+                                fHisto.write( "<td>")
+                                fHisto.write( "<a id=\"" + short_histo_name + "\" name=\"" + short_histo_name + "\"")
+                                fHisto.write( " href=\"" + gif_name + "\"><img border=\"0\" class=\"image\" width=\"440\" src=\"" + gif_name + "\"></a>")
+                                fHisto.write( "</td>\n")
+                                fHisto.write( "\n")
                                 # insert here the decision box
                                 if DB_flag:
-                                    DB.addKSValues(wp_DB, color, KS_values_1, KS_values_2, KS_values_3, DB_picture)
+                                    DB.addKSValues(wp_DB, fHisto, color, KS_values_1, KS_values_2, KS_values_3, DB_picture)
+                                    extWrite("\n</table>\n", [fHisto])
+                                    fHisto.write( "<br>\n")
+                                    fHisto.write( "<table border=\"1\" bordercolor=\"blue\" cellpadding=\"2\" style=\"margin-left:auto;margin-right:auto\">\n")
+                                    fHisto.write( "<tr>\n")
+                                    fHisto.write( "<th scope=\"col\"> </th>\n")
+                                    fHisto.write( "<th scope=\"col\">KS curves</th>\n")
+                                    fHisto.write( "<th scope=\"col\">yellow curves</th>\n")
+                                    fHisto.write( "<th scope=\"col\">cumulatives curves</th>\n")
+                                    fHisto.write( "</tr>\n")
+                                    fHisto.write( "<tr>\n")
+                                    DB.generatePlotFile(fHisto, valEnv_d.KS_Path(), short_histo_names[0], png_name, png_cumul_name, ycFlag)
                                     DB.addKSPlots(wp_DB, valEnv_d.KS_Path(), short_histo_names[0])
                                     if ycFlag:
                                         DB.addYCPlots(wp_DB, png_name) # refaire les tests existence
@@ -588,15 +610,34 @@ class GevSeq():
                                 extWrite( "<a id=\"" + short_histo_name + "\" name=\"" + short_histo_name + "\"" , wp_Files)
                                 extWrite( " href=\"" + gif_name + "\"><img border=\"0\" class=\"image\" width=\"440\" src=\"" + gif_name + "\"></a>" , wp_Files)
                                 extWrite( "</td>" , [wp_index])
+                                fHisto.write( "<td>")
+                                fHisto.write( "<a id=\"" + short_histo_name + "\" name=\"" + short_histo_name + "\"")
+                                fHisto.write( " href=\"" + gif_name + "\"><img border=\"0\" class=\"image\" width=\"440\" src=\"" + gif_name + "\"></a>")
+                                fHisto.write( "</td>\n")
+                                fHisto.write( "\n")
                                 if DB_flag:
                                     #extWrite( "</td>" , [wp_DB])
-                                    DB.addKSValues(wp_DB, color, KS_values_1, KS_values_2, KS_values_3, DB_picture)
+                                    DB.addKSValues(wp_DB, fHisto, color, KS_values_1, KS_values_2, KS_values_3, DB_picture)
+                                    extWrite("\n</table>\n", [fHisto])
+                                    fHisto.write( "<br>\n")
+                                    fHisto.write( "<table border=\"1\" bordercolor=\"blue\" cellpadding=\"2\" style=\"margin-left:auto;margin-right:auto\">\n")
+                                    fHisto.write( "<tr>\n")
+                                    fHisto.write( "<th scope=\"col\"> </th>\n")
+                                    fHisto.write( "<th scope=\"col\">KS curves</th>\n")
+                                    fHisto.write( "<th scope=\"col\">yellow curves</th>\n")
+                                    fHisto.write( "<th scope=\"col\">cumulatives curves</th>\n")
+                                    fHisto.write( "</tr>\n")
+                                    fHisto.write( "<tr>\n")
+                                    DB.generatePlotFile(fHisto, valEnv_d.KS_Path(), short_histo_names[0], png_name, png_cumul_name, ycFlag)
                                     DB.addKSPlots(wp_DB, valEnv_d.KS_Path(), short_histo_names[0])
                                     if ycFlag:
                                         DB.addYCPlots(wp_DB, png_name)
                                         DB.addCumPlots(wp_DB, png_cumul_name)
                                 extWrite( "\n</tr>", wp_Files ) # close the histo names loop
                                 lineFlag = True
+
+                            extWrite("</table>\n", [fHisto])
+                            fHisto.close()
 
                 # fin ecriture des histos
                 extWrite( "\n</table>\n" , wp_Files)
