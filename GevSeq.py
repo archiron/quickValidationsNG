@@ -86,6 +86,7 @@ class GevSeq():
             else:
                 webFolder = shortRelease + "_DQM_" + web_repo[1] + '/' + webFolder
             webFolder = web_repo[0] + webFolder + '/'
+            #print('webFolder : %s' % webFolder)
 
             if not os.path.exists(webFolder): # only create the first folder for saving gifs, i.e. release folder.
                 self.exist_webFolder = False
@@ -555,11 +556,15 @@ class GevSeq():
                                 KS_values_1 = DB.decisionBox(short_histo_names[0], histo_1, histo_2)
                                 KS_values_2 = DB.decisionBox2(short_histo_names[0], histo_1, histo_2)
                                 KS_values_3 = DB.decisionBox3(short_histo_names[0], histo_1, histo_2)
+                                #print('KS_values_1 : ', len(KS_values_1))
+                                #print('KS_values_2 : ', len(KS_values_2))
+                                #print('KS_values_3 : ', len(KS_values_3))
                                 if (len(KS_values_1) > 5):
                                     yellowCurves = [ KS_values_1[5], KS_values_2[2], KS_values_3[2] ]
                                     yellowCurvesCum = [ KS_values_1[6], KS_values_2[3], KS_values_3[3] ]
                                     ycFlag = True
 
+                            print('ycFlag : ', ycFlag)
                             PictureChoice(histo_1, histo_2, histo_positions[1], histo_positions[2], gif_name, self, 0, c_recomp)
                             if ycFlag:
                                 createDatasetFolder2()
@@ -601,9 +606,9 @@ class GevSeq():
                                     fHisto.write( "<tr>\n")
                                     DB.generatePlotFile(fHisto, valEnv_d.KS_Path(), short_histo_names[0], png_name, png_cumul_name, ycFlag)
                                     DB.addKSPlots(wp_DB, valEnv_d.KS_Path(), short_histo_names[0])
-                                    if ycFlag:
-                                        DB.addYCPlots(wp_DB, png_name) # refaire les tests existence
-                                        DB.addCumPlots(wp_DB, png_cumul_name)
+                                    #if ycFlag:
+                                    #    DB.addYCPlots(wp_DB, png_name) # refaire les tests existence
+                                    #    DB.addCumPlots(wp_DB, png_cumul_name)
                                 lineFlag = False
                             else: # line_sp[3]=="1"
                                 extWrite( "<td>" , wp_Files)
@@ -630,9 +635,9 @@ class GevSeq():
                                     fHisto.write( "<tr>\n")
                                     DB.generatePlotFile(fHisto, valEnv_d.KS_Path(), short_histo_names[0], png_name, png_cumul_name, ycFlag)
                                     DB.addKSPlots(wp_DB, valEnv_d.KS_Path(), short_histo_names[0])
-                                    if ycFlag:
-                                        DB.addYCPlots(wp_DB, png_name)
-                                        DB.addCumPlots(wp_DB, png_cumul_name)
+                                    #if ycFlag:
+                                    #    DB.addYCPlots(wp_DB, png_name)
+                                    #    DB.addCumPlots(wp_DB, png_cumul_name)
                                 extWrite( "\n</tr>", wp_Files ) # close the histo names loop
                                 lineFlag = True
 
