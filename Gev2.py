@@ -71,8 +71,13 @@ class Gev2():
             print('DB Flag : %s' % validation[7])
             relrefVT = validation[4]
             print('relrefVT %s' % relrefVT)
+            if (web_repo[1] == 'dev/'):
+                tmp = valEnv_d.KS_Path()[2] + 'Dev/'
+            else:
+                tmp = valEnv_d.KS_Path()[2] + 'Releases/'
             print('KS_Path : %s' % valEnv_d.KS_Path())
-            
+            self.webURL = tmp
+
             print('config relExtent %s' % releaseExtent)
             print('config refExtent %s' % referenceExtent)
             if ( referenceExtent != '' ):
@@ -83,6 +88,7 @@ class Gev2():
                 webFolder = shortRelease + "_" + releaseExtent + "_DQM_" + web_repo[1] + '/' + webFolder
             else:
                 webFolder = shortRelease + "_DQM_" + web_repo[1] + '/' + webFolder
+            self.shortWebFolder = webFolder
             webFolder = web_repo[0] + webFolder + '/'
             print('webFolder : %s' % webFolder)
             

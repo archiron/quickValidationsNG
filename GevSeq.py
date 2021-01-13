@@ -73,7 +73,12 @@ class GevSeq():
             print('DB Flag : %s' % validation[7])
             relrefVT = validation[4]
             print('relrefVT %s' % relrefVT)
+            if (web_repo[1] == 'dev'):
+                tmp = valEnv_d.KS_Path()[2] + 'Dev/'
+            else:
+                tmp = valEnv_d.KS_Path()[2] + 'Releases/'
             print('KS_Path : %s' % valEnv_d.KS_Path())
+            self.webURL = tmp
 
             print('config relExtent %s' % releaseExtent)
             print('config refExtent %s' % referenceExtent)
@@ -85,6 +90,7 @@ class GevSeq():
                 webFolder = shortRelease + "_" + releaseExtent + "_DQM_" + web_repo[1] + '/' + webFolder
             else:
                 webFolder = shortRelease + "_DQM_" + web_repo[1] + '/' + webFolder
+            self.shortWebFolder = webFolder
             webFolder = web_repo[0] + webFolder + '/'
             #print('webFolder : %s' % webFolder)
 
@@ -556,6 +562,7 @@ class GevSeq():
                                 KS_values_1 = DB.decisionBox(short_histo_names[0], histo_1, histo_2)
                                 KS_values_2 = DB.decisionBox2(short_histo_names[0], histo_1, histo_2)
                                 KS_values_3 = DB.decisionBox3(short_histo_names[0], histo_1, histo_2)
+                                explanationName = "/DBox/explanation.html"
                                 #print('KS_values_1 : ', len(KS_values_1))
                                 #print('KS_values_2 : ', len(KS_values_2))
                                 #print('KS_values_3 : ', len(KS_values_3))
@@ -598,7 +605,8 @@ class GevSeq():
                                     fHisto.write( "<br>\n")
                                     fHisto.write( "<table border=\"1\" bordercolor=\"blue\" cellpadding=\"2\" style=\"margin-left:auto;margin-right:auto\">\n")
                                     fHisto.write( "<tr>\n")
-                                    fHisto.write( "<th scope=\"col\"> </th>\n")
+                                    urlPath = self.webURL + self.shortWebFolder + '/' + dataSetFolder + explanationName
+                                    fHisto.write( "<th scope=\"col\"> <a href=\"" + urlPath + ">Explanations</a> </th>\n")
                                     fHisto.write( "<th scope=\"col\">KS curves</th>\n")
                                     fHisto.write( "<th scope=\"col\">yellow curves</th>\n")
                                     fHisto.write( "<th scope=\"col\">cumulatives curves</th>\n")
@@ -627,7 +635,8 @@ class GevSeq():
                                     fHisto.write( "<br>\n")
                                     fHisto.write( "<table border=\"1\" bordercolor=\"blue\" cellpadding=\"2\" style=\"margin-left:auto;margin-right:auto\">\n")
                                     fHisto.write( "<tr>\n")
-                                    fHisto.write( "<th scope=\"col\"> </th>\n")
+                                    urlPath = self.webURL + self.shortWebFolder + '/' + dataSetFolder + explanationName
+                                    fHisto.write( "<th scope=\"col\"> <a href=\"" + urlPath + ">Explanations</a> </th>\n")
                                     fHisto.write( "<th scope=\"col\">KS curves</th>\n")
                                     fHisto.write( "<th scope=\"col\">yellow curves</th>\n")
                                     fHisto.write( "<th scope=\"col\">cumulatives curves</th>\n")
@@ -651,6 +660,7 @@ class GevSeq():
                 wp_index.close()
                 if DB_flag:
                     wp_DB.close() # must have a test if exist
+                    DB.generateExplanation()
 
                 os.chdir('../') # back to the final folder.
                 ''''''
