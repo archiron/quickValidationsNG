@@ -196,16 +196,17 @@ class GevSeq():
             #print('there is %d files for %s' % (len(releasesList_1), item_0))
             # get the list for REFERENCE
             if ( reference != release):
-                item_0 = ''
+                item_1 = ''
                 for item in list_0:
                     it = item[:-1]
                     if re.search(it[6:], shortReference):
                         print('OK pour %s' % item)
-                        item_0 = it
-                referencesList_1 = list_search_1(item_0 + 'x')
+                        item_1 = it
+                referencesList_1 = list_search_1(item_1 + 'x')
                 #print('there is %d files for %s' % (len(referencesList_1), item_0))
             else: # reference == release
                 referencesList_1 = releasesList_1
+                item_1 = item_0
 
             list_rel = []
             for item in releasesList_1:
@@ -292,8 +293,11 @@ class GevSeq():
 
             # Load files
             os.chdir(valEnv_d.workDir() + '/DATA/')
+            print('appel cmd_load_files')
+            print('item_0', item_0)
+            print('item_1', item_1)
             cmd_load_files(relFile, item_0+'x')
-            cmd_load_files(refFile, item_0+'x')
+            cmd_load_files(refFile, item_1+'x')
             os.chdir(valEnv_d.workDir())
 
             print('')
@@ -539,8 +543,10 @@ class GevSeq():
                             png_cumul_name = "pngs/" + short_histo_names[0] + "_cum.png" # for DB yellow curves
 
                             # creating shortHistoName file in DBox folder
-                            fHisto = open('DBox/' + short_histo_name + '.txt', 'w') # web page
-                            fHisto.write('<table border="1" bordercolor=green cellpadding="2" style="margin-left:auto;margin-right:auto">' + '\n')
+                            if DB_flag:
+                                a = 1
+                                fHisto = open('DBox/' + short_histo_name + '.txt', 'w') # web page
+                                fHisto.write('<table border="1" bordercolor=green cellpadding="2" style="margin-left:auto;margin-right:auto">' + '\n')
 
                             #print('%s/%s' % (elt, short_histo_names[0]))
                             if checkRecompInName(short_histo_names[0]): #
@@ -559,10 +565,9 @@ class GevSeq():
 
                             ycFlag = False
                             if DB_flag:
-                                KS_values_1 = DB.decisionBox(short_histo_names[0], histo_1, histo_2)
+                                KS_values_1 = DB.decisionBox1(short_histo_names[0], histo_1, histo_2)
                                 KS_values_2 = DB.decisionBox2(short_histo_names[0], histo_1, histo_2)
                                 KS_values_3 = DB.decisionBox3(short_histo_names[0], histo_1, histo_2)
-                                explanationName = "/DBox/explanation.html"
                                 #print('KS_values_1 : ', len(KS_values_1))
                                 #print('KS_values_2 : ', len(KS_values_2))
                                 #print('KS_values_3 : ', len(KS_values_3))
@@ -593,65 +598,31 @@ class GevSeq():
                                 extWrite( "<a id=\"" + short_histo_name + "\" name=\"" + short_histo_name + "\"" , wp_Files)
                                 extWrite( " href=\"" + gif_name + "\"><img border=\"0\" class=\"image\" width=\"440\" src=\"" + gif_name + "\"></a>" , wp_Files)
                                 extWrite( " </td>\n" , wp_Files)
-                                fHisto.write( "<td>")
-                                fHisto.write( "<a id=\"" + short_histo_name + "\" name=\"" + short_histo_name + "\"")
-                                fHisto.write( " href=\"" + gif_name + "\"><img border=\"0\" class=\"image\" width=\"440\" src=\"" + gif_name + "\"></a>")
-                                fHisto.write( "</td>\n")
-                                fHisto.write( "\n")
                                 # insert here the decision box
                                 if DB_flag:
-                                    DB.addKSValues(wp_DB, fHisto, color, KS_values_1, KS_values_2, KS_values_3, DB_picture)
-                                    extWrite("\n</table>\n", [fHisto])
-                                    fHisto.write( "<br>\n")
-                                    fHisto.write( "<table border=\"1\" bordercolor=\"blue\" cellpadding=\"2\" style=\"margin-left:auto;margin-right:auto\">\n")
-                                    fHisto.write( "<tr>\n")
-                                    urlPath = self.webURL + self.shortWebFolder + '/' + dataSetFolder + explanationName
-                                    fHisto.write( "<th scope=\"col\"> <a href=\"" + urlPath + ">Explanations</a> </th>\n")
-                                    fHisto.write( "<th scope=\"col\">KS curves</th>\n")
-                                    fHisto.write( "<th scope=\"col\">yellow curves</th>\n")
-                                    fHisto.write( "<th scope=\"col\">cumulatives curves</th>\n")
-                                    fHisto.write( "</tr>\n")
-                                    fHisto.write( "<tr>\n")
-                                    DB.generatePlotFile(fHisto, valEnv_d.KS_Path(), short_histo_names[0], png_name, png_cumul_name, ycFlag)
-                                    DB.addKSPlots(wp_DB, valEnv_d.KS_Path(), short_histo_names[0])
-                                    #if ycFlag:
-                                    #    DB.addYCPlots(wp_DB, png_name) # refaire les tests existence
-                                    #    DB.addCumPlots(wp_DB, png_cumul_name)
+                                    KS_V = [KS_values_1, KS_values_2, KS_values_3]
+                                    Names = [short_histo_name, gif_name, short_histo_names[0], png_name, png_cumul_name]
+                                    Files = [fHisto, wp_DB]
+                                    DB.webPage(Files, Names, KS_V, color, DB_picture, self.webURL, self.shortWebFolder, dataSetFolder, valEnv_d.KS_Path(), ycFlag)
+                                    #DB.generatePlotFile2()
                                 lineFlag = False
                             else: # line_sp[3]=="1"
                                 extWrite( "<td>" , wp_Files)
                                 extWrite( "<a id=\"" + short_histo_name + "\" name=\"" + short_histo_name + "\"" , wp_Files)
                                 extWrite( " href=\"" + gif_name + "\"><img border=\"0\" class=\"image\" width=\"440\" src=\"" + gif_name + "\"></a>" , wp_Files)
-                                extWrite( "</td>" , [wp_index])
-                                fHisto.write( "<td>")
-                                fHisto.write( "<a id=\"" + short_histo_name + "\" name=\"" + short_histo_name + "\"")
-                                fHisto.write( " href=\"" + gif_name + "\"><img border=\"0\" class=\"image\" width=\"440\" src=\"" + gif_name + "\"></a>")
-                                fHisto.write( "</td>\n")
-                                fHisto.write( "\n")
+                                extWrite( "</td>" , wp_Files)
                                 if DB_flag:
-                                    #extWrite( "</td>" , [wp_DB])
-                                    DB.addKSValues(wp_DB, fHisto, color, KS_values_1, KS_values_2, KS_values_3, DB_picture)
-                                    extWrite("\n</table>\n", [fHisto])
-                                    fHisto.write( "<br>\n")
-                                    fHisto.write( "<table border=\"1\" bordercolor=\"blue\" cellpadding=\"2\" style=\"margin-left:auto;margin-right:auto\">\n")
-                                    fHisto.write( "<tr>\n")
-                                    urlPath = self.webURL + self.shortWebFolder + '/' + dataSetFolder + explanationName
-                                    fHisto.write( "<th scope=\"col\"> <a href=\"" + urlPath + ">Explanations</a> </th>\n")
-                                    fHisto.write( "<th scope=\"col\">KS curves</th>\n")
-                                    fHisto.write( "<th scope=\"col\">yellow curves</th>\n")
-                                    fHisto.write( "<th scope=\"col\">cumulatives curves</th>\n")
-                                    fHisto.write( "</tr>\n")
-                                    fHisto.write( "<tr>\n")
-                                    DB.generatePlotFile(fHisto, valEnv_d.KS_Path(), short_histo_names[0], png_name, png_cumul_name, ycFlag)
-                                    DB.addKSPlots(wp_DB, valEnv_d.KS_Path(), short_histo_names[0])
-                                    #if ycFlag:
-                                    #    DB.addYCPlots(wp_DB, png_name)
-                                    #    DB.addCumPlots(wp_DB, png_cumul_name)
+                                    KS_V = [KS_values_1, KS_values_2, KS_values_3]
+                                    Names = [short_histo_name, gif_name, short_histo_names[0], png_name, png_cumul_name]
+                                    Files = [fHisto, wp_DB]
+                                    DB.webPage(Files, Names, KS_V, color, DB_picture, self.webURL, self.shortWebFolder, dataSetFolder, valEnv_d.KS_Path(), ycFlag)
+                                    #DB.generatePlotFile2()
                                 extWrite( "\n</tr>", wp_Files ) # close the histo names loop
                                 lineFlag = True
 
-                            extWrite("</table>\n", [fHisto])
-                            fHisto.close()
+                            if DB_flag:
+                                extWrite("</table>\n", [fHisto])
+                                fHisto.close()
 
                 # fin ecriture des histos
                 extWrite( "\n</table>\n" , wp_Files)
@@ -660,7 +631,7 @@ class GevSeq():
                 wp_index.close()
                 if DB_flag:
                     wp_DB.close() # must have a test if exist
-                    DB.generateExplanation()
+                    DB.generateExplanation2()
 
                 os.chdir('../') # back to the final folder.
                 ''''''
