@@ -377,8 +377,6 @@ class GevSeq():
                 wp_index = open('index.html', 'w') # web page
                 wp_Files.append(wp_index)
                 if (DB_flag == True):
-                    wp_DB = open('DB_quick_index.html', 'w') # web page for Decision Box
-                    wp_Files.append(wp_DB)
                     createDatasetFolder3() # create DBox folder
                     print('DB_flag = True')
                 #stop
@@ -548,7 +546,7 @@ class GevSeq():
                                 fHisto = open('DBox/' + short_histo_name + '.txt', 'w') # web page
                                 fHisto.write('<table border="1" bordercolor=green cellpadding="2" style="margin-left:auto;margin-right:auto">' + '\n')
 
-                            #print('%s/%s' % (elt, short_histo_names[0]))
+                            # recomp test
                             if checkRecompInName(short_histo_names[0]): #
                                 histo_name_recomp = short_histo_names[0].replace("_recomp", "") # without recomp
                                 #short_histo_names[0] = histo_name_recomp
@@ -572,8 +570,10 @@ class GevSeq():
                                 #print('KS_values_2 : ', len(KS_values_2))
                                 #print('KS_values_3 : ', len(KS_values_3))
                                 if (len(KS_values_1) > 5):
-                                    yellowCurves = [ KS_values_1[5], KS_values_2[2], KS_values_3[2] ]
-                                    yellowCurvesCum = [ KS_values_1[6], KS_values_2[3], KS_values_3[3] ]
+                                    #yellowCurves = [ KS_values_1[5], KS_values_2[2], KS_values_3[2] ]
+                                    #yellowCurvesCum = [ KS_values_1[6], KS_values_2[3], KS_values_3[3] ]
+                                    yellowCurves = [ KS_values_1[5] ]
+                                    yellowCurvesCum = [ KS_values_1[6] ]
                                     ycFlag = True
 
                             print('ycFlag : ', ycFlag)
@@ -581,7 +581,7 @@ class GevSeq():
                             if ycFlag:
                                 createDatasetFolder2()
                                 PictureChoice_DB(histo_1, histo_2, histo_positions[1], histo_positions[2], png_name, self, 0, yellowCurves)
-                                PictureChoice_DB2(histo_1, histo_2, histo_positions[1], histo_positions[2], png_cumul_name, self, 0, yellowCurvesCum)
+                                PictureChoice_DB3(histo_1, histo_2, histo_positions[1], histo_positions[2], png_cumul_name, self, 0, yellowCurvesCum)
 
                                 percentage = 0.05
                                 if ( KS_values_1[4] >= percentage ):
@@ -601,10 +601,9 @@ class GevSeq():
                                 # insert here the decision box
                                 if DB_flag:
                                     KS_V = [KS_values_1, KS_values_2, KS_values_3]
+                                    #KS_V = [KS_values_1]
                                     Names = [short_histo_name, gif_name, short_histo_names[0], png_name, png_cumul_name]
-                                    Files = [fHisto, wp_DB]
-                                    DB.webPage(Files, Names, KS_V, color, DB_picture, self.webURL, self.shortWebFolder, dataSetFolder, valEnv_d.KS_Path(), ycFlag)
-                                    #DB.generatePlotFile2()
+                                    DB.webPage(fHisto, Names, KS_V, DB_picture, self.webURL, self.shortWebFolder, dataSetFolder, valEnv_d.KS_Path(), ycFlag)
                                 lineFlag = False
                             else: # line_sp[3]=="1"
                                 extWrite( "<td>" , wp_Files)
@@ -613,10 +612,9 @@ class GevSeq():
                                 extWrite( "</td>" , wp_Files)
                                 if DB_flag:
                                     KS_V = [KS_values_1, KS_values_2, KS_values_3]
+                                    #KS_V = [KS_values_1]
                                     Names = [short_histo_name, gif_name, short_histo_names[0], png_name, png_cumul_name]
-                                    Files = [fHisto, wp_DB]
-                                    DB.webPage(Files, Names, KS_V, color, DB_picture, self.webURL, self.shortWebFolder, dataSetFolder, valEnv_d.KS_Path(), ycFlag)
-                                    #DB.generatePlotFile2()
+                                    DB.webPage(fHisto, Names, KS_V, DB_picture, self.webURL, self.shortWebFolder, dataSetFolder, valEnv_d.KS_Path(), ycFlag)
                                 extWrite( "\n</tr>", wp_Files ) # close the histo names loop
                                 lineFlag = True
 
@@ -630,7 +628,6 @@ class GevSeq():
                 #wp.close()
                 wp_index.close()
                 if DB_flag:
-                    wp_DB.close() # must have a test if exist
                     DB.generateExplanation2()
 
                 os.chdir('../') # back to the final folder.
