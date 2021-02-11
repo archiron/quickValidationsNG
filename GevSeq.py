@@ -47,6 +47,10 @@ class GevSeq():
         print(table1) # temp
         print('')
 
+        self.KS_reference_release = KS_reference_release
+        if (KS_reference_release != ''):
+            print('Kolmogorov-Smirnov reference release to be used if needed : %s' % KS_reference_release)
+
         print('\nSequential')
 
         # sequential
@@ -313,6 +317,8 @@ class GevSeq():
                 print('===== dataset : %s' % dts)
                 print('Decision Box Flag : %s' % validation[7][i])
                 DB_flag = validation[7][i]
+                if (KS_reference_release == ''):
+                    DB_flag = False # empty KS reference release always implies False
                 print('len dataset : %d - len relFile : %d - len refFile : %d' % (len(datasets), len(relFile), len(refFile)))
                 print('dataset : %s' % datasets)
                 print('relFile : %s' % relFile)
@@ -379,6 +385,8 @@ class GevSeq():
                 if (DB_flag == True):
                     createDatasetFolder3() # create DBox folder
                     print('DB_flag = True')
+                else:
+                    deleteDatasetFolder3()  # delete DBox folder
                 #stop
                 extWrite("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">\n", wp_Files)
                 extWrite("<html>\n", wp_Files)
@@ -539,6 +547,8 @@ class GevSeq():
                             gif_name = "gifs/" + short_histo_names[0] + ".gif"
                             png_name = "pngs/" + short_histo_names[0] + ".png" # for DB yellow curves
                             png_cumul_name = "pngs/" + short_histo_names[0] + "_cum.png" # for DB yellow curves
+                            #print('\npng name       : %s' % png_name)
+                            #print('png cumul name : %s' % png_cumul_name)
 
                             # creating shortHistoName file in DBox folder
                             if DB_flag:
@@ -563,9 +573,14 @@ class GevSeq():
 
                             ycFlag = False
                             if DB_flag:
-                                KS_values_1 = DB.decisionBox1(short_histo_names[0], histo_1, histo_2)
-                                KS_values_2 = DB.decisionBox2(short_histo_names[0], histo_1, histo_2)
-                                KS_values_3 = DB.decisionBox3(short_histo_names[0], histo_1, histo_2)
+                                KS_Path1 = valEnv_d.KS_Path()[1] + KS_reference_release
+                                KS_Path0 = valEnv_d.KS_Path()[0] + KS_reference_release
+                                KS_values_1 = DB.decisionBox1(short_histo_names[0], histo_1, histo_2, KS_Path0, shortRelease)
+                                KS_values_2 = DB.decisionBox2(short_histo_names[0], histo_1, histo_2, KS_Path0, shortRelease)
+                                KS_values_3 = DB.decisionBox3(short_histo_names[0], histo_1, histo_2, KS_Path0, shortRelease)
+                                #print('KS_values_1 : ', KS_values_1[3])
+                                #print('KS_values_2 : ', KS_values_2[0])
+                                #print('KS_values_3 : ', KS_values_3[0])
                                 #print('KS_values_1 : ', len(KS_values_1))
                                 #print('KS_values_2 : ', len(KS_values_2))
                                 #print('KS_values_3 : ', len(KS_values_3))
@@ -576,7 +591,9 @@ class GevSeq():
                                     yellowCurvesCum = [ KS_values_1[6] ]
                                     ycFlag = True
 
-                            print('ycFlag : ', ycFlag)
+                            print('ycFlag : %s : %s' % (short_histo_names[0], ycFlag))
+                            #if (short_histo_names[0] == 'h_ele_vertexP'):
+                            #    stop
                             PictureChoice(histo_1, histo_2, histo_positions[1], histo_positions[2], gif_name, self, 0, c_recomp)
                             if ycFlag:
                                 createDatasetFolder2()
@@ -603,7 +620,7 @@ class GevSeq():
                                     KS_V = [KS_values_1, KS_values_2, KS_values_3]
                                     #KS_V = [KS_values_1]
                                     Names = [short_histo_name, gif_name, short_histo_names[0], png_name, png_cumul_name]
-                                    DB.webPage(fHisto, Names, KS_V, DB_picture, self.webURL, self.shortWebFolder, dataSetFolder, valEnv_d.KS_Path(), ycFlag)
+                                    DB.webPage(fHisto, Names, KS_V, DB_picture, self.webURL, self.shortWebFolder, dataSetFolder, KS_Path0, KS_Path1, ycFlag, shortRelease)
                                 lineFlag = False
                             else: # line_sp[3]=="1"
                                 extWrite( "<td>" , wp_Files)
@@ -614,7 +631,7 @@ class GevSeq():
                                     KS_V = [KS_values_1, KS_values_2, KS_values_3]
                                     #KS_V = [KS_values_1]
                                     Names = [short_histo_name, gif_name, short_histo_names[0], png_name, png_cumul_name]
-                                    DB.webPage(fHisto, Names, KS_V, DB_picture, self.webURL, self.shortWebFolder, dataSetFolder, valEnv_d.KS_Path(), ycFlag)
+                                    DB.webPage(fHisto, Names, KS_V, DB_picture, self.webURL, self.shortWebFolder, dataSetFolder, KS_Path0, KS_Path1, ycFlag, shortRelease)
                                 extWrite( "\n</tr>", wp_Files ) # close the histo names loop
                                 lineFlag = True
 
