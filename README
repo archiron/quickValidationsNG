@@ -4,12 +4,18 @@ if you want to make validations (simple ones) without GUI, you can make it by do
 # you can make some simple validations with this python script.
 # First of all you have to create a local area for the work
 
- cmsrel CMSSW_10_6_0
- cd CMSSW_10_6_0/src
- cmsenv
- mkdir DATA
-# work in local area : you have : workDir = os.getcwd() and the root files are located into a DATA folder.
-# download the root files into the DATA folder with the quickRootDown script.
+cmsrel CMSSW_11_3_0_pre4
+cd CMSSW_11_3_0_pre4/src
+cmsenv
+git clone https://github.com/archiron/quickValidationsNG quickValidationsNG
+git clone https://github.com/archiron/ChiLib_CMS_Validation ChiLib_CMS_Validation
+cd quickValidationsNG/
+preparation of the config.py file (see later)
+python mainSeq.py
+
+# work in local area : you have : workDir = os.getcwd() and the ROOT files are located into a DATA folder.
+# the ROOT files are downloaded automatically, or you can
+# download them into the DATA folder with the quickRootDown script.
 
 # copy locally the config.py file into config.py
 
@@ -28,11 +34,18 @@ launch : condor_submit quickValidationSeq.submit
 ===================================
 Data to be initiated in config.py
 ===================================
+you can use the quickValGen script.
 all validations mut be written as :
+#############################################################################
+# global data
+web_repo = ['/eos/project/c/cmsweb/www/egamma/validation/Electrons/Dev/', 'dev']
+#web_repo = ['/eos/project/c/cmsweb/www/egamma/validation/Electrons/Releases/', 'std']
+KS_reference_release = 'CMSSW_11_2_0_pre11_2021' # only for Kolmogorov-Smirnov use
+
 # personalization 1
-GUI_1 = [
+GeV_1 = [
 ['CMSSW_11_1_0_pre4', 'CMSSW_11_1_0_pre3'] , # release/reference
-['quick_2021', ''] , # relref_extention
+['quick_2021', '2021.04.02'] , # relref_extent
 ['TTbar_14TeV', 'ZEE_14'] ,  #datasets
 'FullvsFull' , # choice
 ['RECO', 'RECO'] , # relrefValtype RECO vs RECO
@@ -41,11 +54,14 @@ GUI_1 = [
  'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_11_1_0_pre3-110X_mcRun3_2021_realistic_v8-v1__DQMIO.root',
  'DQM_V0001_R000000001__RelValZEE_14__CMSSW_11_1_0_pre4-110X_mcRun3_2021_realistic_v8-v1__DQMIO.root',
  'DQM_V0001_R000000001__RelValZEE_14__CMSSW_11_1_0_pre3-110X_mcRun3_2021_realistic_v8-v1__DQMIO.root',], # relref files one couple rel/ref for each dataset
-[False, True], # DB flag
+[False, False], # DB flag for Kolmogorov-Smirnov use
 ]
+
+#############################################################################
 
 if you have the ROOT files names, then Global Tags are not necessary.
 You MUST have the same number of DB flags than datasets
 idem for Global Tags if you use them.
+GT MUST be in the complte form (i.e. CMSSW_11_1_0_pre4-110X_mcRun3_2021_realistic_v8-v1)
 only one choice per validation.
-Root files are on the form : release ROOT file, reference ROOT file and so on.
+ROOT files are on the form : release ROOT file, reference ROOT file and so on.
