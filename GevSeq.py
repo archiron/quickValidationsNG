@@ -250,6 +250,7 @@ class GevSeq():
             #for item1 in enumerate(list_ref2):
             #    print('[%2d] : %s' %(item1[0], list_ref2[item1[0]]))
 
+            # comment for preloaded root files
             if ( nb_coherFiles > 0 ):
                 print('working with files for %s' % val)
                 # compare the files to load with the list, to be OK
@@ -306,6 +307,7 @@ class GevSeq():
 
             print('')
             os.chdir(webFolder) # going into finalFolder
+            # uncomment for preloaded root files
 
             # sort datasets & files
             datasets.sort()
@@ -336,7 +338,8 @@ class GevSeq():
                 tp_1 = 'ElectronMcSignalValidator'
                 tp_2 = 'ElectronMcSignalValidator'
 
-                (it1, it2, tp_1, tp_2) = self.testForDataSetsFile(valEnv_d.tmpPath(), relrefVT, dts)
+                #(it1, it2, tp_1, tp_2) = self.testForDataSetsFile(valEnv_d.tmpPath(), relrefVT, dts)
+                (it1, it2, tp_1, tp_2) = testForDataSetsFile(valEnv_d.tmpPath(), relrefVT, dts)
                 print("config file for target : %s" % it1)
                 print("config file for reference : %s" % it2)
                 print("tree path for target : %s" % tp_1)
@@ -592,8 +595,6 @@ class GevSeq():
                                     ycFlag = True
 
                             print('ycFlag : %s : %s' % (short_histo_names[0], ycFlag))
-                            #if (short_histo_names[0] == 'h_ele_vertexP'):
-                            #    stop
                             PictureChoice(histo_1, histo_2, histo_positions[1], histo_positions[2], gif_name, self, 0, c_recomp)
                             if ycFlag:
                                 createDatasetFolder2()
@@ -656,43 +657,3 @@ class GevSeq():
 
         print('end of run')
 
-    def testForDataSetsFile(self, tmp_path, type, dataSetsName): # perhaps t_ref is not useful
-        # also get the tree path part (tp_rel, tp_ref) for root files :
-        # folder location for those files : HistosConfigFiles/
-        # ElectronMcSignalValidator
-        # ElectronMcSignalValidatorMiniAOD
-        # ElectronMcSignalValidatorPt1000
-        # ElectronMcFakeValidator
-
-        t_rel = tmp_path + 'ElectronMcSignalHistos.txt'
-        t_ref = t_rel
-        tp_rel = 'ElectronMcSignalValidator'
-        tp_ref = tp_rel
-        if ( re.search('Pt1000', dataSetsName) ):
-            t_rel = tmp_path + 'ElectronMcSignalHistosPt1000.txt'
-            t_ref = t_rel
-            tp_rel = 'ElectronMcSignalValidatorPt1000'
-            tp_ref = tp_rel
-        elif ( re.search('QCD', dataSetsName) ):
-            t_rel = tmp_path + 'ElectronMcFakeHistos.txt'
-            t_ref = t_rel
-            tp_rel = 'ElectronMcFakeValidator'
-            tp_ref = tp_rel
-        else: # general
-            if type[0] == 'RECO': # RECO
-                if type[1] == 'miniAOD': # RECO vs miniAOD
-                    t_rel = tmp_path + 'ElectronMcSignalHistosMiniAOD.txt' # we have only miniAOD histos to compare.
-                    t_ref = tmp_path + 'ElectronMcSignalHistosMiniAOD.txt'
-                    tp_rel = 'ElectronMcSignalValidator'
-                    tp_ref = 'ElectronMcSignalValidatorMiniAOD'
-                else: # RECO vs RECO
-                    t_rel = tmp_path + 'ElectronMcSignalHistos.txt'
-                    t_ref = t_rel
-                    tp_rel = 'ElectronMcSignalValidator'
-                    tp_ref = 'ElectronMcSignalValidator'
-            elif type[0] == 'miniAOD': # miniAOD vs miniAOD
-                t_rel = tmp_path + 'ElectronMcSignalHistosMiniAOD.txt'
-                t_ref = t_rel
-                tp_rel = 'ElectronMcSignalValidatorMiniAOD'
-                tp_ref = tp_rel
-        return [t_rel, t_ref, tp_rel, tp_ref]

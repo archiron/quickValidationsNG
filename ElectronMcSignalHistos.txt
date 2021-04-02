@@ -1,9 +1,0 @@
-
-Comparison with MC truth (residuals)
-
-ElectronMcSignalValidator/h_ele_PoPtrueVsEta_pfx            0 1 1 0
-
-Collections sizes
-
-ElectronMcSignalValidator/h_recEleNum                       1 1 1 0
-

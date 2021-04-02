@@ -1,0 +1,7 @@
+executable=quickValidationSeq.sh
+arguments=Example.$(Cluster).$(Process) 50
+output=resultsSeq.output.$(Process)
+error=resultsSeq.error.$(Process)
+log=resultsSeq.log
+queue
+

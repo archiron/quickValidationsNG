@@ -7,6 +7,7 @@ import os,sys
 # global data
 web_repo = ['/eos/project/c/cmsweb/www/egamma/validation/Electrons/Dev/', 'dev/']
 #web_repo = ['/eos/project/c/cmsweb/www/egamma/validation/Electrons/Releases/', 'std'/]
+KS_reference_release = 'CMSSW_11_2_0_pre11_2021'
 
 # personalization 1
 GUI_1 = [
