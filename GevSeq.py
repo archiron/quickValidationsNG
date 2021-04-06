@@ -7,7 +7,8 @@ import time
 import numpy as np
 
 #sys.path.append('/afs/cern.ch/user/a/archiron/lbin/ChiLib')
-sys.path.append('/eos/project-c/cmsweb/www/egamma/validation/Electrons/ChiLib/')
+#sys.path.append('/eos/project-c/cmsweb/www/egamma/validation/Electrons/ChiLib/')
+sys.path.append('../ChiLib_CMS_Validation')
 
 from graphicFunctions import *
 from functions import *
@@ -333,10 +334,11 @@ class GevSeq():
 
                 # get config files
                 #it1 = valEnv_d.workDir() + 'ElectronMcSignalHistos.txt' # valEnv.tmpPath() +
-                it1 = valEnv_d.tmpPath() + 'ElectronMcSignalHistos.txt'
+                '''it1 = valEnv_d.tmpPath() + 'ElectronMcSignalHistos.txt'
                 it2 = it1
                 tp_1 = 'ElectronMcSignalValidator'
                 tp_2 = 'ElectronMcSignalValidator'
+                '''
 
                 #(it1, it2, tp_1, tp_2) = self.testForDataSetsFile(valEnv_d.tmpPath(), relrefVT, dts)
                 (it1, it2, tp_1, tp_2) = testForDataSetsFile(valEnv_d.tmpPath(), relrefVT, dts)
@@ -344,6 +346,8 @@ class GevSeq():
                 print("config file for reference : %s" % it2)
                 print("tree path for target : %s" % tp_1)
                 print("tree path for reference : %s" % tp_2)
+                print('chemin : %s' % os.getcwd())
+                print('tmpPath : %s' % valEnv_d.tmpPath())
                 shutil.copy2(it1, 'config_target.txt')
                 shutil.copy2(it2, 'config_reference.txt')
 
