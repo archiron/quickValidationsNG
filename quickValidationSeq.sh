@@ -1,16 +1,19 @@
-#!/bin/sh
-# This file is called ./AllSteps_init.sh
-
-LOG_SOURCE=$PWD 
-
+#!/bin/bash
+# This file is called ./validations.sh
+#
+LOG_SOURCE=$PWD
 echo "LOG_SOURCE : $LOG_SOURCE"
+RELEASE='CMSSW_11_3_0_pre3'
+echo "RELEASE : $RELEASE"
 
-cd $LOG_SOURCE
-#eval `scramv1 runtime -sh`
-cd -
+/cvmfs/cms.cern.ch/common/scramv1 project CMSSW $RELEASE
+cd $RELEASE/src
+eval `scramv1 runtime -sh`
 
-#python /afs/cern.ch/user/a/archiron/lbin/quickValidations/mainSeq.py /afs/cern.ch/work/a/archiron/private/CMSSW_11_0_0_pre13/src/TMP # for sequential
-python mainSeq.py $LOG_SOURCE # for sequential
-
-echo 'end'
-
+git clone https://github.com/archiron/quickValidationsNG quickValidationsNG
+git clone https://github.com/archiron/ChiLib_CMS_Validation ChiLib_CMS_Validation
+cd quickValidationsNG/
+# preparation of the config.py file (see later)
+cp config.py.test config.py
+echo ls
+python mainSeq.py
