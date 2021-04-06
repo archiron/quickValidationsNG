@@ -25,10 +25,10 @@ python mainSeq.py
  python /eos/project/c/cmsweb/www/egamma/validation/Electrons/quickValidationSeq/mainSeq.py for sequential tasks
   
 # batch
-copy locally the config.py file into config.py
-copy locally the quickValidationSeq.sh & quickValidationSeq.submit files
-modify the config.py file with the values you want
-verify that in the quickValidationSeq.sh there is the correct work path (workDir)
+you can use all precedings commands with a batch file named quickValidationSeq.sh
+Into the folder you want to work, copy locally the quickValidationSeq.sh (& quickValidationSeq.submit) file(s).
+TO SEE LATER modify the config.py file with the values you want
+launch : ./quickValidationSeq.sh
 launch : condor_submit quickValidationSeq.submit
 
 ===================================
