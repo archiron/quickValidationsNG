@@ -4,32 +4,28 @@ if you want to make validations (simple ones) without GUI, you can make it by do
 # you can make some simple validations with this python script.
 # First of all you have to create a local area for the work
 
-cmsrel CMSSW_11_3_0_pre4
-cd CMSSW_11_3_0_pre4/src
-cmsenv
+# go into your favorite folder, and execute the following commands :
 git clone https://github.com/archiron/quickValidationsNG quickValidationsNG
 git clone https://github.com/archiron/ChiLib_CMS_Validation ChiLib_CMS_Validation
 cd quickValidationsNG/
-preparation of the config.py file (see later)
+preparation of the config.py file (see later). You have a a config.py.test file that you can use with the command : cp config.py.test config.py
+# launch the validation :
+then, when the config.py file is ready, you can launch the validation with :
 python mainSeq.py
 
 # work in local area : you have : workDir = os.getcwd() and the ROOT files are located into a DATA folder.
 # the ROOT files are downloaded automatically, or you can
 # download them into the DATA folder with the quickRootDown script.
 
-# copy locally the config.py file into config.py
-
 # modify the config.py as you want
 
-# launch the command :
- python /eos/project/c/cmsweb/www/egamma/validation/Electrons/quickValidationSeq/mainSeq.py for sequential tasks
-  
-# batch
+# batch (to be evaluated !)
 you can use all precedings commands with a batch file named quickValidationSeq.sh
-Into the folder you want to work, copy locally the quickValidationSeq.sh (& quickValidationSeq.submit) file(s).
-TO SEE LATER modify the config.py file with the values you want
-launch : ./quickValidationSeq.sh
-launch : condor_submit quickValidationSeq.submit
+Into the folder you want to work, copy locally the quickValidationSeq.sh (& quickValidationSeq.submit) and the config.py.test file(s).
+cp config.py.test config.py
+modify the config.py file with the values you want (SEE BELOW )
+launch : ./quickValidationSeq.sh (be careful of rights! - 755).
+launch : condor_submit quickValidationSeq.submit !!! NOT yet tested
 
 ===================================
 Data to be initiated in config.py
@@ -50,8 +46,8 @@ GeV_1 = [
 'FullvsFull' , # choice
 ['RECO', 'RECO'] , # relrefValtype RECO vs RECO
 ['', ''] ,  # GT one couple rel/ref for each dataset
-['DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_11_1_0_pre4-110X_mcRun3_2021_realistic_v8-v1__DQMIO.root',
- 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_11_1_0_pre3-110X_mcRun3_2021_realistic_v8-v1__DQMIO.root',
+['DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_11_1_0_pre4-110X_mcRun3_2021_realistic_v8-v1__DQMIO.root', # release ROOT file
+ 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_11_1_0_pre3-110X_mcRun3_2021_realistic_v8-v1__DQMIO.root', # reference ROOT file
  'DQM_V0001_R000000001__RelValZEE_14__CMSSW_11_1_0_pre4-110X_mcRun3_2021_realistic_v8-v1__DQMIO.root',
  'DQM_V0001_R000000001__RelValZEE_14__CMSSW_11_1_0_pre3-110X_mcRun3_2021_realistic_v8-v1__DQMIO.root',], # relref files one couple rel/ref for each dataset
 [False, False], # DB flag for Kolmogorov-Smirnov use
