@@ -1,14 +1,12 @@
-if you want to make validations (simple ones) without GUI, you can make it by downloading the files located at :
-/eos/project/c/cmsweb/www/egamma/validation/Electrons/quickValidationSeq/
-
 # you can make some simple validations with this python script.
-# First of all you have to create a local area for the work
 
+# First of all you have to create a local area for the work
 # go into your favorite folder, and execute the following commands :
 git clone https://github.com/archiron/quickValidationsNG quickValidationsNG
 git clone https://github.com/archiron/ChiLib_CMS_Validation ChiLib_CMS_Validation
 cd quickValidationsNG/
 preparation of the config.py file (see later). You have a a config.py.test file that you can use with the command : cp config.py.test config.py
+
 # launch the validation :
 then, when the config.py file is ready, you can launch the validation with :
 python mainSeq.py
@@ -54,6 +52,10 @@ GeV_1 = [
 ]
 
 #############################################################################
+
+ .
+/!\ You can have multiple part of personalization (i.e. GeV_1, GeV_2, GeV_3, ..) by copying the first (GeV_1) repeatedly you want.
+---
 
 if you have the ROOT files names, then Global Tags are not necessary.
 You MUST have the same number of DB flags than datasets
