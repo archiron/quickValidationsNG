@@ -12,9 +12,9 @@ import os,sys
 #image_KO = "http://cms-egamma.web.cern.ch/validation/Electrons/img/KO.gif"
 
 # fixed data for git clone library
-tmp_path = '/ChiLib_CMS_Validation/HistosConfigFiles/'
-image_up = "/ChiLib_CMS_Validation/img/up.gif"
-image_point = "/ChiLib_CMS_Validation/img/point.gif"
+tmp_path = '../ChiLib_CMS_Validation/HistosConfigFiles/'
+image_up = "../ChiLib_CMS_Validation/img/up.gif"
+image_point = "../ChiLib_CMS_Validation/img/point.gif"
 image_OK = "../ChiLib_CMS_Validation/img/OK.gif"
 image_KO = "../ChiLib_CMS_Validation/img/KO.gif"
 
