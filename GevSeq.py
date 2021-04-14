@@ -306,9 +306,9 @@ class GevSeq():
             cmd_load_files(refFile, item_1+'x')
             os.chdir(valEnv_d.workDir())
 
+            # uncomment for preloaded root files
             print('')
             os.chdir(webFolder) # going into finalFolder
-            # uncomment for preloaded root files
 
             # sort datasets & files
             datasets.sort()
