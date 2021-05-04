@@ -248,10 +248,9 @@ class GevSeq():
                         list_ref2.append(item2)
                         i += 1
                 nb_ref2.append(i)
-            #for item1 in enumerate(list_ref2):
-            #    print('[%2d] : %s' %(item1[0], list_ref2[item1[0]]))
 
             # comment for preloaded root files
+            ''''''
             if ( nb_coherFiles > 0 ):
                 print('working with files for %s' % val)
                 # compare the files to load with the list, to be OK
@@ -306,6 +305,7 @@ class GevSeq():
             cmd_load_files(refFile, item_1+'x')
             os.chdir(valEnv_d.workDir())
 
+            ''''''
             # uncomment for preloaded root files
             print('')
             os.chdir(webFolder) # going into finalFolder
@@ -563,20 +563,8 @@ class GevSeq():
                                 fHisto = open('DBox/' + short_histo_name + '.txt', 'w') # web page
                                 fHisto.write('<table border="1" bordercolor=green cellpadding="2" style="margin-left:auto;margin-right:auto">' + '\n')
 
-                            # recomp test
-                            if checkRecompInName(short_histo_names[0]): #
-                                histo_name_recomp = short_histo_names[0].replace("_recomp", "") # without recomp
-                                #short_histo_names[0] = histo_name_recomp
-                                gif_name = "gifs/" + histo_name_recomp + "_recomp.gif"
-                                png_name = "pngs/" + histo_name_recomp + "_recomp.png" # for DB yellow curves
-                                png_cumul_name = "pngs/" + histo_name_recomp + "_cum__recomp.png" # for DB yellow curves
-                                histo_1 = h2.Get(short_histo_names[0]) # with recomp
-                                histo_2 = h1.Get(histo_name_recomp) # without recomp
-                                c_recomp = 1
-                            else: # without recomp
-                                histo_1 = h1.Get(short_histo_names[0]) # without recomp
-                                histo_2 = h2.Get(short_histo_names[0]) # without recomp
-                                c_recomp = 0
+                            histo_1 = h1.Get(short_histo_names[0]) #
+                            histo_2 = h2.Get(short_histo_names[0]) #
 
                             ycFlag = False
                             if DB_flag:
@@ -599,7 +587,7 @@ class GevSeq():
                                     ycFlag = True
 
                             print('ycFlag : %s : %s' % (short_histo_names[0], ycFlag))
-                            PictureChoice(histo_1, histo_2, histo_positions[1], histo_positions[2], gif_name, self, 0, c_recomp)
+                            PictureChoice(histo_1, histo_2, histo_positions[1], histo_positions[2], gif_name, self, 0)
                             if ycFlag:
                                 createDatasetFolder2()
                                 PictureChoice_DB(histo_1, histo_2, histo_positions[1], histo_positions[2], png_name, self, 0, yellowCurves)
