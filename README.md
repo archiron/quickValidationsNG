@@ -13,6 +13,11 @@ preparation of the config.py file (see later). You have a a config.py.test file 
 then, when the config.py file is ready, you can launch the validation with :  
 python mainSeq.py
 
+#### WARNING !!
+for LLR users, if you work from the poluiXX, you must launch :
+source /opt/exp_soft/llr/root/v6.18.04-el7-py27-gcc8X/etc/init.sh
+before use the python mainSeq.py command.
+
 #### work in local area 
 you have : workDir = os.getcwd() and the ROOT files are located into a DATA folder.  
 The ROOT files are downloaded automatically, or you can download them into the DATA folder with the quickRootDown script.  
