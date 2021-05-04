@@ -22,15 +22,13 @@ before use the python mainSeq.py command.
 you have : workDir = os.getcwd() and the ROOT files are located into a DATA folder.  
 The ROOT files are downloaded automatically, or you can download them into the DATA folder with the quickRootDown script.  
 
-#### modify the config.py as you want
-
 #### batch (to be evaluated !)
 you can use all precedings commands with a batch file named quickValidationSeq.sh  
-Into the folder you want to work, copy locally the quickValidationSeq.sh (& quickValidationSeq.submit) and the config.py.test file(s).  
-cp config.py.test config.py  
-modify the config.py file with the values you want (SEE BELOW )  
-launch : ./quickValidationSeq.sh (be careful of rights! - 755).  
-launch : condor_submit quickValidationSeq.submit !!! NOT yet tested  
+Into the folder you want to work, copy the quickValidationSeq.sh locally.  
+launch : chmod 755 quickvalidationSeq.sh
+launch : . quickValidationSeq.sh
+#### WARNING : there is no "/" between the dot and quickValidationSeq.sh
+
 
 ### ===================================
 ### Data to be initiated in config.py
@@ -40,7 +38,8 @@ all validations mut be written as :
 #############################################################################  
 #### global data
 web_repo = ['/eos/project/c/cmsweb/www/egamma/validation/Electrons/Dev/', 'dev']  
-#web_repo = ['/eos/project/c/cmsweb/www/egamma/validation/Electrons/Releases/', 'std']  
+!#web_repo = ['/eos/project/c/cmsweb/www/egamma/validation/Electrons/Releases/', 'std']  
+!#web_repo = ['/eos/project/c/cmsweb/www/egamma/validation/Electrons/Test/', 'dev']  
 KS_reference_release = 'CMSSW_11_2_0_pre11_2021' # only for Kolmogorov-Smirnov use  
 
 #### personalization 1
@@ -60,6 +59,7 @@ GeV_1 = [
 
 #############################################################################
 
+for the web_repo you can choose between 3 locations and 2 extensions.
  .  
 /!\ You can have multiple part of personalization (i.e. GeV_1, GeV_2, GeV_3, ..) by copying the first (GeV_1) repeatedly you want.  
 ---  
