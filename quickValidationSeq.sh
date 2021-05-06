@@ -1,5 +1,5 @@
 #!/bin/bash
-# This file is called ./validations.sh
+# This file is called . quickValidationSeq.sh & NOT ./quickValidationSeq.sh
 #
 
 git clone https://github.com/archiron/quickValidationsNG quickValidationsNG
