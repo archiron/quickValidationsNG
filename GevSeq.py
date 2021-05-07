@@ -157,13 +157,13 @@ class GevSeq():
             nb_coherFiles = 0
             if (N_Files > 0):
                 for it4 in relFile:
-                    print(it4)
+                    #print(it4)
                     if re.search(release, it4):
                         nb_coherFiles +=1
                     else:
                         nb_coherFiles -=1
                 for it4 in refFile:
-                    print(it4)
+                    #print(it4)
                     if re.search(reference, it4):
                         nb_coherFiles +=1
                     else:
@@ -183,130 +183,127 @@ class GevSeq():
                 print('working with files for %s' % val)
             elif (nb_coherGT > 0 ):
                 print('working with GT for %s' % val)
+
+                # get the list for RELEASE
+                list_0 = list_search_0()
+                item_0 = ''
+                #print(list_0)
+                for item in list_0:
+                    it = item[:-1]
+                    #print(it, shortRelease)
+                    if re.search(it[6:], shortRelease):
+                        print('OK pour %s' % item)
+                        item_0 = it
+                releasesList_1 = list_search_1(item_0 + 'x')
+                #print('there is %d files for %s' % (len(releasesList_1), item_0))
+                # get the list for REFERENCE
+                if ( reference != release):
+                    item_1 = ''
+                    for item in list_0:
+                        it = item[:-1]
+                        if re.search(it[6:], shortReference):
+                            print('OK pour %s' % item)
+                            item_1 = it
+                    referencesList_1 = list_search_1(item_1 + 'x')
+                    #print('there is %d files for %s' % (len(referencesList_1), item_0))
+                else: # reference == release
+                    referencesList_1 = releasesList_1
+                    item_1 = item_0
+
+                list_rel = []
+                for item in releasesList_1:
+                    if re.search(shortRelease, item):
+                        list_rel.append(item)
+                #print('there is %d release files for %s' % (len(list_rel), release))
+                #print(list_rel)
+                list_ref = []
+                for item in referencesList_1:
+                    if re.search(shortReference, item):
+                        list_ref.append(item)
+                #print('there is %d release files for %s' % (len(list_ref), reference))
+                #print(list_ref)
+
+                list_rel2 = [] # get the list of the files for all the datasets for release
+                nb_rel2 = [] # get the number of files per dataset
+                for item1 in datasets:
+                    i = 0
+                    for item2 in list_rel:
+                        if re.search(item1, item2):
+                            #print(item2, item1)
+                            list_rel2.append(item2)
+                            i += 1
+                    nb_rel2.append(i)
+                #for item1 in enumerate(list_rel2):
+                #    print('[%2d] : %s' %(item1[0], list_rel2[item1[0]]))
+                list_ref2 = [] # get the list of the files for all the datasets for reference
+                nb_ref2 = [] # get the number of files per dataset
+                for item1 in datasets:
+                    i = 0
+                    for item2 in list_ref:
+                        if re.search(item1, item2):
+                            #print(item2, item1)
+                            list_ref2.append(item2)
+                            i += 1
+                    nb_ref2.append(i)
+
+                if ( nb_coherFiles > 0 ):
+                    print('working with files for %s' % val)
+                    # compare the files to load with the list, to be OK
+                    nb_relFiles = 0
+                    nb_refFiles = 0
+                    for item1 in list_rel2:
+                        for item2 in relFile:
+                            if item1 == item2 :
+                                nb_relFiles += 1
+                    for item1 in list_ref2:
+                        for item2 in refFile:
+                            if item1 == item2 :
+                                nb_refFiles += 1
+                    if (nb_relFiles + nb_refFiles) == nb_coherFiles:
+                        print('OK for files loading')
+                    else:
+                        print('PBM for files loading')
+                        print('%d + %d vs %d' % (nb_relFiles, nb_refFiles, nb_coherFiles))
+                        exit()
+                elif (nb_coherGT > 0 ):
+                    print('working with GT for %s' % val)
+                    # extract files which correspond to GT
+                    # first extract rel/ref GT
+                    relGT = globalTag[0::2]
+                    refGT = globalTag[1::2]
+                    rel3 = []
+                    ref3 = []
+                    for item1 in list_rel2:
+                        for item2 in relGT:
+                            if re.search(item2, item1):
+                                rel3.append(item1)
+                    for item1 in list_ref2:
+                        for item2 in refGT:
+                            if re.search(item2, item1):
+                                ref3.append(item1)
+                    #print(rel3)
+                    #print(ref3)
+                    relFile = list(set(rel3)) # rel3, elimine les doublons
+                    refFile = list(set(ref3)) # ref3, elimine les doublons
+
+                # create new list from rel_files& ref_files
+                rel_ref = [] # not used in sequential line
+                for i in range(0, N):
+                    rel_ref.append([relFile[i], refFile[i]])
+
+                # Load files
+                os.chdir(valEnv_d.workDir() + '/DATA/')
+                print('appel cmd_load_files')
+                print('item_0', item_0)
+                print('item_1', item_1)
+                cmd_load_files(relFile, item_0+'x')
+                cmd_load_files(refFile, item_1+'x')
+                os.chdir(valEnv_d.workDir())
+
             else: # no files & no GT
                 print('no GT nor files for %s' % val)
                 exit()
 
-            # get the list for RELEASE
-            list_0 = list_search_0()
-            item_0 = ''
-            #print(list_0)
-            for item in list_0:
-                it = item[:-1]
-                #print(it, shortRelease)
-                if re.search(it[6:], shortRelease):
-                    print('OK pour %s' % item)
-                    item_0 = it
-            releasesList_1 = list_search_1(item_0 + 'x')
-            #print('there is %d files for %s' % (len(releasesList_1), item_0))
-            # get the list for REFERENCE
-            if ( reference != release):
-                item_1 = ''
-                for item in list_0:
-                    it = item[:-1]
-                    if re.search(it[6:], shortReference):
-                        print('OK pour %s' % item)
-                        item_1 = it
-                referencesList_1 = list_search_1(item_1 + 'x')
-                #print('there is %d files for %s' % (len(referencesList_1), item_0))
-            else: # reference == release
-                referencesList_1 = releasesList_1
-                item_1 = item_0
-
-            list_rel = []
-            for item in releasesList_1:
-                if re.search(shortRelease, item):
-                    list_rel.append(item)
-            #print('there is %d release files for %s' % (len(list_rel), release))
-            #print(list_rel)
-            list_ref = []
-            for item in referencesList_1:
-                if re.search(shortReference, item):
-                    list_ref.append(item)
-            #print('there is %d release files for %s' % (len(list_ref), reference))
-            #print(list_ref)
-
-            list_rel2 = [] # get the list of the files for all the datasets for release
-            nb_rel2 = [] # get the number of files per dataset
-            for item1 in datasets:
-                i = 0
-                for item2 in list_rel:
-                    if re.search(item1, item2):
-                        #print(item2, item1)
-                        list_rel2.append(item2)
-                        i += 1
-                nb_rel2.append(i)
-            #for item1 in enumerate(list_rel2):
-            #    print('[%2d] : %s' %(item1[0], list_rel2[item1[0]]))
-            list_ref2 = [] # get the list of the files for all the datasets for reference
-            nb_ref2 = [] # get the number of files per dataset
-            for item1 in datasets:
-                i = 0
-                for item2 in list_ref:
-                    if re.search(item1, item2):
-                        #print(item2, item1)
-                        list_ref2.append(item2)
-                        i += 1
-                nb_ref2.append(i)
-
-            # comment for preloaded root files
-            ''''''
-            if ( nb_coherFiles > 0 ):
-                print('working with files for %s' % val)
-                # compare the files to load with the list, to be OK
-                nb_relFiles = 0
-                nb_refFiles = 0
-                for item1 in list_rel2:
-                    for item2 in relFile:
-                        if item1 == item2 :
-                            nb_relFiles += 1
-                for item1 in list_ref2:
-                    for item2 in refFile:
-                        if item1 == item2 :
-                            nb_refFiles += 1
-                if (nb_relFiles + nb_refFiles) == nb_coherFiles:
-                    print('OK for files loading')
-                else:
-                    print('PBM for files loading')
-                    print('%d + %d vs %d' % (nb_relFiles, nb_refFiles, nb_coherFiles))
-                    exit()
-            elif (nb_coherGT > 0 ):
-                print('working with GT for %s' % val)
-                # extract files which correspond to GT
-                # first extract rel/ref GT
-                relGT = globalTag[0::2]
-                refGT = globalTag[1::2]
-                rel3 = []
-                ref3 = []
-                for item1 in list_rel2:
-                    for item2 in relGT:
-                        if re.search(item2, item1):
-                            rel3.append(item1)
-                for item1 in list_ref2:
-                    for item2 in refGT:
-                        if re.search(item2, item1):
-                            ref3.append(item1)
-                #print(rel3)
-                #print(ref3)
-                relFile = list(set(rel3)) # rel3, elimine les doublons
-                refFile = list(set(ref3)) # ref3, elimine les doublons
-
-            # create new list from rel_files& ref_files
-            rel_ref = [] # not used in sequential line
-            for i in range(0, N):
-                rel_ref.append([relFile[i], refFile[i]])
-
-            # Load files
-            os.chdir(valEnv_d.workDir() + '/DATA/')
-            print('appel cmd_load_files')
-            print('item_0', item_0)
-            print('item_1', item_1)
-            cmd_load_files(relFile, item_0+'x')
-            cmd_load_files(refFile, item_1+'x')
-            os.chdir(valEnv_d.workDir())
-
-            ''''''
-            # uncomment for preloaded root files
             print('')
             os.chdir(webFolder) # going into finalFolder
 
