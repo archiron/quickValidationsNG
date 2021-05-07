@@ -13,16 +13,12 @@ preparation of the config.py file (see later). You have a a config.py.test file 
 then, when the config.py file is ready, you can launch the validation with :  
 python mainSeq.py
 
-#### WARNING !!
-for LLR users, if you work from the poluiXX, you must launch :
-source /opt/exp_soft/llr/root/v6.18.04-el7-py27-gcc8X/etc/init.sh
-before use the python mainSeq.py command.
-
 #### work in local area 
-you have : workDir = os.getcwd() and the ROOT files are located into a DATA folder.  
-The ROOT files are downloaded automatically, or you can download them into the DATA folder with the quickRootDown script.  
+you have : workDir = os.getcwd() and the ROOT files are located into a DATA folder. If you use the preceeding instructions, the DATA folder is always created.
+The ROOT files are downloaded automatically, or you can download them into the DATA folder with the quickRootDown script.
+For local use (your own ROOT files), you have to put them into the DATA folder.  
 
-#### batch (to be evaluated !)
+#### batch 
 you can use all precedings commands with a batch file named quickValidationSeq.sh  
 Into the folder you want to work, copy the quickValidationSeq.sh locally.  
 launch : chmod 755 quickvalidationSeq.sh
@@ -61,10 +57,9 @@ GeV_1 = [
 
 for the web_repo you can choose between 3 locations and 2 extensions.
  .  
-/!\ You can have multiple part of personalization (i.e. GeV_1, GeV_2, GeV_3, ..) by copying the first (GeV_1) repeatedly you want.  
----  
+/!\ You can have multiple part of personalization (i.e. GeV_1, GeV_2, GeV_3, ..) by copying the first (GeV_1) repeatedly you want. 
 
 if you have the ROOT files names, then Global Tags are not necessary.   
 You MUST have the same number of DB flags than datasets idem for Global Tags if you use them.   
-GT MUST be in the complte form (i.e. CMSSW_11_1_0_pre4-110X_mcRun3_2021_realistic_v8-v1) only one choice per validation.  
+GT MUST be in the complete form (i.e. CMSSW_11_1_0_pre4-110X_mcRun3_2021_realistic_v8-v1) only one choice per validation.  
 ROOT files are on the form : release ROOT file, reference ROOT file and so on.  
