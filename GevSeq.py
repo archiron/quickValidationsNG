@@ -635,7 +635,7 @@ class GevSeq():
                 #wp.close()
                 wp_index.close()
                 if DB_flag:
-                    DB.generateExplanation2()
+                    DB.generateExplanation()
 
                 os.chdir('../') # back to the final folder.
                 ''''''
