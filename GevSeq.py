@@ -2,7 +2,7 @@
 #-*-coding: utf-8 -*-
 
 import os,sys,subprocess,shutil
-import concurrent.futures
+#import concurrent.futures
 import time
 import numpy as np
 
@@ -285,6 +285,8 @@ class GevSeq():
                     #print(ref3)
                     relFile = list(set(rel3)) # rel3, elimine les doublons
                     refFile = list(set(ref3)) # ref3, elimine les doublons
+                    relFile = [str(r) for r in relFile] # elimine le u'...'
+                    refFile = [str(r) for r in refFile] # elimine le u'...'
 
                 # create new list from rel_files& ref_files
                 rel_ref = [] # not used in sequential line
@@ -311,6 +313,25 @@ class GevSeq():
             datasets.sort()
             relFile.sort()
             refFile.sort()
+
+            globos = [] # summary of datasets relFile & refFile
+            for elem1 in datasets:
+                toto = []
+                toto.append(elem1)
+                for elem2 in relFile:
+                    if re.search(elem1, elem2):
+                        toto.append(elem2)
+                for elem2 in refFile:
+                    if re.search(elem1, elem2):
+                        toto.append(elem2)
+                globos.append(toto)
+
+            relFile = []
+            refFile = []
+            for elem1 in globos:
+                relFile.append(elem1[1])
+                refFile.append(elem1[2])
+            #stop
 
             for i, elt in enumerate(datasets):
                 dts = elt
@@ -530,6 +551,7 @@ class GevSeq():
                 lineFlag = True
                 extWrite( "<table border=\"0\" cellpadding=\"5\" width=\"100%\">" , wp_Files)
                 # ecriture des histos
+                ''' # temporaire pour dev
                 for i in range(0, len(titlesList)):
                     extWrite( "\n<tr valign=\"top\">" , wp_Files)
                     extWrite( "\n<td><a href=\"#TOP\"><img width=\"18\" height=\"18\" border=\"0\" align=\"middle\" src=" + valEnv_d.imageUp() + " alt=\"Top\"/></a></td>\n" , wp_Files)
@@ -631,6 +653,7 @@ class GevSeq():
 
                 # fin ecriture des histos
                 extWrite( "\n</table>\n" , wp_Files)
+                '''
 
                 #wp.close()
                 wp_index.close()
