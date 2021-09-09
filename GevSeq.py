@@ -310,9 +310,9 @@ class GevSeq():
             os.chdir(webFolder) # going into finalFolder
 
             # sort datasets & files
-            datasets.sort()
-            relFile.sort()
-            refFile.sort()
+            #datasets.sort()
+            #relFile.sort()
+            #refFile.sort()
 
             globos = [] # summary of datasets relFile & refFile
             for elem1 in datasets:
