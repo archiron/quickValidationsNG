@@ -551,7 +551,6 @@ class GevSeq():
                 lineFlag = True
                 extWrite( "<table border=\"0\" cellpadding=\"5\" width=\"100%\">" , wp_Files)
                 # ecriture des histos
-                ''' # temporaire pour dev
                 for i in range(0, len(titlesList)):
                     extWrite( "\n<tr valign=\"top\">" , wp_Files)
                     extWrite( "\n<td><a href=\"#TOP\"><img width=\"18\" height=\"18\" border=\"0\" align=\"middle\" src=" + valEnv_d.imageUp() + " alt=\"Top\"/></a></td>\n" , wp_Files)
@@ -653,7 +652,6 @@ class GevSeq():
 
                 # fin ecriture des histos
                 extWrite( "\n</table>\n" , wp_Files)
-                '''
 
                 #wp.close()
                 wp_index.close()
