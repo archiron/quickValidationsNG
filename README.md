@@ -7,7 +7,8 @@ if you want to make validations (simple ones) without GUI, you can make it with 
 git clone https://github.com/archiron/quickValidationsNG quickValidationsNG  
 git clone https://github.com/archiron/ChiLib_CMS_Validation ChiLib_CMS_Validation  
 cd quickValidationsNG/  
-preparation of the config.py file (see later). You have a a config.py.test file that you can use with the command : cp config.py.test config.py  
+preparation of the config.py file (see later). You have a a config.py.test file that you can use with the command : cp config.py.test config.py   
+do not forget to update the KS_reference_release (if needed) and the Validation_reference with the corrects link which is given at the end of the mail dedicated to the validation.
 
 #### launch the validation :
 then, when the config.py file is ready, you can launch the validation with :  
@@ -23,7 +24,7 @@ you can use all precedings commands with a batch file named quickValidationSeq.s
 Into the folder you want to work, copy the quickValidationSeq.sh locally.  
 launch : chmod 755 quickvalidationSeq.sh
 launch : . quickValidationSeq.sh
-#### WARNING : there is no "/" between the dot and quickValidationSeq.sh
+#### WARNING : there is no "/" between the dot and quickValidationSeq.sh (only a blank).
 
 
 ### ===================================
