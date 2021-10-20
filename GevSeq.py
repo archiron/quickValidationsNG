@@ -437,6 +437,8 @@ class GevSeq():
                     extWrite(", the <b><font color='red'> " + release + " </font></b> histograms are in red", wp_Files) # new release red in OvalFile
                     extWrite(", and the <b><font color='blue'> " + reference + " </font></b> histograms are in blue.", wp_Files) # ref release blue in OvalFile
                 extWrite(" Some more details", wp_Files) #
+                if (Validation_reference != ""):
+                    extWrite(", <a href=\"" + Validation_reference + "\">hypernews</a> references", wp_Files) # .txt file
                 extWrite(", <a href=\"" + CMP_CONFIG + "\">specification</a> of histograms", wp_Files) # .txt file
                 extWrite(", <a href=\"gifs/\">images</a> of histograms" + "." , wp_Files) #
                 extWrite("</p>\n", wp_Files)
@@ -551,9 +553,10 @@ class GevSeq():
                 lineFlag = True
                 extWrite( "<table border=\"0\" cellpadding=\"5\" width=\"100%\">" , wp_Files)
                 # ecriture des histos
+                #''' # temporaire pour dev
                 for i in range(0, len(titlesList)):
                     extWrite( "\n<tr valign=\"top\">" , wp_Files)
-                    extWrite( "\n<td><a href=\"#TOP\"><img width=\"18\" height=\"18\" border=\"0\" align=\"middle\" src=" + valEnv_d.imageUp() + " alt=\"Top\"/></a></td>\n" , wp_Files)
+                    extWrite( "\n<td><a href=\"#\"><img width=\"18\" height=\"18\" border=\"0\" align=\"middle\" src=" + valEnv_d.imageUp() + " alt=\"Top\"/></a></td>\n" , wp_Files)
                     titles = titlesList[i].split()
                     if len(titles) > 1 :
                         titleShortName = titles[0] + "_" + titles[1]
@@ -620,7 +623,7 @@ class GevSeq():
                                     DB_picture = valEnv_d.imageKO()
                             #stop
                             if ( lineFlag ):
-                                extWrite( "\n<td><a href=\"#TOP\"><img width=\"18\" height=\"18\" border=\"0\" align=\"middle\" src=" + valEnv_d.imageUp() + " alt=\"Top\"/></a></td>\n" , wp_Files)
+                                extWrite( "\n<td><a href=\"#\"><img width=\"18\" height=\"18\" border=\"0\" align=\"middle\" src=" + valEnv_d.imageUp() + " alt=\"Top\"/></a></td>\n" , wp_Files)
                             if (  histo_positions[3] == "0" ):
                                 extWrite( "<td>" , wp_Files)
                                 extWrite( "<a id=\"" + short_histo_name + "\" name=\"" + short_histo_name + "\"" , wp_Files)
@@ -652,6 +655,7 @@ class GevSeq():
 
                 # fin ecriture des histos
                 extWrite( "\n</table>\n" , wp_Files)
+                #'''
 
                 #wp.close()
                 wp_index.close()
