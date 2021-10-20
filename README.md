@@ -37,7 +37,6 @@ web_repo = ['/eos/project/c/cmsweb/www/egamma/validation/Electrons/Dev/', 'dev']
 !#web_repo = ['/eos/project/c/cmsweb/www/egamma/validation/Electrons/Releases/', 'std']  
 !#web_repo = ['/eos/project/c/cmsweb/www/egamma/validation/Electrons/Test/', 'dev']  
 KS_reference_release = 'CMSSW_11_2_0_pre11_2021' # only for Kolmogorov-Smirnov use  
-Validation_reference = 'https://hypernews.cern.ch/HyperNews/CMS/get/relval/16012.html'
 
 #### personalization 1
 GeV_1 = [  
