@@ -291,9 +291,9 @@ class GevSeq():
                     refFile = [str(r) for r in refFile] # elimine le u'...'
 
                 # create new list from rel_files& ref_files
-                rel_ref = [] # not used in sequential line
+                '''rel_ref = [] # not used in sequential line
                 for i in range(0, N):
-                    rel_ref.append([relFile[i], refFile[i]])
+                    rel_ref.append([relFile[i], refFile[i]])'''
 
                 # Load files
                 os.chdir(valEnv_d.workDir() + '/DATA/')
@@ -389,12 +389,13 @@ class GevSeq():
                 print("input_ref_file = %s\n" % input_ref_file)
                 print('      h2 for dataset : %s' % dts)
 
-                wp_defs = open('definitions.txt', 'w') # definitions for PHP page
                 if (DB_flag == True):
                     tl.createDatasetFolder3() # create DBox folder
                     print('DB_flag = True')
                 else:
                     tl.deleteDatasetFolder3()  # delete DBox folder
+                
+                wp_defs = open('definitions.txt', 'w') # definitions for PHP page
                 wp_defs.write(CMP_TITLE + "\n") # LINE 7
 
                 wp_defs.write(relrefVT[0] + "\n")
