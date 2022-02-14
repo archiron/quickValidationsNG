@@ -17,7 +17,7 @@ python mainSeq.py
 #### work in local area 
 you have : workDir = os.getcwd() and the ROOT files are located into a DATA folder. If you use the preceeding instructions, the DATA folder is always created.
 The ROOT files are downloaded automatically, or you can download them into the DATA folder with the quickRootDown script.
-For local use (your own ROOT files), you have to put them into the DATA folder.  
+For local use (your own ROOT files), you have to put uour own into the DATA folder.  
 
 #### batch 
 you can use all precedings commands with a batch file named quickValidationSeq.sh  
