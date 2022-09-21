@@ -38,6 +38,7 @@ web_repo = ['/eos/project/c/cmsweb/www/egamma/validation/Electrons/Dev/', 'dev']
 !#web_repo = ['/eos/project/c/cmsweb/www/egamma/validation/Electrons/Releases/', 'std']  
 !#web_repo = ['/eos/project/c/cmsweb/www/egamma/validation/Electrons/Test/', 'dev']  
 KS_reference_release = 'CMSSW_11_2_0_pre11_2021' # only for Kolmogorov-Smirnov use  
+Validation_reference = 'https://cms-talk.web.cern.ch/t/new-validation-campaign-12-5-0-pre5-phase2-d88-added/14722'
 
 #### personalization 1
 GeV_1 = [  
@@ -64,3 +65,7 @@ if you have the ROOT files names, then Global Tags are not necessary.
 You MUST have the same number of DB flags than datasets idem for Global Tags if you use them.   
 GT MUST be in the complete form (i.e. CMSSW_11_1_0_pre4-110X_mcRun3_2021_realistic_v8-v1) only one choice per validation.  
 ROOT files are on the form : release ROOT file, reference ROOT file and so on.  
+
+### size reduction of the ROOT files.
+reduceSizeFile1.py is callable with : python3 reduceSizeFile1.py and reduce the size of the ROOT files located into the DATA folder (line84). The name of the folder can be modified
+but have to be located into the same folder as the reduceSizeFile1.py file.

@@ -2,8 +2,8 @@
 #-*-coding: utf-8 -*-
 
 import os,sys
-import GevSeq
+import GevSeqDev
 
 if __name__=="__main__":
-    GevSeq.GevSeq()
+    GevSeqDev.GevSeq()
     
