@@ -354,7 +354,7 @@ class GevSeq():
                 os.chdir(dataSetFolder) # going to dataSetFolder
 
                 # get config files
-                (it1, it2, tp_1, tp_2) = tl.testForDataSetsFile(valEnv_d.tmpPath(), relrefVT, dts)
+                (it1, it2, tp_1, tp_2) = tl.testForDataSetsFile2(valEnv_d.tmpPath(), relrefVT, dts)
                 print("config file for target : %s" % it1)
                 print("config file for reference : %s" % it2)
                 print("tree path for target : %s" % tp_1)
@@ -449,18 +449,21 @@ class GevSeq():
 
                 # remplissage tableau titres et dict
                 histoArray_0 = {}
-                titlesList = [] # need with python < 3.7. dict does not keep the correct order of the datasets histograms
+                titlesList = [] # needed with python < 3.7. dict does not keep the correct order of the datasets histograms
                 key = ""
                 tmp = []
                 for line in f:
+                    #print(line)
                     if ( len(line) == 1 ): # len == 0, empty line
                         if ( ( len(key) != 0 ) and ( len(tmp) != 0) ):
+                            #print('add %s' % key)
                             histoArray_0[key] = tmp
                             key = ""
                             tmp = []
                     else: # len <> 0
                         if ( len(key) == 0 ):
                             key = line # get title
+                            #print('\nTitle : %s' % line)
                             titlesList.append(line)
                         else:
                             tmp.append(line) # histo name
@@ -471,10 +474,10 @@ class GevSeq():
                                 tmp.append("endLine")
 
                 # fin remplissage tableau titres et dict
-                f.close()
 
                 # ecriture des histos
                 for i in range(0, len(titlesList)):
+                    #print('Title : %s' % titlesList[i])
                     for elem in histoArray_0[titlesList[i]]:
                         if ( elem != "endLine" ):
 
