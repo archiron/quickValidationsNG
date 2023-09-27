@@ -4,7 +4,7 @@
 ################################################################################
 # GevSeqDev: a tool to generate Release Comparison                              
 #
-#
+# version 3.0
 #                                                                              
 # Arnaud Chiron-Turlay LLR - arnaud.chiron@llr.in2p3.fr                         
 #                                                                              
@@ -290,8 +290,6 @@ class GevSeq():
                     refFile = list(set(ref3)) # ref3, elimine les doublons
                     relFile = [str(r) for r in relFile] # elimine le u'...'
                     refFile = [str(r) for r in refFile] # elimine le u'...'
-                    #print(relFile)
-                    #print(refFile)
 
                 # create new list from rel_files& ref_files
                 '''rel_ref = [] # not used in sequential line
@@ -329,11 +327,10 @@ class GevSeq():
             relFile = []
             refFile = []
             for elem1 in globos:
-                print('globos : %s' % elem1)
                 relFile.append(elem1[1])
                 refFile.append(elem1[2])
             
-            #stop
+            #for some tests
             #relFile = ['DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_1_0_pre5-121X_mcRun3_2021_realistic_v15-v1__DQMIO.root']
             #refFile = ['DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_1_0_pre4-121X_mcRun3_2021_realistic_v10-v1__DQMIO.root']
 
@@ -453,17 +450,14 @@ class GevSeq():
                 key = ""
                 tmp = []
                 for line in f:
-                    #print(line)
                     if ( len(line) == 1 ): # len == 0, empty line
                         if ( ( len(key) != 0 ) and ( len(tmp) != 0) ):
-                            #print('add %s' % key)
                             histoArray_0[key] = tmp
                             key = ""
                             tmp = []
                     else: # len <> 0
                         if ( len(key) == 0 ):
                             key = line # get title
-                            #print('\nTitle : %s' % line)
                             titlesList.append(line)
                         else:
                             tmp.append(line) # histo name
@@ -477,7 +471,6 @@ class GevSeq():
 
                 # ecriture des histos
                 for i in range(0, len(titlesList)):
-                    #print('Title : %s' % titlesList[i])
                     for elem in histoArray_0[titlesList[i]]:
                         if ( elem != "endLine" ):
 
@@ -498,8 +491,6 @@ class GevSeq():
                             if DB_flag:
                                 KS_Path1 = valEnv_d.KS_Path()[1] + KS_reference_release
                                 KS_Path0 = valEnv_d.KS_Path()[0] + KS_reference_release
-                                #print('path0 : %s' % KS_Path0)
-                                #print('path1 : %s' % KS_Path1)
                                 KS_values_1 = DB.decisionBox1(short_histo_names[0], histo_1, histo_2, KS_Path0, shortRelease, shortReference)
                                 KS_values_2 = DB.decisionBox2(short_histo_names[0], histo_1, histo_2, KS_Path0, shortRelease, shortReference)
                                 KS_values_3 = DB.decisionBox3(short_histo_names[0], histo_1, histo_2, KS_Path0, shortRelease, shortReference)
@@ -516,12 +507,9 @@ class GevSeq():
                                 PictureChoice_DB3(histo_1, histo_2, histo_positions[1], histo_positions[2], png_cumul_name, self, 0, yellowCurvesCum)
 
                                 percentage = 0.05
-                                #if ( KS_values_1[4] >= percentage ):
                                 if ( KS_values_3[1] >= percentage ):
-                                    #color = 'green'
                                     DB_picture = valEnv_d.imageOK()
                                 else:
-                                    #color = 'red'
                                     DB_picture = valEnv_d.imageKO()
                             if (  histo_positions[3] == "0" ):
                                 # insert here the decision box

@@ -4,7 +4,7 @@
 ################################################################################
 # GevSeqDev: a tool to generate Release Comparison                              
 #
-# version 2.0
+# version 3.0
 #                                                                              
 # Arnaud Chiron-Turlay LLR - arnaud.chiron@llr.in2p3.fr                         
 #                                                                              
@@ -62,6 +62,7 @@ class GevSeq():
         start = time.time()           # let's see how long this takes
 
         for val in listGeV: # loop over GUI configurations
+            print('\n ***** %s ***** \n' % val)
             validation = getattr(cf2, val)
             print('validation : %s' % validation) # temp
             release = validation[0][0]
@@ -328,6 +329,10 @@ class GevSeq():
             for elem1 in globos:
                 relFile.append(elem1[1])
                 refFile.append(elem1[2])
+            
+            #for some tests
+            #relFile = ['DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_1_0_pre5-121X_mcRun3_2021_realistic_v15-v1__DQMIO.root']
+            #refFile = ['DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_1_0_pre4-121X_mcRun3_2021_realistic_v10-v1__DQMIO.root']
 
             for i, elt in enumerate(datasets):
                 dts = elt
@@ -346,7 +351,7 @@ class GevSeq():
                 os.chdir(dataSetFolder) # going to dataSetFolder
 
                 # get config files
-                (it1, it2, tp_1, tp_2) = tl.testForDataSetsFile(valEnv_d.tmpPath(), relrefVT, dts)
+                (it1, it2, tp_1, tp_2) = tl.testForDataSetsFile2(valEnv_d.tmpPath(), relrefVT, dts)
                 print("config file for target : %s" % it1)
                 print("config file for reference : %s" % it2)
                 print("tree path for target : %s" % tp_1)
@@ -395,7 +400,7 @@ class GevSeq():
                 else:
                     tl.deleteDatasetFolder3()  # delete DBox folder
                 
-                wp_defs = open('definitions.txt', 'w') # definitions for PHP page
+                '''wp_defs = open('definitions.txt', 'w') # definitions for PHP page
                 wp_defs.write(CMP_TITLE + "\n") # LINE 7
 
                 wp_defs.write(relrefVT[0] + "\n")
@@ -416,11 +421,32 @@ class GevSeq():
                 else:
                     wp_defs.write('none' + "\n")
                 wp_defs.write(CMP_CONFIG + "\n")
-                wp_defs.close()
+                wp_defs.close()'''
+                datas = []
+                datas.append(CMP_TITLE) # LINE 7
+                datas.append(relrefVT[0])
+                datas.append(shortRelease)
+                datas.append(str(relFile[i])) # LINE 8
+                datas.append(relrefVT[1])
+                datas.append(shortReference)
+                datas.append(str(refFile[i])) # LINE 9
+                if (f_ref == 0):
+                    datas.append(release)
+                    datas.append(release)
+                else:
+                    datas.append(release)
+                    datas.append(reference)
+                if (Validation_reference != ""):
+                    datas.append(Validation_reference)
+                else:
+                    datas.append('none')
+                datas.append(CMP_CONFIG)
+                tl.createDefinitionsFile(datas)
+                #stop
 
                 # remplissage tableau titres et dict
                 histoArray_0 = {}
-                titlesList = [] # need with python < 3.7. dict does not keep the correct order of the datasets histograms
+                titlesList = [] # needed with python < 3.7. dict does not keep the correct order of the datasets histograms
                 key = ""
                 tmp = []
                 for line in f:
@@ -442,7 +468,6 @@ class GevSeq():
                                 tmp.append("endLine")
 
                 # fin remplissage tableau titres et dict
-                f.close()
 
                 # ecriture des histos
                 for i in range(0, len(titlesList)):
@@ -466,9 +491,9 @@ class GevSeq():
                             if DB_flag:
                                 KS_Path1 = valEnv_d.KS_Path()[1] + KS_reference_release
                                 KS_Path0 = valEnv_d.KS_Path()[0] + KS_reference_release
-                                KS_values_1 = DB.decisionBox1(short_histo_names[0], histo_1, histo_2, KS_Path0, shortRelease)
-                                KS_values_2 = DB.decisionBox2(short_histo_names[0], histo_1, histo_2, KS_Path0, shortRelease)
-                                KS_values_3 = DB.decisionBox3(short_histo_names[0], histo_1, histo_2, KS_Path0, shortRelease)
+                                KS_values_1 = DB.decisionBox1(short_histo_names[0], histo_1, histo_2, KS_Path0, shortRelease, shortReference)
+                                KS_values_2 = DB.decisionBox2(short_histo_names[0], histo_1, histo_2, KS_Path0, shortRelease, shortReference)
+                                KS_values_3 = DB.decisionBox3(short_histo_names[0], histo_1, histo_2, KS_Path0, shortRelease, shortReference)
                                 if (len(KS_values_1) > 5):
                                     yellowCurves = [ KS_values_1[5] ]
                                     yellowCurvesCum = [ KS_values_1[6] ]
@@ -482,11 +507,9 @@ class GevSeq():
                                 PictureChoice_DB3(histo_1, histo_2, histo_positions[1], histo_positions[2], png_cumul_name, self, 0, yellowCurvesCum)
 
                                 percentage = 0.05
-                                if ( KS_values_1[4] >= percentage ):
-                                    color = 'green'
+                                if ( KS_values_3[1] >= percentage ):
                                     DB_picture = valEnv_d.imageOK()
                                 else:
-                                    color = 'red'
                                     DB_picture = valEnv_d.imageKO()
                             if (  histo_positions[3] == "0" ):
                                 # insert here the decision box
@@ -494,13 +517,13 @@ class GevSeq():
                                     KS_V = [KS_values_1, KS_values_2, KS_values_3]
                                     #KS_V = [KS_values_1]
                                     Names = [short_histo_name, gif_name, short_histo_names[0], png_name, png_cumul_name]
-                                    DB.DBwebPage(fHisto, Names, KS_V, DB_picture, self.webURL, self.shortWebFolder, dataSetFolder, KS_Path0, KS_Path1, ycFlag, shortRelease)
+                                    DB.DBwebPage(fHisto, Names, KS_V, DB_picture, self.webURL, self.shortWebFolder, dataSetFolder, KS_Path0, KS_Path1, ycFlag, shortRelease, shortReference)
                             else: # line_sp[3]=="1"
                                 if DB_flag:
                                     KS_V = [KS_values_1, KS_values_2, KS_values_3]
                                     #KS_V = [KS_values_1]
                                     Names = [short_histo_name, gif_name, short_histo_names[0], png_name, png_cumul_name]
-                                    DB.DBwebPage(fHisto, Names, KS_V, DB_picture, self.webURL, self.shortWebFolder, dataSetFolder, KS_Path0, KS_Path1, ycFlag, shortRelease)
+                                    DB.DBwebPage(fHisto, Names, KS_V, DB_picture, self.webURL, self.shortWebFolder, dataSetFolder, KS_Path0, KS_Path1, ycFlag, shortRelease, shortReference)
 
                             if DB_flag:
                                 fHisto.close()
