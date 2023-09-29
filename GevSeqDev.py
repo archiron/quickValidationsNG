@@ -84,6 +84,8 @@ class GevSeq():
             print('relrefVT %s' % relrefVT)
             if (web_repo[1] == 'dev'):
                 tmp = valEnv_d.KS_Path()[2] + 'Dev/'
+            elif(web_repo[1] == 'test'):
+                tmp = valEnv_d.KS_Path()[2] + 'Test/'
             else:
                 tmp = valEnv_d.KS_Path()[2] + 'Releases/'
             print('KS_Path : %s' % valEnv_d.KS_Path())
@@ -290,6 +292,8 @@ class GevSeq():
                     refFile = list(set(ref3)) # ref3, elimine les doublons
                     relFile = [str(r) for r in relFile] # elimine le u'...'
                     refFile = [str(r) for r in refFile] # elimine le u'...'
+                    #print(relFile)
+                    #print(refFile)
 
                 # create new list from rel_files& ref_files
                 '''rel_ref = [] # not used in sequential line
@@ -327,10 +331,11 @@ class GevSeq():
             relFile = []
             refFile = []
             for elem1 in globos:
+                print('globos : %s' % elem1)
                 relFile.append(elem1[1])
                 refFile.append(elem1[2])
-            
-            #for some tests
+
+            #stop
             #relFile = ['DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_1_0_pre5-121X_mcRun3_2021_realistic_v15-v1__DQMIO.root']
             #refFile = ['DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_1_0_pre4-121X_mcRun3_2021_realistic_v10-v1__DQMIO.root']
 
@@ -351,7 +356,8 @@ class GevSeq():
                 os.chdir(dataSetFolder) # going to dataSetFolder
 
                 # get config files
-                (it1, it2, tp_1, tp_2) = tl.testForDataSetsFile2(valEnv_d.tmpPath(), relrefVT, dts)
+                #(it1, it2, tp_1, tp_2) = tl.testForDataSetsFile2(valEnv_d.tmpPath(), relrefVT, dts)
+                (it1, it2, tp_1, tp_2) = tl.testForDataSetsFile2(valEnv_d.tmpPath(), relrefVT, dts) # only for DEV !!!
                 print("config file for target : %s" % it1)
                 print("config file for reference : %s" % it2)
                 print("tree path for target : %s" % tp_1)
@@ -397,6 +403,9 @@ class GevSeq():
                 if (DB_flag == True):
                     tl.createDatasetFolder3() # create DBox folder
                     print('DB_flag = True')
+                    f_KS_file = valEnv_d.workDir() + '/DATA/' + str(KS_reference_ROOT_File)
+                    f_KS = ROOT.TFile(f_KS_file)
+                    h3 = getHisto(f_KS, tp_1)
                 else:
                     tl.deleteDatasetFolder3()  # delete DBox folder
                 
@@ -441,7 +450,7 @@ class GevSeq():
                 else:
                     datas.append('none')
                 datas.append(CMP_CONFIG)
-                tl.createDefinitionsFile(datas)
+                tl.createDefinitionsFile(datas, '')
                 #stop
 
                 # remplissage tableau titres et dict
@@ -468,6 +477,7 @@ class GevSeq():
                                 tmp.append("endLine")
 
                 # fin remplissage tableau titres et dict
+                f.close()
 
                 # ecriture des histos
                 for i in range(0, len(titlesList)):
@@ -478,6 +488,7 @@ class GevSeq():
                             gif_name = "gifs/" + short_histo_names[0] + ".gif"
                             png_name = "pngs/" + short_histo_names[0] + ".png" # for DB yellow curves
                             png_cumul_name = "pngs/" + short_histo_names[0] + "_cum.png" # for DB yellow curves
+                            print('\nshort histo name : {:s}'.format(short_histo_names[0]))
 
                             # creating shortHistoName file in DBox folder
                             if DB_flag:
@@ -489,37 +500,47 @@ class GevSeq():
 
                             ycFlag = False
                             if DB_flag:
-                                KS_Path1 = valEnv_d.KS_Path()[1] + KS_reference_release
-                                KS_Path0 = valEnv_d.KS_Path()[0] + KS_reference_release
-                                KS_values_1 = DB.decisionBox1(short_histo_names[0], histo_1, histo_2, KS_Path0, shortRelease, shortReference)
-                                KS_values_2 = DB.decisionBox2(short_histo_names[0], histo_1, histo_2, KS_Path0, shortRelease, shortReference)
-                                KS_values_3 = DB.decisionBox3(short_histo_names[0], histo_1, histo_2, KS_Path0, shortRelease, shortReference)
-                                if (len(KS_values_1) > 5):
-                                    yellowCurves = [ KS_values_1[5] ]
-                                    yellowCurvesCum = [ KS_values_1[6] ]
-                                    ycFlag = True
+                                try:
+                                    histo_3 = h3.Get(short_histo_names[0]) # KS reference
+                                    KS_Path1 = valEnv_d.KS_Path()[1] + KS_reference_release
+                                    KS_Path0 = valEnv_d.KS_Path()[0] + KS_reference_release
+                                    KS_values_1 = DB.decisionBox1(short_histo_names[0], histo_1, histo_3, KS_Path0, shortRelease, shortReference)
+                                    KS_values_2 = DB.decisionBox2(short_histo_names[0], histo_1, histo_3, KS_Path0, shortRelease, shortReference)
+                                    KS_values_3 = DB.decisionBox3(short_histo_names[0], histo_1, histo_3, KS_Path0, shortRelease, shortReference)
+                                    #DB.decB(short_histo_names[0], histo_1, histo_3, KS_Path0, shortRelease)
+                                    
+                                    if (len(KS_values_1) > 5):
+                                        yellowCurves = [ KS_values_1[5] ]
+                                        yellowCurvesCum = [ KS_values_1[6] ]
+                                        ycFlag = True
+                                except:
+                                    print('no histo in {:s} for {:s}'.format(self.KS_reference_release, short_histo_names[0]))
+                                    ycFlag = False
 
                             print('ycFlag : %s : %s' % (short_histo_names[0], ycFlag))
-                            PictureChoice(histo_1, histo_2, histo_positions[1], histo_positions[2], gif_name, self, 0)
+                            PictureChoice(self, histo_1, histo_2, histo_positions[1], histo_positions[2], gif_name, 0)
                             if ycFlag:
                                 tl.createDatasetFolder2()
-                                PictureChoice_DB(histo_1, histo_2, histo_positions[1], histo_positions[2], png_name, self, 0, yellowCurves)
-                                PictureChoice_DB3(histo_1, histo_2, histo_positions[1], histo_positions[2], png_cumul_name, self, 0, yellowCurvesCum)
+                                PictureChoice_DB(self, histo_1, histo_3, histo_positions[1], histo_positions[2], png_name, 0, yellowCurves)
+                                PictureChoice_DB3(self, histo_1, histo_3, histo_positions[1], histo_positions[2], png_cumul_name, 0, yellowCurvesCum)
 
                                 percentage = 0.05
+                                #if ( KS_values_1[4] >= percentage ):
                                 if ( KS_values_3[1] >= percentage ):
+                                    #color = 'green'
                                     DB_picture = valEnv_d.imageOK()
                                 else:
+                                    #color = 'red'
                                     DB_picture = valEnv_d.imageKO()
                             if (  histo_positions[3] == "0" ):
                                 # insert here the decision box
-                                if DB_flag:
+                                if DB_flag and ycFlag:
                                     KS_V = [KS_values_1, KS_values_2, KS_values_3]
                                     #KS_V = [KS_values_1]
                                     Names = [short_histo_name, gif_name, short_histo_names[0], png_name, png_cumul_name]
                                     DB.DBwebPage(fHisto, Names, KS_V, DB_picture, self.webURL, self.shortWebFolder, dataSetFolder, KS_Path0, KS_Path1, ycFlag, shortRelease, shortReference)
                             else: # line_sp[3]=="1"
-                                if DB_flag:
+                                if DB_flag and ycFlag:
                                     KS_V = [KS_values_1, KS_values_2, KS_values_3]
                                     #KS_V = [KS_values_1]
                                     Names = [short_histo_name, gif_name, short_histo_names[0], png_name, png_cumul_name]
