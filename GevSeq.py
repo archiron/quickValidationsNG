@@ -12,6 +12,8 @@
 
 import os,sys,shutil
 import time
+import importlib.machinery
+import importlib.util
 
 sys.path.append('../ChiLib_CMS_Validation')
 
@@ -27,8 +29,24 @@ class GevSeq():
         print('begin to run')
         initRoot()
 
+        if len(sys.argv) > 1:
+            print(sys.argv)
+            print("arg. 0 :", sys.argv[0]) # name of the script
+            print("arg. 1 :", sys.argv[1][:-3]) # name of the file to be used
+            extFile = sys.argv[1]
+            CompleteExtFile = os.getcwd()+'/'+ extFile
+            # Import mymodule
+            loader = importlib.machinery.SourceFileLoader( extFile, CompleteExtFile)
+            spec = importlib.util.spec_from_loader( extFile, loader )
+            cf2 = importlib.util.module_from_spec( spec )
+            loader.exec_module( cf2 )
+            print('Validation_reference : %s' % cf2.Validation_reference)
+
+        else:
+            print("classical way")
+            import config as cf2
+
         sys.path.append(os.getcwd()) # path where you work
-        import config as cf2
         valEnv_d = env_default()
         DB = DecisionBox()
         net = networkFunctions()
@@ -356,7 +374,7 @@ class GevSeq():
                 os.chdir(dataSetFolder) # going to dataSetFolder
 
                 # get config files
-                #(it1, it2, tp_1, tp_2) = tl.testForDataSetsFile(valEnv_d.tmpPath(), relrefVT, dts)
+                #(it1, it2, tp_1, tp_2) = tl.testForDataSetsFile2(valEnv_d.tmpPath(), relrefVT, dts)
                 (it1, it2, tp_1, tp_2) = tl.testForDataSetsFile2(valEnv_d.tmpPath(), relrefVT, dts) # only for DEV !!!
                 print("config file for target : %s" % it1)
                 print("config file for reference : %s" % it2)
@@ -409,7 +427,8 @@ class GevSeq():
                 else:
                     tl.deleteDatasetFolder3()  # delete DBox folder
                 
-                '''wp_defs = open('definitions.txt', 'w') # definitions for PHP page
+                '''
+                wp_defs = open('definitions.txt', 'w') # definitions for PHP page
                 wp_defs.write(CMP_TITLE + "\n") # LINE 7
 
                 wp_defs.write(relrefVT[0] + "\n")
@@ -430,7 +449,8 @@ class GevSeq():
                 else:
                     wp_defs.write('none' + "\n")
                 wp_defs.write(CMP_CONFIG + "\n")
-                wp_defs.close()'''
+                wp_defs.close()
+                '''
                 datas = []
                 datas.append(CMP_TITLE) # LINE 7
                 datas.append(relrefVT[0])
@@ -450,7 +470,7 @@ class GevSeq():
                 else:
                     datas.append('none')
                 datas.append(CMP_CONFIG)
-                tl.createDefinitionsFile(datas,'')
+                tl.createDefinitionsFile(datas, '')
                 #stop
 
                 # remplissage tableau titres et dict

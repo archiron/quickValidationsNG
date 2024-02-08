@@ -12,6 +12,8 @@
 
 import os,sys,shutil
 import time
+import importlib.machinery
+import importlib.util
 
 sys.path.append('../ChiLib_CMS_Validation')
 
@@ -27,8 +29,24 @@ class GevSeq():
         print('begin to run')
         initRoot()
 
+        if len(sys.argv) > 1:
+            print(sys.argv)
+            print("arg. 0 :", sys.argv[0]) # name of the script
+            print("arg. 1 :", sys.argv[1][:-3]) # name of the file to be used
+            extFile = sys.argv[1]
+            CompleteExtFile = os.getcwd()+'/'+ extFile
+            # Import mymodule
+            loader = importlib.machinery.SourceFileLoader( extFile, CompleteExtFile)
+            spec = importlib.util.spec_from_loader( extFile, loader )
+            cf2 = importlib.util.module_from_spec( spec )
+            loader.exec_module( cf2 )
+            print('Validation_reference : %s' % cf2.Validation_reference)
+
+        else:
+            print("classical way")
+            import config as cf2
+
         sys.path.append(os.getcwd()) # path where you work
-        import config as cf2
         valEnv_d = env_default()
         DB = DecisionBox()
         net = networkFunctions()
@@ -62,7 +80,7 @@ class GevSeq():
         start = time.time()           # let's see how long this takes
 
         for val in listGeV: # loop over GUI configurations
-            print('\n ***** %s ***** \n' % val)
+            #print('\n ***** %s ***** \n' % val)
             validation = getattr(cf2, val)
             print('validation : %s' % validation) # temp
             release = validation[0][0]
@@ -331,7 +349,7 @@ class GevSeq():
             relFile = []
             refFile = []
             for elem1 in globos:
-                print('globos : %s' % elem1)
+                #print('globos : %s' % elem1)
                 relFile.append(elem1[1])
                 refFile.append(elem1[2])
 
@@ -409,7 +427,8 @@ class GevSeq():
                 else:
                     tl.deleteDatasetFolder3()  # delete DBox folder
                 
-                '''wp_defs = open('definitions.txt', 'w') # definitions for PHP page
+                '''
+                wp_defs = open('definitions.txt', 'w') # definitions for PHP page
                 wp_defs.write(CMP_TITLE + "\n") # LINE 7
 
                 wp_defs.write(relrefVT[0] + "\n")
@@ -430,7 +449,8 @@ class GevSeq():
                 else:
                     wp_defs.write('none' + "\n")
                 wp_defs.write(CMP_CONFIG + "\n")
-                wp_defs.close()'''
+                wp_defs.close()
+                '''
                 datas = []
                 datas.append(CMP_TITLE) # LINE 7
                 datas.append(relrefVT[0])
@@ -488,7 +508,7 @@ class GevSeq():
                             gif_name = "gifs/" + short_histo_names[0] + ".gif"
                             png_name = "pngs/" + short_histo_names[0] + ".png" # for DB yellow curves
                             png_cumul_name = "pngs/" + short_histo_names[0] + "_cum.png" # for DB yellow curves
-                            print('\nshort histo name : {:s}'.format(short_histo_names[0]))
+                            #print('\nshort histo name : {:s}'.format(short_histo_names[0]))
 
                             # creating shortHistoName file in DBox folder
                             if DB_flag:
