@@ -12,7 +12,7 @@ do not forget to update the KS_reference_release (if needed) and the Validation_
 
 #### launch the validation :
 then, when the config.py file is ready, you can launch the validation with :  
-python mainSeq.py
+python3 mainSeq.py
 
 #### work in local area 
 you have : workDir = os.getcwd() and the ROOT files are located into a DATA folder. If you use the preceeding instructions, the DATA folder is always created.
