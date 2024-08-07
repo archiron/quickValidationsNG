@@ -40,17 +40,23 @@ class GevSeq():
             spec = importlib.util.spec_from_loader( extFile, loader )
             cf2 = importlib.util.module_from_spec( spec )
             loader.exec_module( cf2 )
-            print('Validation_reference : %s' % cf2.Validation_reference)
 
         else:
             print("classical way")
             import config as cf2
 
+        Validation_reference = cf2.Validation_reference
+        web_repo = cf2.web_repo
+        KS_reference_release = cf2.KS_reference_release
+        print('Validation_reference : %s' % cf2.Validation_reference)
+        print('web_repo : %s' % cf2.web_repo)
+ 
         sys.path.append(os.getcwd()) # path where you work
         valEnv_d = env_default()
         DB = DecisionBox()
         net = networkFunctions()
         tl = Tools()
+        gr = Graphic()
 
         print('working in %s\n' % valEnv_d.workDir() )
 
@@ -108,6 +114,7 @@ class GevSeq():
                 tmp = valEnv_d.KS_Path()[2] + 'Releases/'
             print('KS_Path : %s' % valEnv_d.KS_Path())
             self.webURL = tmp
+            #Stop
 
             print('config relExtent %s' % releaseExtent)
             print('config refExtent %s' % referenceExtent)
@@ -505,6 +512,7 @@ class GevSeq():
                         if ( elem != "endLine" ):
 
                             short_histo_name, short_histo_names, histo_positions = tl.shortHistoName(elem)
+                            #gif_name = "gifs/" + short_histo_names[0] + ".C"
                             gif_name = "gifs/" + short_histo_names[0] + ".gif"
                             png_name = "pngs/" + short_histo_names[0] + ".png" # for DB yellow curves
                             png_cumul_name = "pngs/" + short_histo_names[0] + "_cum.png" # for DB yellow curves
@@ -538,11 +546,11 @@ class GevSeq():
                                     ycFlag = False
 
                             print('ycFlag : %s : %s' % (short_histo_names[0], ycFlag))
-                            PictureChoice(self, histo_1, histo_2, histo_positions[1], histo_positions[2], gif_name, 0)
+                            gr.PictureChoice(histo_1, histo_2, histo_positions[1], histo_positions[2], gif_name, 0)
                             if ycFlag:
                                 tl.createDatasetFolder2()
-                                PictureChoice_DB(self, histo_1, histo_3, histo_positions[1], histo_positions[2], png_name, 0, yellowCurves)
-                                PictureChoice_DB3(self, histo_1, histo_3, histo_positions[1], histo_positions[2], png_cumul_name, 0, yellowCurvesCum)
+                                gr.PictureChoice_DB(histo_1, histo_3, histo_positions[1], histo_positions[2], png_name, 0, yellowCurves)
+                                gr.PictureChoice_DB3(histo_1, histo_3, histo_positions[1], histo_positions[2], png_cumul_name, 0, yellowCurvesCum)
 
                                 percentage = 0.05
                                 #if ( KS_values_1[4] >= percentage ):

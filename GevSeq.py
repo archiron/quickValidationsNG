@@ -40,7 +40,11 @@ class GevSeq():
             spec = importlib.util.spec_from_loader( extFile, loader )
             cf2 = importlib.util.module_from_spec( spec )
             loader.exec_module( cf2 )
+            Validation_reference = cf2.Validation_reference
+            web_repo = cf2.web_repo
+            KS_reference_release = cf2.KS_reference_release
             print('Validation_reference : %s' % cf2.Validation_reference)
+            print('web_repo : %s' % cf2.web_repo)
 
         else:
             print("classical way")
@@ -51,6 +55,7 @@ class GevSeq():
         DB = DecisionBox()
         net = networkFunctions()
         tl = Tools()
+        gr = Graphic()
 
         print('working in %s\n' % valEnv_d.workDir() )
 
@@ -538,11 +543,11 @@ class GevSeq():
                                     ycFlag = False
 
                             print('ycFlag : %s : %s' % (short_histo_names[0], ycFlag))
-                            PictureChoice(self, histo_1, histo_2, histo_positions[1], histo_positions[2], gif_name, 0)
+                            gr.PictureChoice(histo_1, histo_2, histo_positions[1], histo_positions[2], gif_name, 0)
                             if ycFlag:
                                 tl.createDatasetFolder2()
-                                PictureChoice_DB(self, histo_1, histo_3, histo_positions[1], histo_positions[2], png_name, 0, yellowCurves)
-                                PictureChoice_DB3(self, histo_1, histo_3, histo_positions[1], histo_positions[2], png_cumul_name, 0, yellowCurvesCum)
+                                gr.PictureChoice_DB(histo_1, histo_3, histo_positions[1], histo_positions[2], png_name, 0, yellowCurves)
+                                gr.PictureChoice_DB3(histo_1, histo_3, histo_positions[1], histo_positions[2], png_cumul_name, 0, yellowCurvesCum)
 
                                 percentage = 0.05
                                 #if ( KS_values_1[4] >= percentage ):
