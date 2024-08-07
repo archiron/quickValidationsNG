@@ -17,17 +17,26 @@ import importlib.util
 
 sys.path.append('../ChiLib_CMS_Validation')
 
-from graphicFunctions import *
+from graphicFunctions import Graphic
 from functions import *
 from networkFunctions import networkFunctions
 from DecisionBox import DecisionBox
 from valEnv_default import env_default
 from config import * # WARNING, must be the local version and not the remote one !!!
 
+from sys import argv
+argv.append( '-b-' )
+import ROOT
+ROOT.gROOT.SetBatch(True)
+#ROOT.gErrorIgnoreLevel = ROOT.kWarning # remove info like : Info in <TCanvas::Print>: gif file gifs/h_ele_vertexPhi.gif has been created
+ROOT.gErrorIgnoreLevel = ROOT.kFatal # ROOT.kBreak # 
+argv.remove( '-b-' )
+
 class GevSeq():
     def __init__(self):
         print('begin to run')
-        initRoot()
+        gr = Graphic()
+        gr.initRoot()
 
         if len(sys.argv) > 1:
             print(sys.argv)
@@ -56,7 +65,6 @@ class GevSeq():
         DB = DecisionBox()
         net = networkFunctions()
         tl = Tools()
-        gr = Graphic()
 
         print('working in %s\n' % valEnv_d.workDir() )
 
@@ -406,7 +414,7 @@ class GevSeq():
                     print(input_rel_file)
 
                 f_rel = ROOT.TFile(input_rel_file)
-                h1 = getHisto(f_rel, tp_1)
+                h1 = gr.getHisto(f_rel, tp_1)
                 print('      h1 for dataset : %s' % dts)
                 print(h1)
 
@@ -419,7 +427,7 @@ class GevSeq():
                     print(input_ref_file)
 
                 f_ref = ROOT.TFile(input_ref_file)
-                h2 = getHisto(f_ref, tp_2)
+                h2 = gr.getHisto(f_ref, tp_2)
                 print("CMP_CONFIG = %s\n" % CMP_CONFIG)
                 print("input_rel_file = %s\n" % input_rel_file)
                 print("input_ref_file = %s\n" % input_ref_file)
@@ -430,7 +438,7 @@ class GevSeq():
                     print('DB_flag = True')
                     f_KS_file = valEnv_d.workDir() + '/DATA/' + str(KS_reference_ROOT_File)
                     f_KS = ROOT.TFile(f_KS_file)
-                    h3 = getHisto(f_KS, tp_1)
+                    h3 = gr.getHisto(f_KS, tp_1)
                 else:
                     tl.deleteDatasetFolder3()  # delete DBox folder
                 
