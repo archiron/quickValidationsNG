@@ -24,13 +24,19 @@ from DecisionBox import DecisionBox
 from valEnv_default import env_default
 from config import * # WARNING, must be the local version and not the remote one !!!
 
-from sys import argv
-argv.append( '-b-' )
+#from sys import argv
+#argv.append( '-b-' )
 import ROOT
 ROOT.gROOT.SetBatch(True)
 #ROOT.gErrorIgnoreLevel = ROOT.kWarning # remove info like : Info in <TCanvas::Print>: gif file gifs/h_ele_vertexPhi.gif has been created
 ROOT.gErrorIgnoreLevel = ROOT.kFatal # ROOT.kBreak # 
-argv.remove( '-b-' )
+ROOT.PyConfig.DisableRootLogon = True
+ROOT.PyConfig.IgnoreCommandLineOptions = True
+#argv.remove( '-b-' )
+
+root_version = ROOT.gROOT.GetVersion()
+print('PYTHON     version : {}'.format(sys.version))
+print("ROOT      version : {}".format(root_version))
 
 class GevSeq():
     def __init__(self):
@@ -434,13 +440,13 @@ class GevSeq():
                 print('      h2 for dataset : %s' % dts)
 
                 if (DB_flag == True):
-                    tl.createDatasetFolder3() # create DBox folder
+                    tl.createDBoxDatasetFolder() # create DBox folder
                     print('DB_flag = True')
                     f_KS_file = valEnv_d.workDir() + '/DATA/' + str(KS_reference_ROOT_File)
                     f_KS = ROOT.TFile(f_KS_file)
                     h3 = gr.getHisto(f_KS, tp_1)
                 else:
-                    tl.deleteDatasetFolder3()  # delete DBox folder
+                    tl.deleteDBoxDatasetFolder()  # delete DBox folder
                 
                 '''
                 wp_defs = open('definitions.txt', 'w') # definitions for PHP page
@@ -556,7 +562,7 @@ class GevSeq():
                             print('ycFlag : %s : %s' % (short_histo_names[0], ycFlag))
                             gr.PictureChoice(histo_1, histo_2, histo_positions[1], histo_positions[2], gif_name, 0)
                             if ycFlag:
-                                tl.createDatasetFolder2()
+                                tl.createPngDatasetFolder()
                                 gr.PictureChoice_DB(histo_1, histo_3, histo_positions[1], histo_positions[2], png_name, 0, yellowCurves)
                                 gr.PictureChoice_DB3(histo_1, histo_3, histo_positions[1], histo_positions[2], png_cumul_name, 0, yellowCurvesCum)
 
