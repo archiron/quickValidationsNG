@@ -4,7 +4,7 @@
 ################################################################################
 # GevSeqDev: a tool to generate Release Comparison                              
 #
-# version 3.0
+# version 3.2 : add png pictures
 #                                                                              
 # Arnaud Chiron-Turlay LLR - arnaud.chiron@llr.in2p3.fr                         
 #                                                                              
@@ -63,9 +63,11 @@ class GevSeq():
         Validation_reference = cf2.Validation_reference
         web_repo = cf2.web_repo
         KS_reference_release = cf2.KS_reference_release
+        picture_ext = cf2.picture_ext
         print('Validation_reference : %s' % cf2.Validation_reference)
         print('web_repo : %s' % cf2.web_repo)
- 
+        print('picture_ext : %s' % cf2.picture_ext)
+
         sys.path.append(os.getcwd()) # path where you work
         valEnv_d = env_default()
         DB = DecisionBox()
@@ -128,7 +130,6 @@ class GevSeq():
                 tmp = valEnv_d.KS_Path()[2] + 'Releases/'
             print('KS_Path : %s' % valEnv_d.KS_Path())
             self.webURL = tmp
-            #Stop
 
             print('config relExtent %s' % releaseExtent)
             print('config refExtent %s' % referenceExtent)
@@ -391,7 +392,7 @@ class GevSeq():
                 print('refFile : %s' % refFile)
 
                 dataSetFolder = str(relrefVT[0] + '-' + relrefVT[1] + '_' + dts)
-                tl.createDatasetFolder(dataSetFolder)
+                tl.createDatasetFolder(dataSetFolder, picture_ext) # gifs / pngs
                 os.chdir(dataSetFolder) # going to dataSetFolder
 
                 # get config files
@@ -528,8 +529,10 @@ class GevSeq():
                             short_histo_name, short_histo_names, histo_positions = tl.shortHistoName(elem)
                             #gif_name = "gifs/" + short_histo_names[0] + ".C"
                             gif_name = "gifs/" + short_histo_names[0] + ".gif"
+                            picture_name = picture_ext + "/" + short_histo_names[0] + '.' + picture_ext[0:-1]
                             png_name = "pngs/" + short_histo_names[0] + ".png" # for DB yellow curves
                             png_cumul_name = "pngs/" + short_histo_names[0] + "_cum.png" # for DB yellow curves
+                            print('\npicture name : {:s}'.format(picture_name))
                             #print('\nshort histo name : {:s}'.format(short_histo_names[0]))
 
                             # creating shortHistoName file in DBox folder
@@ -560,7 +563,7 @@ class GevSeq():
                                     ycFlag = False
 
                             print('ycFlag : %s : %s' % (short_histo_names[0], ycFlag))
-                            gr.PictureChoice(histo_1, histo_2, histo_positions[1], histo_positions[2], gif_name, 0)
+                            gr.PictureChoice(histo_1, histo_2, histo_positions[1], histo_positions[2], picture_name, 0)
                             if ycFlag:
                                 tl.createPngDatasetFolder()
                                 gr.PictureChoice_DB(histo_1, histo_3, histo_positions[1], histo_positions[2], png_name, 0, yellowCurves)

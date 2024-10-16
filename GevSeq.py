@@ -4,7 +4,7 @@
 ################################################################################
 # GevSeqDev: a tool to generate Release Comparison                              
 #
-# version 3.0
+# version 3.2 : add png pictures
 #                                                                              
 # Arnaud Chiron-Turlay LLR - arnaud.chiron@llr.in2p3.fr                         
 #                                                                              
@@ -24,13 +24,19 @@ from DecisionBox import DecisionBox
 from valEnv_default import env_default
 from config import * # WARNING, must be the local version and not the remote one !!!
 
-from sys import argv
-argv.append( '-b-' )
+#from sys import argv
+#argv.append( '-b-' )
 import ROOT
 ROOT.gROOT.SetBatch(True)
 #ROOT.gErrorIgnoreLevel = ROOT.kWarning # remove info like : Info in <TCanvas::Print>: gif file gifs/h_ele_vertexPhi.gif has been created
 ROOT.gErrorIgnoreLevel = ROOT.kFatal # ROOT.kBreak # 
-argv.remove( '-b-' )
+ROOT.PyConfig.DisableRootLogon = True
+ROOT.PyConfig.IgnoreCommandLineOptions = True
+#argv.remove( '-b-' )
+
+root_version = ROOT.gROOT.GetVersion()
+print('PYTHON     version : {}'.format(sys.version))
+print("ROOT      version : {}".format(root_version))
 
 class GevSeq():
     def __init__(self):
@@ -49,15 +55,18 @@ class GevSeq():
             spec = importlib.util.spec_from_loader( extFile, loader )
             cf2 = importlib.util.module_from_spec( spec )
             loader.exec_module( cf2 )
-            Validation_reference = cf2.Validation_reference
-            web_repo = cf2.web_repo
-            KS_reference_release = cf2.KS_reference_release
-            print('Validation_reference : %s' % cf2.Validation_reference)
-            print('web_repo : %s' % cf2.web_repo)
 
         else:
             print("classical way")
             import config as cf2
+
+        Validation_reference = cf2.Validation_reference
+        web_repo = cf2.web_repo
+        KS_reference_release = cf2.KS_reference_release
+        picture_ext = cf2.picture_ext
+        print('Validation_reference : %s' % cf2.Validation_reference)
+        print('web_repo : %s' % cf2.web_repo)
+        print('picture_ext : %s' % cf2.picture_ext)
 
         sys.path.append(os.getcwd()) # path where you work
         valEnv_d = env_default()
@@ -383,7 +392,7 @@ class GevSeq():
                 print('refFile : %s' % refFile)
 
                 dataSetFolder = str(relrefVT[0] + '-' + relrefVT[1] + '_' + dts)
-                tl.createDatasetFolder(dataSetFolder)
+                tl.createDatasetFolder(dataSetFolder, picture_ext) # gifs / pngs
                 os.chdir(dataSetFolder) # going to dataSetFolder
 
                 # get config files
@@ -432,13 +441,13 @@ class GevSeq():
                 print('      h2 for dataset : %s' % dts)
 
                 if (DB_flag == True):
-                    tl.createDatasetFolder3() # create DBox folder
+                    tl.createDBoxDatasetFolder() # create DBox folder
                     print('DB_flag = True')
                     f_KS_file = valEnv_d.workDir() + '/DATA/' + str(KS_reference_ROOT_File)
                     f_KS = ROOT.TFile(f_KS_file)
                     h3 = gr.getHisto(f_KS, tp_1)
                 else:
-                    tl.deleteDatasetFolder3()  # delete DBox folder
+                    tl.deleteDBoxDatasetFolder()  # delete DBox folder
                 
                 '''
                 wp_defs = open('definitions.txt', 'w') # definitions for PHP page
@@ -518,9 +527,12 @@ class GevSeq():
                         if ( elem != "endLine" ):
 
                             short_histo_name, short_histo_names, histo_positions = tl.shortHistoName(elem)
+                            #gif_name = "gifs/" + short_histo_names[0] + ".C"
                             gif_name = "gifs/" + short_histo_names[0] + ".gif"
+                            picture_name = picture_ext + "/" + short_histo_names[0] + '.' + picture_ext[0:-1]
                             png_name = "pngs/" + short_histo_names[0] + ".png" # for DB yellow curves
                             png_cumul_name = "pngs/" + short_histo_names[0] + "_cum.png" # for DB yellow curves
+                            print('\npicture name : {:s}'.format(picture_name))
                             #print('\nshort histo name : {:s}'.format(short_histo_names[0]))
 
                             # creating shortHistoName file in DBox folder
@@ -551,9 +563,9 @@ class GevSeq():
                                     ycFlag = False
 
                             print('ycFlag : %s : %s' % (short_histo_names[0], ycFlag))
-                            gr.PictureChoice(histo_1, histo_2, histo_positions[1], histo_positions[2], gif_name, 0)
+                            gr.PictureChoice(histo_1, histo_2, histo_positions[1], histo_positions[2], picture_name, 0)
                             if ycFlag:
-                                tl.createDatasetFolder2()
+                                tl.createPngDatasetFolder()
                                 gr.PictureChoice_DB(histo_1, histo_3, histo_positions[1], histo_positions[2], png_name, 0, yellowCurves)
                                 gr.PictureChoice_DB3(histo_1, histo_3, histo_positions[1], histo_positions[2], png_cumul_name, 0, yellowCurvesCum)
 
