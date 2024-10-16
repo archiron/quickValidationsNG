@@ -4,7 +4,7 @@
 ################################################################################
 # GevSeqDev: a tool to generate Release Comparison                              
 #
-# version 3.2 : add png pictures
+# version 3.3 : reduce the print/check part with new functions
 #                                                                              
 # Arnaud Chiron-Turlay LLR - arnaud.chiron@llr.in2p3.fr                         
 #                                                                              
@@ -40,14 +40,13 @@ print("ROOT      version : {}".format(root_version))
 
 class GevSeq():
     def __init__(self):
-        print('begin to run')
         gr = Graphic()
         gr.initRoot()
 
+        tl = Tools()
+
         if len(sys.argv) > 1:
-            print(sys.argv)
-            print("arg. 0 :", sys.argv[0]) # name of the script
-            print("arg. 1 :", sys.argv[1][:-3]) # name of the file to be used
+            tl.p_args(sys.argv)
             extFile = sys.argv[1]
             CompleteExtFile = os.getcwd()+'/'+ extFile
             # Import mymodule
@@ -55,84 +54,56 @@ class GevSeq():
             spec = importlib.util.spec_from_loader( extFile, loader )
             cf2 = importlib.util.module_from_spec( spec )
             loader.exec_module( cf2 )
-
         else:
-            print("classical way")
             import config as cf2
 
         Validation_reference = cf2.Validation_reference
         web_repo = cf2.web_repo
         KS_reference_release = cf2.KS_reference_release
         picture_ext = cf2.picture_ext
-        print('Validation_reference : %s' % cf2.Validation_reference)
-        print('web_repo : %s' % cf2.web_repo)
-        print('picture_ext : %s' % cf2.picture_ext)
+        tl.p_cf2(cf2)
 
         sys.path.append(os.getcwd()) # path where you work
         valEnv_d = env_default()
         DB = DecisionBox()
         net = networkFunctions()
-        tl = Tools()
 
-        print('working in %s\n' % valEnv_d.workDir() )
-
-        if os.path.exists(valEnv_d.workDir() + '/DATA/'): # True
-            print("/DATA/ already created\n")
-        else: # False
-            os.makedirs(valEnv_d.workDir() + '/DATA/')
+        tl.createWorkingDir(valEnv_d.workDir() + '/DATA/')
 
         mods = dir(cf2)
         listGeV = []
         for elem in mods:
             if re.search('GeV_', elem):
                 listGeV.append(elem)
-        print(listGeV)
-
-        #table1=getattr(cf2, listGeV[0])
-        print('')
 
         self.KS_reference_release = KS_reference_release
         if (KS_reference_release != ''):
             print('Kolmogorov-Smirnov reference release to be used if needed : %s' % KS_reference_release)
 
-        print('\nSequential')
-
-        # sequential
         # get time for begin
         start = time.time()           # let's see how long this takes
 
         for val in listGeV: # loop over GUI configurations
-            #print('\n ***** %s ***** \n' % val)
             validation = getattr(cf2, val)
-            print('validation : %s' % validation) # temp
             release = validation[0][0]
             reference = validation[0][1]
-            print('long rel : %s' % release) # temp
             shortRelease = release[6:] # CMSSW_ removed
             shortReference = reference[6:] # CMSSW_ removed
-            print('short rel : %s' % shortRelease) # temp
             releaseExtent = validation[1][0]
             referenceExtent = validation[1][1]
-            print('rel extent : %s' % releaseExtent) # temp
-            print('ref extent : %s' % referenceExtent) # temp
             choiceT = validation[3]
-            print('choiceT : %s' % choiceT) # temp
 
-            print('web repo : %s' % web_repo)
-            print('DB Flag : %s' % validation[7])
             relrefVT = validation[4]
-            print('relrefVT %s' % relrefVT)
             if (web_repo[1] == 'dev'):
                 tmp = valEnv_d.KS_Path()[2] + 'Dev/'
             elif(web_repo[1] == 'test'):
                 tmp = valEnv_d.KS_Path()[2] + 'Test/'
             else:
                 tmp = valEnv_d.KS_Path()[2] + 'Releases/'
-            print('KS_Path : %s' % valEnv_d.KS_Path())
             self.webURL = tmp
 
-            print('config relExtent %s' % releaseExtent)
-            print('config refExtent %s' % referenceExtent)
+            tl.p_RelRef(validation, release, reference, shortRelease, shortReference, releaseExtent, referenceExtent, choiceT, web_repo, validation[7], relrefVT, valEnv_d.KS_Path())
+
             if ( referenceExtent != '' ):
                 webFolder = choiceT + '_' + reference + "_" + referenceExtent
             else:
@@ -144,15 +115,7 @@ class GevSeq():
             self.shortWebFolder = webFolder
             webFolder = web_repo[0] + webFolder + '/'
 
-            if not os.path.exists(webFolder): # only create the first folder for saving gifs, i.e. release folder.
-                self.exist_webFolder = False
-            else:
-                self.exist_webFolder = True
-
-            if self.exist_webFolder: # True
-                print("%s already created\n" % str(webFolder))
-            else: # False
-                os.makedirs(str(webFolder))
+            tl.checkCreateWebFolder(webFolder)
 
             datasets = validation[2]
             N = len(datasets)
@@ -164,65 +127,41 @@ class GevSeq():
             for it3 in globalTag:
                 if ( it3 == '' ):
                     N_GT -= 1
-            if ( N_GT == 2*N):
-                print('OK for globalTags : %d' % N_GT)
-                print('globalTags : %s' % globalTag)
-            else:
-                print('PBM with globalTags, N = %d' % N_GT)
+            tl.checkN_GT(N_GT, N)
+            
             # need to test if there is as rel & ref files as datasets
             N_Files = len(validation[6])
             for it3 in validation[6]:
                 if ( it3 == '' ):
                     N_Files -= 1
-            print('N_Files : %d' % N_Files)
             relFile = validation[6][0::2] # must be rewritten
             refFile = validation[6][1::2]
-            if ( N_Files == 2*N):
-                print('OK for nb of files : %d' % N_Files)
-                print('rel file : %s' % relFile)
-                print('ref file : %s' % refFile)
-            else:
-                print('PBM with input files, N = %d' % N_Files)
-            print('')
+            tl.checkN_Files(N_Files, N, relFile, refFile)
 
             # begin test for GT/files
             nb_coherGT = 0
             if (N_GT > 0):
                 for it4 in globalTag:
-                    print(it4)
+                    print('Global Tag : %s' % it4)
                     if re.search(release, it4):
                         nb_coherGT +=1
                     elif re.search(reference, it4):
                         nb_coherGT +=1
-            if (nb_coherGT == N):
-                print('OK for GT')
-            else:
-                print('KO for GT')
+            tl.checkN_coherGT(nb_coherGT, N)
 
             nb_coherFiles = 0
             if (N_Files > 0):
                 for it4 in relFile:
-                    #print(it4)
                     if re.search(release, it4):
                         nb_coherFiles +=1
                     else:
                         nb_coherFiles -=1
                 for it4 in refFile:
-                    #print(it4)
                     if re.search(reference, it4):
                         nb_coherFiles +=1
                     else:
                         nb_coherFiles -=1
-                #for it4 in relFile: # test with datasets on files
-                #    if re.search(datasets[0], it4):
-                #        nb_coherFiles +=1
-                #    else:
-                #        nb_coherFiles -=1
-            print('nb_coherFiles : %d' % nb_coherFiles)
-            if (nb_coherFiles == 2*N):
-                print('OK for files')
-            else:
-                print('KO for files')
+            tl.checkN_coherFiles(nb_coherFiles, N)
 
             if ( nb_coherFiles > 0 ):
                 print('working with files for %s' % val)
@@ -232,15 +171,12 @@ class GevSeq():
                 # get the list for RELEASE
                 list_0 = net.list_search_0()
                 item_0 = ''
-                #print(list_0)
                 for item in list_0:
                     it = item[:-1]
-                    #print(it, shortRelease)
                     if re.search(it[6:], shortRelease):
                         print('OK pour %s' % item)
                         item_0 = it
                 releasesList_1 = net.list_search_1(item_0 + 'x')
-                #print('there is %d files for %s' % (len(releasesList_1), item_0))
                 # get the list for REFERENCE
                 if ( reference != release):
                     item_1 = ''
@@ -250,7 +186,6 @@ class GevSeq():
                             print('OK pour %s' % item)
                             item_1 = it
                     referencesList_1 = net.list_search_1(item_1 + 'x')
-                    #print('there is %d files for %s' % (len(referencesList_1), item_0))
                 else: # reference == release
                     referencesList_1 = releasesList_1
                     item_1 = item_0
@@ -259,14 +194,11 @@ class GevSeq():
                 for item in releasesList_1:
                     if re.search(shortRelease, item):
                         list_rel.append(item)
-                #print('there is %d release files for %s' % (len(list_rel), release))
-                #print(list_rel)
                 list_ref = []
                 for item in referencesList_1:
                     if re.search(shortReference, item):
                         list_ref.append(item)
-                #print('there is %d release files for %s' % (len(list_ref), reference))
-                #print(list_ref)
+                #tl.p_listRelRef(list_rel, list_ref, release, reference)
 
                 list_rel2 = [] # get the list of the files for all the datasets for release
                 nb_rel2 = [] # get the number of files per dataset
@@ -274,19 +206,15 @@ class GevSeq():
                     i = 0
                     for item2 in list_rel:
                         if re.search(item1, item2):
-                            #print(item2, item1)
                             list_rel2.append(item2)
                             i += 1
                     nb_rel2.append(i)
-                #for item1 in enumerate(list_rel2):
-                #    print('[%2d] : %s' %(item1[0], list_rel2[item1[0]]))
                 list_ref2 = [] # get the list of the files for all the datasets for reference
                 nb_ref2 = [] # get the number of files per dataset
                 for item1 in datasets:
                     i = 0
                     for item2 in list_ref:
                         if re.search(item1, item2):
-                            #print(item2, item1)
                             list_ref2.append(item2)
                             i += 1
                     nb_ref2.append(i)
@@ -304,12 +232,7 @@ class GevSeq():
                         for item2 in refFile:
                             if item1 == item2 :
                                 nb_refFiles += 1
-                    if (nb_relFiles + nb_refFiles) == nb_coherFiles:
-                        print('OK for files loading')
-                    else:
-                        print('PBM for files loading')
-                        print('%d + %d vs %d' % (nb_relFiles, nb_refFiles, nb_coherFiles))
-                        exit()
+                    tl.checkN_RelRefcoherFiles(nb_coherFiles, nb_relFiles, nb_refFiles)
                 elif (nb_coherGT > 0 ):
                     print('working with GT for %s' % val)
                     # extract files which correspond to GT
@@ -326,25 +249,15 @@ class GevSeq():
                         for item2 in refGT:
                             if re.search(item2, item1):
                                 ref3.append(item1)
-                    #print(rel3)
-                    #print(ref3)
                     relFile = list(set(rel3)) # rel3, elimine les doublons
                     refFile = list(set(ref3)) # ref3, elimine les doublons
                     relFile = [str(r) for r in relFile] # elimine le u'...'
                     refFile = [str(r) for r in refFile] # elimine le u'...'
-                    #print(relFile)
-                    #print(refFile)
-
-                # create new list from rel_files& ref_files
-                '''rel_ref = [] # not used in sequential line
-                for i in range(0, N):
-                    rel_ref.append([relFile[i], refFile[i]])'''
+                    #tl.p_listRelRefGT(relFile, refFile, release, reference)
 
                 # Load files
                 os.chdir(valEnv_d.workDir() + '/DATA/')
-                print('appel cmd_load_files')
-                print('item_0', item_0)
-                print('item_1', item_1)
+                tl.p_Items(item_0, item_1)
                 net.cmd_load_files(relFile, item_0+'x')
                 net.cmd_load_files(refFile, item_1+'x')
                 os.chdir(valEnv_d.workDir())
@@ -371,11 +284,9 @@ class GevSeq():
             relFile = []
             refFile = []
             for elem1 in globos:
-                #print('globos : %s' % elem1)
                 relFile.append(elem1[1])
                 refFile.append(elem1[2])
 
-            #stop
             #relFile = ['DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_1_0_pre5-121X_mcRun3_2021_realistic_v15-v1__DQMIO.root']
             #refFile = ['DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_1_0_pre4-121X_mcRun3_2021_realistic_v10-v1__DQMIO.root']
 
@@ -386,24 +297,15 @@ class GevSeq():
                 DB_flag = validation[7][i]
                 if (KS_reference_release == ''):
                     DB_flag = False # empty KS reference release always implies False
-                print('len dataset : %d - len relFile : %d - len refFile : %d' % (len(datasets), len(relFile), len(refFile)))
-                print('dataset : %s' % datasets)
-                print('relFile : %s' % relFile)
-                print('refFile : %s' % refFile)
+                tl.p_listRelRef(relFile, refFile, release, reference)
 
                 dataSetFolder = str(relrefVT[0] + '-' + relrefVT[1] + '_' + dts)
                 tl.createDatasetFolder(dataSetFolder, picture_ext) # gifs / pngs
                 os.chdir(dataSetFolder) # going to dataSetFolder
 
                 # get config files
-                #(it1, it2, tp_1, tp_2) = tl.testForDataSetsFile2(valEnv_d.tmpPath(), relrefVT, dts)
-                (it1, it2, tp_1, tp_2) = tl.testForDataSetsFile2(valEnv_d.tmpPath(), relrefVT, dts) # only for DEV !!!
-                print("config file for target : %s" % it1)
-                print("config file for reference : %s" % it2)
-                print("tree path for target : %s" % tp_1)
-                print("tree path for reference : %s" % tp_2)
-                print('chemin : %s' % os.getcwd())
-                print('tmpPath : %s' % valEnv_d.tmpPath())
+                (it1, it2, tp_1, tp_2) = tl.testForDataSetsFile2(valEnv_d.tmpPath(), relrefVT)
+                tl.p_valPaths(it1, it2, tp_1, tp_2, os.getcwd(), valEnv_d.tmpPath())
                 shutil.copy2(it1, 'config_target.txt')
                 shutil.copy2(it2, 'config_reference.txt')
 
@@ -422,8 +324,6 @@ class GevSeq():
 
                 f_rel = ROOT.TFile(input_rel_file)
                 h1 = gr.getHisto(f_rel, tp_1)
-                print('      h1 for dataset : %s' % dts)
-                print(h1)
 
                 input_ref_file = valEnv_d.workDir() + '/DATA/' + str(refFile[i])
 
@@ -436,11 +336,9 @@ class GevSeq():
                 f_ref = ROOT.TFile(input_ref_file)
                 h2 = gr.getHisto(f_ref, tp_2)
                 print("CMP_CONFIG = %s\n" % CMP_CONFIG)
-                print("input_rel_file = %s\n" % input_rel_file)
-                print("input_ref_file = %s\n" % input_ref_file)
-                print('      h2 for dataset : %s' % dts)
+                tl.p_inputRelRefFiles(input_rel_file, input_ref_file)
 
-                if (DB_flag == True):
+                if DB_flag:
                     tl.createDBoxDatasetFolder() # create DBox folder
                     print('DB_flag = True')
                     f_KS_file = valEnv_d.workDir() + '/DATA/' + str(KS_reference_ROOT_File)
@@ -449,30 +347,6 @@ class GevSeq():
                 else:
                     tl.deleteDBoxDatasetFolder()  # delete DBox folder
                 
-                '''
-                wp_defs = open('definitions.txt', 'w') # definitions for PHP page
-                wp_defs.write(CMP_TITLE + "\n") # LINE 7
-
-                wp_defs.write(relrefVT[0] + "\n")
-                wp_defs.write(shortRelease + "\n")
-                wp_defs.write(str(relFile[i]) + "\n") # LINE 8
-                wp_defs.write(relrefVT[1] + "\n")
-                wp_defs.write(shortReference + "\n")
-                wp_defs.write(str(refFile[i]) + "\n") # LINE 9
-
-                if (f_ref == 0):
-                    wp_defs.write(release + "\n")
-                    wp_defs.write(release + "\n")
-                else:
-                    wp_defs.write(release + "\n")
-                    wp_defs.write(reference + "\n")
-                if (Validation_reference != ""):
-                    wp_defs.write(Validation_reference + "\n")
-                else:
-                    wp_defs.write('none' + "\n")
-                wp_defs.write(CMP_CONFIG + "\n")
-                wp_defs.close()
-                '''
                 datas = []
                 datas.append(CMP_TITLE) # LINE 7
                 datas.append(relrefVT[0])
@@ -493,7 +367,6 @@ class GevSeq():
                     datas.append('none')
                 datas.append(CMP_CONFIG)
                 tl.createDefinitionsFile(datas, '')
-                #stop
 
                 # remplissage tableau titres et dict
                 histoArray_0 = {}
@@ -525,15 +398,13 @@ class GevSeq():
                 for i in range(0, len(titlesList)):
                     for elem in histoArray_0[titlesList[i]]:
                         if ( elem != "endLine" ):
-
                             short_histo_name, short_histo_names, histo_positions = tl.shortHistoName(elem)
-                            #gif_name = "gifs/" + short_histo_names[0] + ".C"
                             gif_name = "gifs/" + short_histo_names[0] + ".gif"
                             picture_name = picture_ext + "/" + short_histo_names[0] + '.' + picture_ext[0:-1]
                             png_name = "pngs/" + short_histo_names[0] + ".png" # for DB yellow curves
                             png_cumul_name = "pngs/" + short_histo_names[0] + "_cum.png" # for DB yellow curves
-                            print('\npicture name : {:s}'.format(picture_name))
-                            #print('\nshort histo name : {:s}'.format(short_histo_names[0]))
+                            #print('\npicture name : {:s}'.format(picture_name))
+                            print('{:s}/{:s}'.format(dts, short_histo_name))
 
                             # creating shortHistoName file in DBox folder
                             if DB_flag:
@@ -562,7 +433,7 @@ class GevSeq():
                                     print('no histo in {:s} for {:s}'.format(self.KS_reference_release, short_histo_names[0]))
                                     ycFlag = False
 
-                            print('ycFlag : %s : %s' % (short_histo_names[0], ycFlag))
+                            #print('ycFlag : %s : %s' % (short_histo_names[0], ycFlag))
                             gr.PictureChoice(histo_1, histo_2, histo_positions[1], histo_positions[2], picture_name, 0)
                             if ycFlag:
                                 tl.createPngDatasetFolder()
@@ -570,24 +441,19 @@ class GevSeq():
                                 gr.PictureChoice_DB3(histo_1, histo_3, histo_positions[1], histo_positions[2], png_cumul_name, 0, yellowCurvesCum)
 
                                 percentage = 0.05
-                                #if ( KS_values_1[4] >= percentage ):
                                 if ( KS_values_3[1] >= percentage ):
-                                    #color = 'green'
                                     DB_picture = valEnv_d.imageOK()
                                 else:
-                                    #color = 'red'
                                     DB_picture = valEnv_d.imageKO()
                             if (  histo_positions[3] == "0" ):
                                 # insert here the decision box
                                 if DB_flag and ycFlag:
                                     KS_V = [KS_values_1, KS_values_2, KS_values_3]
-                                    #KS_V = [KS_values_1]
                                     Names = [short_histo_name, gif_name, short_histo_names[0], png_name, png_cumul_name]
                                     DB.DBwebPage(fHisto, Names, KS_V, DB_picture, self.webURL, self.shortWebFolder, dataSetFolder, KS_Path0, KS_Path1, ycFlag, shortRelease, shortReference)
                             else: # line_sp[3]=="1"
                                 if DB_flag and ycFlag:
                                     KS_V = [KS_values_1, KS_values_2, KS_values_3]
-                                    #KS_V = [KS_values_1]
                                     Names = [short_histo_name, gif_name, short_histo_names[0], png_name, png_cumul_name]
                                     DB.DBwebPage(fHisto, Names, KS_V, DB_picture, self.webURL, self.shortWebFolder, dataSetFolder, KS_Path0, KS_Path1, ycFlag, shortRelease, shortReference)
 
