@@ -2,8 +2,8 @@
 
 if you want to make validations (simple ones) without GUI, you can make it with this script. See README file for use.
 
-** 16/10/2024 ** - reduce the print/check part with new functions.  
-** 15/10/2024 ** - add png pictures creation.  
+**16/10/2024** - reduce the print/check part with new functions.  
+**15/10/2024** - add png pictures creation.  
 
 #### First of all you have to create a local area for the work
 #### go into your favorite folder, and execute the following commands :
