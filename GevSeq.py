@@ -335,11 +335,6 @@ class GevSeq():
                     #print(relFile)
                     #print(refFile)
 
-                # create new list from rel_files& ref_files
-                '''rel_ref = [] # not used in sequential line
-                for i in range(0, N):
-                    rel_ref.append([relFile[i], refFile[i]])'''
-
                 # Load files
                 os.chdir(valEnv_d.workDir() + '/DATA/')
                 print('appel cmd_load_files')
@@ -397,7 +392,7 @@ class GevSeq():
 
                 # get config files
                 #(it1, it2, tp_1, tp_2) = tl.testForDataSetsFile2(valEnv_d.tmpPath(), relrefVT, dts)
-                (it1, it2, tp_1, tp_2) = tl.testForDataSetsFile2(valEnv_d.tmpPath(), relrefVT, dts) # only for DEV !!!
+                (it1, it2, tp_1, tp_2) = tl.testForDataSetsFile2(valEnv_d.tmpPath(), relrefVT) # only for DEV !!!
                 print("config file for target : %s" % it1)
                 print("config file for reference : %s" % it2)
                 print("tree path for target : %s" % tp_1)
@@ -449,30 +444,6 @@ class GevSeq():
                 else:
                     tl.deleteDBoxDatasetFolder()  # delete DBox folder
                 
-                '''
-                wp_defs = open('definitions.txt', 'w') # definitions for PHP page
-                wp_defs.write(CMP_TITLE + "\n") # LINE 7
-
-                wp_defs.write(relrefVT[0] + "\n")
-                wp_defs.write(shortRelease + "\n")
-                wp_defs.write(str(relFile[i]) + "\n") # LINE 8
-                wp_defs.write(relrefVT[1] + "\n")
-                wp_defs.write(shortReference + "\n")
-                wp_defs.write(str(refFile[i]) + "\n") # LINE 9
-
-                if (f_ref == 0):
-                    wp_defs.write(release + "\n")
-                    wp_defs.write(release + "\n")
-                else:
-                    wp_defs.write(release + "\n")
-                    wp_defs.write(reference + "\n")
-                if (Validation_reference != ""):
-                    wp_defs.write(Validation_reference + "\n")
-                else:
-                    wp_defs.write('none' + "\n")
-                wp_defs.write(CMP_CONFIG + "\n")
-                wp_defs.close()
-                '''
                 datas = []
                 datas.append(CMP_TITLE) # LINE 7
                 datas.append(relrefVT[0])

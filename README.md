@@ -2,6 +2,7 @@
 
 if you want to make validations (simple ones) without GUI, you can make it with this script. See README file for use.
 
+**17/10/2024** - minor bug correction (tesForDataSetsFile2()). new display for dataset operation.  
 **16/10/2024** - reduce the print/check part with new functions.  
 **15/10/2024** - add png pictures creation.  
 

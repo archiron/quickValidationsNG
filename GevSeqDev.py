@@ -287,8 +287,8 @@ class GevSeq():
                 relFile.append(elem1[1])
                 refFile.append(elem1[2])
 
-            #relFile = ['DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_1_0_pre5-121X_mcRun3_2021_realistic_v15-v1__DQMIO.root']
-            #refFile = ['DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_1_0_pre4-121X_mcRun3_2021_realistic_v10-v1__DQMIO.root']
+            #relFile = ['DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_14_1_0_pre7-140X_mcRun3_2024_realistic_v21_STD_RegeneratedGS_2024_noPU-v1__DQMIO.root', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre7-140X_mcRun3_2024_realistic_v21_STD_RegeneratedGS_2024_noPU-v1__DQMIO.root', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_14_1_0_pre7-140X_mcRun3_2024_realistic_v21_STD_2024_PU-v1__DQMIO.root', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre7-140X_mcRun3_2024_realistic_v21_STD_2024_PU-v1__DQMIO.root']
+            #refFile = ['DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_14_1_0_pre5-140X_mcRun3_2024_realistic_v11_STD_2024_noPU-v1__DQMIO.root', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre5-140X_mcRun3_2024_realistic_v11_STD_2024_noPU-v1__DQMIO.root', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_14_1_0_pre5-PU_140X_mcRun3_2024_realistic_v11_STD_2024_PU-v1__DQMIO.root', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre5-PU_140X_mcRun3_2024_realistic_v11_STD_2024_PU-v1__DQMIO.root']
 
             for i, elt in enumerate(datasets):
                 dts = elt
@@ -404,7 +404,7 @@ class GevSeq():
                             png_name = "pngs/" + short_histo_names[0] + ".png" # for DB yellow curves
                             png_cumul_name = "pngs/" + short_histo_names[0] + "_cum.png" # for DB yellow curves
                             #print('\npicture name : {:s}'.format(picture_name))
-                            print('{:s}/{:s}'.format(dts, short_histo_name))
+                            print('[{:s}, {:s}] - {:s}/{:s}'.format(relrefVT[0], relrefVT[1], dts, short_histo_name))
 
                             # creating shortHistoName file in DBox folder
                             if DB_flag:
