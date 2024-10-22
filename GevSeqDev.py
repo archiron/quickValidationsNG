@@ -127,7 +127,7 @@ class GevSeq():
             for it3 in globalTag:
                 if ( it3 == '' ):
                     N_GT -= 1
-            tl.checkN_GT(N_GT, N)
+            tl.checkN_GT(N_GT, N, globalTag)
             
             # need to test if there is as rel & ref files as datasets
             N_Files = len(validation[6])
