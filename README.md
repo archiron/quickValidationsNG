@@ -2,6 +2,7 @@
 
 if you want to make validations (simple ones) without GUI, you can make it with this script. See README file for use.
 
+**04/11/2024** - add a test for the correct writteness of picture_ext.
 **22/10/2024** - minor bug correction : transfert of globalTag into a check function.
 **17/10/2024** - minor bug correction (tesForDataSetsFile2()). new display for dataset operation.  
 **16/10/2024** - reduce the print/check part with new functions.  

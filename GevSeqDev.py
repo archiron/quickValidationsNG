@@ -62,6 +62,7 @@ class GevSeq():
         KS_reference_release = cf2.KS_reference_release
         picture_ext = cf2.picture_ext
         tl.p_cf2(cf2)
+        tl.checkPictureExt(picture_ext)
 
         sys.path.append(os.getcwd()) # path where you work
         valEnv_d = env_default()
