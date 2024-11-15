@@ -1,48 +1,48 @@
 #! /usr/bin/env python
 #-*-coding: utf-8 -*-
 
-import os,sys
 
 #############################################################################
 # global data
 web_repo = ['/eos/project/c/cmsweb/www/egamma/validation/Electrons/Releases/', 'std']
-KS_reference_release = ''
-Validation_reference = 'https://hypernews.cern.ch/HyperNews/CMS/get/relval/16012.html'
+KS_reference_release = '' # can be empty
+Validation_reference = 'https://cms-talk.web.cern.ch/t/valdb-14-2-0-pre2-2024-campaign-notification/57117'
+picture_ext = 'pngs' # gifs / pngs for picture format
 
 # personalization 1
 GeV_1 = [
-['CMSSW_12_1_0_pre4', 'CMSSW_12_1_0_pre3'] , # release/reference
-['2021', ''] , # relref_extent
-['TTbar_14TeV', 'ZEE_14'] , # datasets
+['CMSSW_14_2_0_pre2', 'CMSSW_14_2_0_pre1'] , # release/reference
+['2024', ''] , # relref_extent
+['TTbar_14TeV', 'ZEE_14', 'ZpToEE_m6000_14TeV'] , # datasets, 'ZEE_14'
 'FullvsFull' , # choice
 ['RECO', 'RECO'] , # relrefValtype RECO vs RECO
-['CMSSW_12_1_0_pre4-121X_mcRun3_2021_realistic_v10-v1', 'CMSSW_12_1_0_pre3-121X_mcRun3_2021_realistic_v2-v1'] , # GT one couple rel/ref for all dataset
+['CMSSW_14_2_0_pre2-140X_mcRun3_2024_realistic_v25_STD_RegeneratedGS_2024_noPU-v1', 'CMSSW_14_2_0_pre1-140X_mcRun3_2024_realistic_v21_STD_RegeneratedGS_2024_noPU-v1'] , # GT one couple rel/ref for all dataset
 ['', ''] , # relref files one couple rel/ref for each dataset
-[False, False], # DB flag
+[False, False, False], # DB flag, False
 ]
 
 # personalization 2
 GeV_2 = [
-['CMSSW_12_1_0_pre4', 'CMSSW_12_1_0_pre3'] , # release/reference
-['2021', ''] , # relref_extent
-['TTbar_14TeV', 'ZEE_14'] , # datasets
+['CMSSW_14_2_0_pre2', 'CMSSW_14_2_0_pre1'] , # release/reference
+['2024', ''] , # relref_extent
+['TTbar_14TeV', 'ZEE_14', 'ZpToEE_m6000_14TeV'] , # datasets, 'ZEE_14'
 'FullvsFull' , # choice
 ['PU', 'PU'] , # relrefValtype RECO vs RECO
-['CMSSW_12_1_0_pre4-PU_121X_mcRun3_2021_realistic_v10-v2', 'CMSSW_12_1_0_pre3-PU_121X_mcRun3_2021_realistic_v2-v1'] ,
+['CMSSW_14_2_0_pre2-PU_140X_mcRun3_2024_realistic_v25_STD_2024_PU-v1', 'CMSSW_14_2_0_pre1-PU_140X_mcRun3_2024_realistic_v21_STD_2024_PU-v3'] , # GT one couple rel/ref for all dataset
 ['', ''] , # relref files one couple rel/ref for each dataset
-[False, False], # DB flag
+[False, False, False], # DB flag, False
 ]
 
 # personalization 3
 GeV_3 = [
-['CMSSW_12_1_0_pre4', 'CMSSW_12_1_0_pre4'] , # release/reference
-['2021', ''] , # relref_extent
-['TTbar_14TeV', 'ZEE_14'] , # datasets
+['CMSSW_14_2_0_pre2', 'CMSSW_14_2_0_pre2'] , # release/reference
+['2024', ''] , # relref_extent
+['TTbar_14TeV', 'ZEE_14', 'ZpToEE_m6000_14TeV'] , # datasets, 'ZEE_14'
 'FullvsFull' , # choice
 ['RECO', 'miniAOD'] , # relrefValtype RECO vs RECO
-['CMSSW_12_1_0_pre4-121X_mcRun3_2021_realistic_v10-v1', 'CMSSW_12_1_0_pre4-121X_mcRun3_2021_realistic_v10-v1'] , # GT one couple rel/ref for all dataset
+['CMSSW_14_2_0_pre2-140X_mcRun3_2024_realistic_v25_STD_RegeneratedGS_2024_noPU-v1', 'CMSSW_14_2_0_pre2-140X_mcRun3_2024_realistic_v25_STD_RegeneratedGS_2024_noPU-v1'] , # GT one couple rel/ref for all dataset
 ['', ''] , # relref files one couple rel/ref for each dataset
-[False, False], # DB flag
+[False, False, False], # DB flag, False
 ]
 
 #############################################################################
