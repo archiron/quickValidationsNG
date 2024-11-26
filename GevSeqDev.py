@@ -301,6 +301,8 @@ class GevSeq():
                 tl.p_listRelRef(relFile, refFile, release, reference)
 
                 dataSetFolder = str(relrefVT[0] + '-' + relrefVT[1] + '_' + dts)
+                if (relrefVT[2] != ''):
+                    dataSetFolder = str(relrefVT[2] + '-') + dataSetFolder
                 tl.createDatasetFolder(dataSetFolder, picture_ext) # gifs / pngs
                 os.chdir(dataSetFolder) # going to dataSetFolder
 
