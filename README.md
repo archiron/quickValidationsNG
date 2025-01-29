@@ -2,6 +2,7 @@
 
 if you want to make validations (simple ones) without GUI, you can make it with this script. See README file for use.
 
+**29/01/2025** - Add a KS check (KS folder) to generate some comparisons pictures with KS.
 **26/11/2024** - add a correction for TProfiles into graphicFunctions.py
 **22/11/2024** - add a correction for Pt1000 & Fake cases.
 **04/11/2024** - add a test for the correct writteness of picture_ext.
