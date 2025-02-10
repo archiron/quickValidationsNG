@@ -67,7 +67,7 @@ tp_1 = 'ElectronMcSignalValidator'
 
 from controlFunctions import *
 from graphicFunctions import Graphic
-from graphicAutoEncoderFunctions import createCompLossesPicture
+from graphicAutoEncoderFunctions import createCompLossesPicture, createCompLossesPicture3
 from DecisionBox import DecisionBox
 from rootSources import *
 from functions import *
@@ -99,8 +99,9 @@ for elem in mods:
         listGeV.append(elem)
 print(listGeV)
 
-for val in listGeV: # loop over GUI configurations
-    validation = getattr(cf2, val)
+tic = time.time()
+for valGeV in listGeV: # loop over GUI configurations
+    validation = getattr(cf2, valGeV)
     release = validation[0][0]
     reference = validation[0][1]
     shortRelease = release[6:] # CMSSW_ removed
@@ -110,36 +111,72 @@ for val in listGeV: # loop over GUI configurations
     choiceT = validation[3] # Must be FullvsFull
     relrefVT = validation[4] # RECO, RECO
 
+    # get config files
+    print('{:s}'.format(valGeV))
+    (it1, it2, tp_1, tp_2) = tl.testForDataSetsFile2(pathChiLib + '/HistosConfigFiles/', relrefVT)
+    tl.p_valPaths(it1, it2, tp_1, tp_2, os.getcwd(), pathChiLib)
+    print('it1 : {:s}'.format(it1))
+    print('it2 : {:s}'.format(it2))
+    print('tp_1 : {:s}'.format(tp_1))
+    print('tp_2 : {:s}'.format(tp_2))
+    if (tp_2 == 'ElectronMcSignalValidatorMiniAOD'):
+        tp_1 = tp_2
+
     # print variables
     #tl.p_RelRef(validation, release, reference, shortRelease, shortReference, releaseExtent, referenceExtent, choiceT, web_repo, validation[7], relrefVT, valEnv_d.KS_Path())
-
     if ((relrefVT[0] == 'RECO') and (relrefVT[1] == 'RECO')):
-        if ( referenceExtent != '' ):
-            webFolder = choiceT + '_' + reference + "_" + referenceExtent
-        else:
-            webFolder = choiceT + '_' + reference
-        if ( releaseExtent != '' ):
-            webFolder = shortRelease + "_" + releaseExtent + "_DQM_" + web_repo[1] + '/' + webFolder
-        else:
-            webFolder = shortRelease + "_DQM_" + web_repo[1] + '/' + webFolder
-        shortWebFolder = webFolder
-        webFolder = web_repo[0] + webFolder + '/'
-        print('webFolder : {:s}'.format(webFolder))
+        choice = 'RECO'
+    elif ((relrefVT[0] == 'RECO') and (relrefVT[1] == 'miniAOD')):
+        choice = 'RECO'
+    elif ((relrefVT[0] == 'PU') and (relrefVT[1] == 'PU')):
+        choice = 'PU'
+    print('choice = {:s}'.format(choice))
 
-        tl.checkCreateWebFolder(webFolder)
+    #if ((relrefVT[0] == 'RECO') and (relrefVT[1] == 'RECO')):
+    if ( referenceExtent != '' ):
+        webFolder = choiceT + '_' + reference + "_" + referenceExtent
+    else:
+        webFolder = choiceT + '_' + reference
+    if ( releaseExtent != '' ):
+        webFolder = shortRelease + "_" + releaseExtent + "_DQM_" + web_repo[1] + '/' + webFolder
+    else:
+        webFolder = shortRelease + "_DQM_" + web_repo[1] + '/' + webFolder
+    shortWebFolder = webFolder
+    webFolder = web_repo[0] + webFolder + '/'
+    print('webFolder : {:s}'.format(webFolder))
 
-        datasets = validation[2]
-        N = len(datasets)
-        print('For %s there is %d datasets : %s' % (val, N, datasets))
-        globalTag = validation[5]
-        print(globalTag)
+    tl.checkCreateWebFolder(webFolder)
 
-        # get the branches for ElectronMcSignalHistos.txt
-        branches = []
-        source = pathChiLib + "/HistosConfigFiles/ElectronMcSignalHistos.txt"
-        print('source %s' % source)
-        branches = getBranches(tp_1, source)
-        cleanBranches(branches) # remove some histo wich have a pbm with KS.
+    datasets = validation[2]
+    N = len(datasets)
+    print('For %s there is %d datasets : %s' % (valGeV, N, datasets))
+    globalTag = validation[5]
+    #print(globalTag)
+
+    # get the branches for ElectronMcSignalHistos.txt
+    branches = []
+    source = it1 # pathChiLib + "/HistosConfigFiles/ElectronMcSignalHistos.txt"
+    print('source %s' % source)
+    branches = getBranches(tp_1, source)
+    cleanBranches(branches) # remove some histo wich have a pbm with KS.
+
+    N_histos = len(branches)
+    print('N_histos : %d' % N_histos)
+
+    #dts = 'ZEE_14'
+    for dts in datasets:
+        print('{:s}[{:s}]'.format(valGeV, dts))
+    
+        if (dts == 'ZEE_14'):
+            rootSources = rootSourcesRelValZEE_14mcRun3RECO
+        elif (dts == 'TTbar_14TeV'):
+            rootSources = rootSourcesRelValTTbar_14TeVmcRun3RECO
+        elif (dts == 'SingleEFlatPt2To100'):
+            rootSources = rootSourcesRelValSingleEFlatPt2To100mcRun4RECO
+        elif (dts == 'ZpToEE_m6000_14TeV'):
+            rootSources = rootSourcesRelValZpToEE_m6000_14TeVmcRun4RECO
+        #print(rootSources)
+        #Stop()
 
         rels = []
         tmp_branches = []
@@ -147,10 +184,6 @@ for val in listGeV: # loop over GUI configurations
         rels2 = []
         tmp_branches2 = []
         nb_ttl_histos2 = []
-
-        N_histos = len(branches)
-        print('N_histos : %d' % N_histos)
-        dts = 'ZEE_14'
 
         os.chdir(webFolder) # going into finalFolder
 
@@ -164,7 +197,7 @@ for val in listGeV: # loop over GUI configurations
         # create first picture other the partial release list
         tmpSource1 = []
         for elem in rootSources:
-            print(elem)
+            #print(elem)
             if ((elem[0] == '+') or (elem[0] == '*')):
                 tmpSource1.append(elem[1])
                 if (elem[0] == '*'):
@@ -174,13 +207,13 @@ for val in listGeV: # loop over GUI configurations
                     print('extracted release : {:s}'.format(release))
         rootFilesList = []
         for elem in tmpSource1:
-            print('elem : {:s}'.format(elem))
+            #print('elem : {:s}'.format(elem))
             name = pathDATA + '/' + elem
             if exists(name):
                 rootFilesList.append(elem)
             else:
                 print("{:s} n'existe pas".format(name))
-        print(rootFilesList)
+        #print(rootFilesList)
 
         print('we use the files :')
         for item in rootFilesList:
@@ -241,7 +274,6 @@ for val in listGeV: # loop over GUI configurations
         diffTab = pd.DataFrame()
         print(diffTab)
         toto = []
-        tic = time.time()
 
         for i in range(0, N_histos):#, N_histos-1 range(N_histos - 1, N_histos):  # 1 N_histos histo for debug
             #print('histo : {:s}'.format(branches[i])) # print histo name
@@ -310,7 +342,9 @@ for val in listGeV: # loop over GUI configurations
                 pictureName = webFolder + dataSetFolder + '/pngs/maxDiff_comparison_' + branches[i] + '_1.png' # 
                 print(pictureName)
                 title = 'KS cum diff values vs releases. ' + branches[i]
-                createCompLossesPicture(lab,val, pictureName, title, 'Releases', 'max diff')
+                #createCompLossesPicture(lab,val, pictureName, title, 'Releases', 'max diff')
+                #pictureName = webFolder + dataSetFolder + '/pngs/maxDiff_comparison_' + branches[i] + '_3.png' # 
+                createCompLossesPicture3(lab,val, pictureName, title, 'Releases', 'max diff')
             else:
                 print('%s KO' % branches[i])
         diffTab = pd.DataFrame(toto, columns=r_rels)
@@ -386,6 +420,7 @@ for val in listGeV: # loop over GUI configurations
             print('len new branches : {:d}'.format(len(newBranches2)))
             branches = newBranches2
             N_histos = len(branches)
+
         print('N_histos : %d' % N_histos)
 
         sortedRels2 = sorted(rels2, key = lambda x: x[0]) # gives an array with releases sorted
@@ -471,7 +506,8 @@ for val in listGeV: # loop over GUI configurations
                 pictureName = webFolder + dataSetFolder + '/pngs/maxDiff_comparison_' + branches[i] + '_2.png' # 
                 print(pictureName)
                 title = 'KS cum diff values vs releases. ' + branches[i]
-                createCompLossesPicture(lab,val, pictureName, title, 'Releases', 'max diff')
+                #createCompLossesPicture(lab,val, pictureName, title, 'Releases', 'max diff')
+                createCompLossesPicture3(lab,val, pictureName, title, 'Releases', 'max diff')
             else:
                 print('%s KO' % branches[i])
         diffTab = pd.DataFrame(toto, columns=r_rels2)
@@ -488,7 +524,7 @@ for val in listGeV: # loop over GUI configurations
         title = r"$\bf{total}$" + ' : KS cum diff values vs releases.'
         createCompLossesPicture(lab,val, pictureName, title, 'Releases', 'max diff')
 
-        toc = time.time()
-        print('Done in {:.4f} seconds'.format(toc-tic))
+    toc = time.time()
+    print('Done in {:.4f} seconds'.format(toc-tic))
 
 print("Fin !")
