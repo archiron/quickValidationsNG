@@ -15,10 +15,6 @@
 #            '+' : selected
 #            '*' : selected AND reference
 
-# dict
-rootDict = {'ZEE_14': 'rootSourcesZEE_14noPU', 'TTbar_14TeV': 'rootSourcesTTbar_14TeVnoPU'}
-#rootDict = dict(rootSourcesZEE_14noPU=rootSourcesZEE_14noPU,rootSourcesTTbar_14TeVnoPU=rootSourcesTTbar_14TeVnoPU)
-
 # get the "sources" root file datas
 rootSourcesZEE_14noPU = [
     ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_5_0_pre4-124X_mcRun3_2022_realistic_v10-v1__DQMIO.root'],
@@ -80,6 +76,7 @@ rootSourcesRelValSingleEFlatPt2To100mcRun4RECO = [
     ['+', 'DQM_V0001_R000000001__RelValSingleEFlatPt2To100__CMSSW_14_2_0_pre3-141X_mcRun4_realistic_v3_STD_RegeneratedGS_2026D110_noPU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValSingleEFlatPt2To100__CMSSW_14_2_0_pre4-141X_mcRun4_realistic_v3_STD_RegeneratedGS_2026D110_noPU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValSingleEFlatPt2To100__CMSSW_15_0_0_pre1-141X_mcRun4_realistic_v3_STD_RecycledGS_Run4D110_noPU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValSingleEFlatPt2To100__CMSSW_15_0_0_pre2-141X_mcRun4_realistic_v3_STD_RecycledGS_Run4D110_noPU-v1__DQMIO.root'],
 ]
 
 # RelValSingleEFlatPt2To100-mcRun4-PU
@@ -94,6 +91,7 @@ rootSourcesRelValSingleEFlatPt2To100mcRun4PU = [
     ['+', 'DQM_V0001_R000000001__RelValSingleEFlatPt2To100__CMSSW_14_2_0_pre3-PU_141X_mcRun4_realistic_v3_STD_2026D110_PU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValSingleEFlatPt2To100__CMSSW_14_2_0_pre4-PU_141X_mcRun4_realistic_v3_STD_2026D110_PU-v2__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValSingleEFlatPt2To100__CMSSW_15_0_0_pre1-PU_141X_mcRun4_realistic_v3_STD_Run4D110_PU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValSingleEFlatPt2To100__CMSSW_15_0_0_pre2-PU_141X_mcRun4_realistic_v3_STD_Run4D110_PU-v1__DQMIO.root',]
 ]
 
 # RelValTTbar_14TeV-mcRun4-noPU
@@ -130,6 +128,7 @@ rootSourcesRelValTTbar_14TeVmcRun4RECO = [
     ['-', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_14_2_0_pre3-141X_mcRun4_realistic_v3_STD_RegeneratedGS_2026D110_noPU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_14_2_0_pre4-141X_mcRun4_realistic_v3_STD_RegeneratedGS_2026D110_noPU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_15_0_0_pre1-141X_mcRun4_realistic_v3_STD_RecycledGS_Run4D110_noPU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_15_0_0_pre2-141X_mcRun4_realistic_v3_STD_RecycledGS_Run4D110_noPU-v1__DQMIO.root'],
 ]
 
 # RelValTTbar_14TeV-mcRun3-noPU
@@ -169,6 +168,7 @@ rootSourcesRelValTTbar_14TeVmcRun3RECO = [
     ['-', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_14_2_0_pre3-140X_mcRun3_2024_realistic_v26_STD_RegeneratedGS_2024_noPU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_14_2_0_pre4-140X_mcRun3_2024_realistic_v26_STD_RecylcedGS_2024_noPU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_15_0_0_pre1-140X_mcRun3_2024_realistic_v26_STD_RecylcedGS_2024_noPU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_15_0_0_pre2-142X_mcRun3_2025_realistic_v2_STD_RecycledGS_2025_noPU-v1__DQMIO.root'],
 ]
 
 # RelValTTbar_14TeV-mcRun4-PU
@@ -205,6 +205,7 @@ rootSourcesRelValTTbar_14TeVmcRun4PU = [
     ['-', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_14_2_0_pre3-PU_141X_mcRun4_realistic_v3_STD_2026D110_PU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_14_2_0_pre4-PU_141X_mcRun4_realistic_v3_STD_2026D110_PU-v2__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_15_0_0_pre1-PU_141X_mcRun4_realistic_v3_STD_Run4D110_PU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_15_0_0_pre2-PU_141X_mcRun4_realistic_v3_STD_Run4D110_PU-v1__DQMIO.root'],
 ]
 
 # RelValTTbar_14TeV-mcRun3-PU
@@ -243,6 +244,7 @@ rootSourcesRelValTTbar_14TeVmcRun3PU = [
     ['-', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_14_2_0_pre3-PU_140X_mcRun3_2024_realistic_v26_STD_2024_PU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_14_2_0_pre4-PU_142X_mcRun3_2025_realistic_v1_STD_2025_PU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_15_0_0_pre1-PU_140X_mcRun3_2024_realistic_v26_STD_2024_PU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_15_0_0_pre2-PU_142X_mcRun3_2025_realistic_v4_STD_RegeneratedGS_2025_PU-v1__DQMIO.root'],
 ]
 
 # RelValZEE_14-mcRun4-noPU
@@ -279,6 +281,7 @@ rootSourcesRelValZEE_14mcRun4RECO = [
     ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_2_0_pre3-141X_mcRun4_realistic_v3_STD_RegeneratedGS_2026D110_noPU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_2_0_pre4-141X_mcRun4_realistic_v3_STD_RegeneratedGS_2026D110_noPU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre1-141X_mcRun4_realistic_v3_STD_RecycledGS_Run4D110_noPU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre2-141X_mcRun4_realistic_v3_STD_RecycledGS_Run4D110_noPU-v1__DQMIO.root'],
 ]
 
 # RelValZEE_14-mcRun3-noPU
@@ -318,6 +321,7 @@ rootSourcesRelValZEE_14mcRun3RECO = [
     ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_2_0_pre3-140X_mcRun3_2024_realistic_v26_STD_RegeneratedGS_2024_noPU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_2_0_pre4-140X_mcRun3_2024_realistic_v26_STD_RecylcedGS_2024_noPU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre1-140X_mcRun3_2024_realistic_v26_STD_RecylcedGS_2024_noPU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre2-142X_mcRun3_2025_realistic_v2_STD_RecycledGS_2025_noPU-v1__DQMIO.root'],
 ]
 
 # RelValZEE_14-mcRun4-PU
@@ -354,6 +358,7 @@ rootSourcesRelValZEE_14mcRun4PU = [
     ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_2_0_pre3-PU_141X_mcRun4_realistic_v3_STD_2026D110_PU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_2_0_pre4-PU_141X_mcRun4_realistic_v3_STD_2026D110_PU-v2__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre1-PU_141X_mcRun4_realistic_v3_STD_Run4D110_PU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre2-PU_141X_mcRun4_realistic_v3_STD_Run4D110_PU-v1__DQMIO.root',]
 ]
 
 # RelValZEE_14-mcRun3-PU
@@ -392,10 +397,11 @@ rootSourcesRelValZEE_14mcRun3PU = [
     ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_2_0_pre3-PU_140X_mcRun3_2024_realistic_v26_STD_2024_PU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_2_0_pre4-PU_142X_mcRun3_2025_realistic_v1_STD_2025_PU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre1-PU_140X_mcRun3_2024_realistic_v26_STD_2024_PU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre2-PU_142X_mcRun3_2025_realistic_v4_STD_RegeneratedGS_2025_PU-v1__DQMIO.root'],
 ]
 
-# RelValZpToEE_m6000_14TeV-mcRun4-noPU
-rootSourcesRelValZpToEE_m6000_14TeVmcRun4RECO = [
+# RelValZpToEE_m6000_14TeV-mcRun3-noPU
+rootSourcesRelValZpToEE_m6000_14TeVmcRun3RECO = [
     ['*', 'DQM_V0001_R000000001__RelValZpToEE_m6000_14TeV__CMSSW_14_0_0_pre2-133X_mcRun3_2024_realistic_v5_STD_2024_noPU-v1__DQMIO.root'],
     ['-', 'DQM_V0001_R000000001__RelValZpToEE_m6000_14TeV__CMSSW_14_0_0_pre3-140X_mcRun3_2024_realistic_v1_STD_2024_noPU-v1__DQMIO.root'],
     ['-', 'DQM_V0001_R000000001__RelValZpToEE_m6000_14TeV__CMSSW_14_0_0-140X_mcRun3_2024_realistic_v3_STD_2024_noPU-v1__DQMIO.root'],
@@ -412,10 +418,11 @@ rootSourcesRelValZpToEE_m6000_14TeVmcRun4RECO = [
     ['-', 'DQM_V0001_R000000001__RelValZpToEE_m6000_14TeV__CMSSW_14_2_0_pre3-140X_mcRun3_2024_realistic_v26_STD_RegeneratedGS_2024_noPU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValZpToEE_m6000_14TeV__CMSSW_14_2_0_pre4-140X_mcRun3_2024_realistic_v26_STD_RecylcedGS_2024_noPU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValZpToEE_m6000_14TeV__CMSSW_15_0_0_pre1-140X_mcRun3_2024_realistic_v26_STD_RecylcedGS_2024_noPU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZpToEE_m6000_14TeV__CMSSW_15_0_0_pre2-142X_mcRun3_2025_realistic_v2_STD_RecycledGS_2025_noPU-v1__DQMIO.root'],
 ]
 
-# RelValZpToEE_m6000_14TeV-mcRun4-PU
-rootSourcesRelValZpToEE_m6000_14TeVmcRun4PU = [
+# RelValZpToEE_m6000_14TeV-mcRun3-PU
+rootSourcesRelValZpToEE_m6000_14TeVmcRun3PU = [
     ['-', 'DQM_V0001_R000000001__RelValZpToEE_m6000_14TeV__CMSSW_14_0_0_pre1-PU_133X_mcRun3_2023_realistic_v3-v1__DQMIO.root'],
     ['*', 'DQM_V0001_R000000001__RelValZpToEE_m6000_14TeV__CMSSW_14_0_0_pre2-PU_133X_mcRun3_2024_realistic_v5_STD_2024_PU-v2__DQMIO.root'],
     ['-', 'DQM_V0001_R000000001__RelValZpToEE_m6000_14TeV__CMSSW_14_0_0_pre3-PU_140X_mcRun3_2024_realistic_v1_STD_2024_PU-v4__DQMIO.root'],
@@ -433,5 +440,5 @@ rootSourcesRelValZpToEE_m6000_14TeVmcRun4PU = [
     ['-', 'DQM_V0001_R000000001__RelValZpToEE_m6000_14TeV__CMSSW_14_2_0_pre3-PU_140X_mcRun3_2024_realistic_v26_STD_2024_PU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValZpToEE_m6000_14TeV__CMSSW_14_2_0_pre4-PU_142X_mcRun3_2025_realistic_v1_STD_2025_PU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValZpToEE_m6000_14TeV__CMSSW_15_0_0_pre1-PU_140X_mcRun3_2024_realistic_v26_STD_2024_PU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZpToEE_m6000_14TeV__CMSSW_15_0_0_pre2-PU_142X_mcRun3_2025_realistic_v4_STD_RegeneratedGS_2025_PU-v1__DQMIO.root'],
 ]
-

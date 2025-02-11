@@ -165,17 +165,115 @@ for valGeV in listGeV: # loop over GUI configurations
 
     #dts = 'ZEE_14'
     for dts in datasets:
-        print('{:s}[{:s}]'.format(valGeV, dts))
+        print('\n{:s}[{:s}]'.format(valGeV, dts))
+        
+        leNom = 'rootSourcesRelVal' + dts
+        if (releaseExtent == 'PHASE2'):
+            leNom += 'mcRun4'
+        else:
+            leNom += 'mcRun3'
+        leNom += relrefVT[0]
+
+        print('leNom calculé : {:s}'.format(leNom))
     
-        if (dts == 'ZEE_14'):
-            rootSources = rootSourcesRelValZEE_14mcRun3RECO
+        '''if (dts == 'ZEE_14'):
+            if (relrefVT[0] == 'RECO'):
+                if (releaseExtent == 'PHASE2'):
+                    rootSources = rootSourcesRelValZEE_14mcRun4RECO
+                    print('leNom1 : rootSourcesRelValZEE_14mcRun4RECO')
+                else:
+                    rootSources = rootSourcesRelValZEE_14mcRun3RECO
+                    print('leNom1 : rootSourcesRelValZEE_14mcRun3RECO')
+            elif (relrefVT[0] == 'PU'):
+                if (releaseExtent == 'PHASE2'):
+                    rootSources = rootSourcesRelValZEE_14mcRun4PU
+                    print('leNom1 : rootSourcesRelValZEE_14mcRun4PU')
+                else:
+                    rootSources = rootSourcesRelValZEE_14mcRun3PU
+                    print('leNom1 : rootSourcesRelValZEE_14mcRun3PU')
+            else:
+                print('Houston we have a pbm !!!')
+                exit()
         elif (dts == 'TTbar_14TeV'):
-            rootSources = rootSourcesRelValTTbar_14TeVmcRun3RECO
+            if (relrefVT[0] == 'RECO'):
+                if (releaseExtent == 'PHASE2'):
+                    rootSources = rootSourcesRelValTTbar_14TeVmcRun4RECO
+                    print('leNom1 : rootSourcesRelValTTbar_14TeVmcRun4RECO')
+                else:
+                    rootSources = rootSourcesRelValTTbar_14TeVmcRun3RECO
+                    print('leNom1 : rootSourcesRelValTTbar_14TeVmcRun3RECO')
+            elif (relrefVT[0] == 'PU'):
+                if (releaseExtent == 'PHASE2'):
+                    rootSources = rootSourcesRelValTTbar_14TeVmcRun4PU
+                    print('leNom1 : rootSourcesRelValTTbar_14TeVmcRun4PU')
+                else:
+                    rootSources = rootSourcesRelValTTbar_14TeVmcRun3PU
+                    print('leNom1 : rootSourcesRelValTTbar_14TeVmcRun3PU')
+            else:
+                print('Houston we have a pbm !!!')
+                exit()
         elif (dts == 'SingleEFlatPt2To100'):
-            rootSources = rootSourcesRelValSingleEFlatPt2To100mcRun4RECO
+            if (relrefVT[0] == 'RECO'):
+                rootSources = rootSourcesRelValSingleEFlatPt2To100mcRun4RECO
+                print('leNom1 : rootSourcesRelValSingleEFlatPt2To100mcRun4RECO')
+            elif (relrefVT[0] == 'PU'):
+                rootSources = rootSourcesRelValSingleEFlatPt2To100mcRun4PU
+                print('leNom1 : rootSourcesRelValSingleEFlatPt2To100mcRun4PU')
+            else:
+                print('Houston we have a pbm !!!')
+                exit()
         elif (dts == 'ZpToEE_m6000_14TeV'):
-            rootSources = rootSourcesRelValZpToEE_m6000_14TeVmcRun4RECO
+            if (relrefVT[0] == 'RECO'):
+                rootSources = rootSourcesRelValZpToEE_m6000_14TeVmcRun3RECO
+                print('leNom1 : rootSourcesRelValZpToEE_m6000_14TeVmcRun3RECO')
+            elif (relrefVT[0] == 'PU'):
+                rootSources = rootSourcesRelValZpToEE_m6000_14TeVmcRun3PU
+                print('leNom1 : rootSourcesRelValZpToEE_m6000_14TeVmcRun3PU')
+            else:
+                print('Houston we have a pbm !!!')
+                exit()'''
         #print(rootSources)
+        if (leNom == 'rootSourcesRelValZEE_14mcRun3RECO'):
+            print('leNom2 : rootSourcesRelValZEE_14mcRun3RECO')
+            rootSources = rootSourcesRelValZEE_14mcRun3RECO
+        elif (leNom == 'rootSourcesRelValZEE_14mcRun3PU'):
+            print('leNom2 : rootSourcesRelValZEE_14mcRun3PU')
+            rootSources = rootSourcesRelValZEE_14mcRun3PU
+        elif (leNom == 'rootSourcesRelValZEE_14mcRun4RECO'):
+            print('leNom2 : rootSourcesRelValZEE_14mcRun4RECO')
+            rootSources = rootSourcesRelValZEE_14mcRun4RECO
+        elif (leNom == 'rootSourcesRelValZEE_14mcRun4PU'):
+            print('leNom2 : rootSourcesRelValZEE_14mcRun4PU')
+            rootSources = rootSourcesRelValZEE_14mcRun4PU
+        elif (leNom == 'rootSourcesRelValTTbar_14TeVmcRun3RECO'):
+            print('leNom2 : rootSourcesRelValTTbar_14TeVmcRun3RECO')
+            rootSources = rootSourcesRelValTTbar_14TeVmcRun3RECO
+        elif (leNom == 'rootSourcesRelValTTbar_14TeVmcRun3PU'):
+            print('leNom2 : rootSourcesRelValTTbar_14TeVmcRun3PU')
+            rootSources = rootSourcesRelValTTbar_14TeVmcRun3PU
+        elif (leNom == 'rootSourcesRelValTTbar_14TeVmcRun4RECO'):
+            print('leNom2 : rootSourcesRelValTTbar_14TeVmcRun4RECO')
+            rootSources = rootSourcesRelValTTbar_14TeVmcRun4RECO
+        elif (leNom == 'rootSourcesRelValTTbar_14TeVmcRun4PU'):
+            print('leNom2 : rootSourcesRelValTTbar_14TeVmcRun4PU')
+            rootSources = rootSourcesRelValTTbar_14TeVmcRun4PU
+        elif (leNom == 'rootSourcesRelValSingleEFlatPt2To100mcRun4RECO'):
+            print('leNom2 : rootSourcesRelValSingleEFlatPt2To100mcRun4RECO')
+            rootSources = rootSourcesRelValSingleEFlatPt2To100mcRun4RECO
+        elif (leNom == 'rootSourcesRelValSingleEFlatPt2To100mcRun4PU'):
+            print('leNom2 : rootSourcesRelValSingleEFlatPt2To100mcRun4PU')
+            rootSources = rootSourcesRelValSingleEFlatPt2To100mcRun4PU
+        elif (leNom == 'rootSourcesRelValZpToEE_m6000_14TeVmcRun3RECO'):
+            print('leNom2 : rootSourcesRelValZpToEE_m6000_14TeVmcRun3RECO')
+            rootSources = rootSourcesRelValZpToEE_m6000_14TeVmcRun3RECO
+        elif (leNom == 'rootSourcesRelValZpToEE_m6000_14TeVmcRun3PU'):
+            print('leNom2 : rootSourcesRelValZpToEE_m6000_14TeVmcRun3PU')
+            rootSources = rootSourcesRelValZpToEE_m6000_14TeVmcRun3PU
+        else:
+            print('\nHouston we have a pbm with {:s} !!!'.format(leNom))
+            exit()
+
+        print(rootSources)
         #Stop()
 
         rels = []
@@ -255,7 +353,6 @@ for valGeV in listGeV: # loop over GUI configurations
             branches = newBranches
             N_histos = len(branches)
         print('N_histos : %d' % N_histos)
-        #print(branches)
 
         sortedRels = sorted(rels, key = lambda x: x[0]) # gives an array with releases sorted
         # get the "reference" root file datas
@@ -265,18 +362,13 @@ for valGeV in listGeV: # loop over GUI configurations
         h_KSref = gr.getHisto(f_KSref, tp_1)
         print(h_KSref)
 
-        r_rels = []
-        for elem in sortedRels:
-            rel = elem[1]
-            r_rels.append(str(rel))
-
-        nbRels = len(sortedRels)
         diffTab = pd.DataFrame()
         print(diffTab)
         toto = []
 
         for i in range(0, N_histos):#, N_histos-1 range(N_histos - 1, N_histos):  # 1 N_histos histo for debug
             #print('histo : {:s}'.format(branches[i])) # print histo name
+            r_rels = []
             
             histo_rel = h_rel.Get(branches[i])
             if (histo_rel):
@@ -290,6 +382,7 @@ for valGeV in listGeV: # loop over GUI configurations
                     s_KSref.append(entry)
                 s_KSref = np.asarray(s_KSref)
                 s_KSref = s_KSref[1:-1]
+                print('s_KSref has {:d} elements'.format(len(s_KSref)))
 
                 #print('\nWorking with sorted rels\n')
                 ind_rel = 0
@@ -312,12 +405,12 @@ for valGeV in listGeV: # loop over GUI configurations
                         s_new.append(entry)
                     s_new = np.asarray(s_new)
                     s_new = s_new[1:-1]
+                    #print('s_KSref has {:d} elements for {:s}'.format(len(s_KSref), rel))
+                    #print('s_new has {:d} elements for {:s}'.format(len(s_new), rel))
+                    if (len(s_KSref) != len(s_new)):
+                        print('pbm whith histo %s, lengths are not the same' % branches[i])
+                        continue
 
-                    # print min/max for the new curve
-                    #print('\n##########')
-                    #print('min : %f' % s_new.min())
-                    #print('max : %f' % s_new.max())
-                    #print('###########\n')
                     if (s_new.min() < 0.):
                         print('pbm whith histo %s, min < 0' % branches[i])
                         continue
@@ -331,14 +424,15 @@ for valGeV in listGeV: # loop over GUI configurations
                     #print('ind rel : {:d} : {:s} : {:e}\n'.format(ind_rel, branches[i], diffMax0)) # OK
 
                     diffValues.append(diffMax0)
+                    r_rels.append(str(rel))
                     #print(diffValues)
                     ind_rel += 1
                 
                 toto.append(diffValues)
-                #print(r_rels)
-                #print(diffValues)
                 lab = r_rels
                 val = diffValues
+                print('il y a {:d} points dans les valeurs'.format(len(val)))
+                print('il y a {:d} points dans les labels'.format(len(lab)))
                 pictureName = webFolder + dataSetFolder + '/pngs/maxDiff_comparison_' + branches[i] + '_1.png' # 
                 print(pictureName)
                 title = 'KS cum diff values vs releases. ' + branches[i]
@@ -349,6 +443,7 @@ for valGeV in listGeV: # loop over GUI configurations
                 print('%s KO' % branches[i])
         diffTab = pd.DataFrame(toto, columns=r_rels)
         globos = diffTab.mean(axis=0, numeric_only=True)
+        print(diffTab.shape)
 
         # generate pictures
         dt = globos.head(50)
@@ -431,18 +526,13 @@ for valGeV in listGeV: # loop over GUI configurations
         h_KSref = gr.getHisto(f_KSref, tp_1)
         print(h_KSref)
 
-        r_rels2 = []
-        for elem in sortedRels2:
-            rel = elem[1]
-            r_rels2.append(str(rel))
-
-        nbRels = len(sortedRels2)
         diffTab = pd.DataFrame()
         print(diffTab)
         toto = []
 
         for i in range(0, N_histos):#, N_histos-1 range(N_histos - 1, N_histos):  # 1 N_histos histo for debug
             #print('histo : {:s}'.format(branches[i])) # print histo name
+            r_rels2 = []
             
             histo_rel = h_rel.Get(branches[i])
             if (histo_rel):
@@ -456,6 +546,7 @@ for valGeV in listGeV: # loop over GUI configurations
                     s_KSref.append(entry)
                 s_KSref = np.asarray(s_KSref)
                 s_KSref = s_KSref[1:-1]
+                print('s_KSref has {:d} elements'.format(len(s_KSref)))
 
                 #print('\nWorking with sorted rels\n')
                 ind_rel = 0
@@ -478,12 +569,12 @@ for valGeV in listGeV: # loop over GUI configurations
                         s_new.append(entry)
                     s_new = np.asarray(s_new)
                     s_new = s_new[1:-1]
+                    #print('s_KSref has {:d} elements for {:s}'.format(len(s_KSref), rel))
+                    #print('s_new has {:d} elements for {:s}'.format(len(s_new), rel))
+                    if (len(s_KSref) != len(s_new)):
+                        print('pbm whith histo %s, lengths are not the same' % branches[i])
+                        continue
 
-                    # print min/max for the new curve
-                    #print('\n##########')
-                    #print('min : %f' % s_new.min())
-                    #print('max : %f' % s_new.max())
-                    #print('###########\n')
                     if (s_new.min() < 0.):
                         print('pbm whith histo %s, min < 0' % branches[i])
                         continue
@@ -497,12 +588,15 @@ for valGeV in listGeV: # loop over GUI configurations
                     #print('ind rel : {:d} : {:s} : {:e}\n'.format(ind_rel, branches[i], diffMax0)) # OK
 
                     diffValues.append(diffMax0)
-
+                    r_rels2.append(str(rel))
+                    #print(diffValues)
                     ind_rel += 1
                 
                 toto.append(diffValues)
                 lab = r_rels2
                 val = diffValues
+                print('il y a {:d} points dans les valeurs'.format(len(val)))
+                print('il y a {:d} points dans les labels'.format(len(lab)))
                 pictureName = webFolder + dataSetFolder + '/pngs/maxDiff_comparison_' + branches[i] + '_2.png' # 
                 print(pictureName)
                 title = 'KS cum diff values vs releases. ' + branches[i]
