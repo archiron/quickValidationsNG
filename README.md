@@ -30,20 +30,27 @@ do not forget to update the KS_reference_release (if needed) and the Validation_
 
 #### launch the validation :
 then, when the config.py file is ready, you can launch the validation with :  
-python3 mainSeq.py
+python3 mainSeq.py config.py 
+or 
+python3 mainSeqDev.py config.15_0_0_pre3-PHASE2-D110_RecoOnly.py 
+with "python3 mainSeqDev.py" cmd,  the config.py file is use by default.
 
 #### work in local area 
 you have : workDir = os.getcwd() and the ROOT files are located into a DATA folder. If you use the preceeding instructions, the DATA folder is always created.
 The ROOT files are downloaded automatically, or you can download them into the DATA folder with the quickRootDown script.
 For local use (your own ROOT files), you have to put uour own into the DATA folder.  
 
-#### batch 
-you can use all precedings commands with a batch file named quickValidationSeq.sh  
-Into the folder you want to work, copy the quickValidationSeq.sh locally.  
-launch : chmod 755 quickvalidationSeq.sh
-launch : . quickValidationSeq.sh
-#### WARNING : there is no "/" between the dot and quickValidationSeq.sh (only a blank).
+#### create the KS pictures
+to create the KS pictures and give a state of the release vs others releases, tou have to go to the KS folder and launch :
+python3 createAndCompare.py ../config.namefile.py 
 
+#### complete validation
+for a complete validation we must follow these steps : 
+. complete the config file (config.namefile.py)
+. launch the validation with python3 mainSeqDev.py config.namefile.py
+. reduce the ROOT files size
+. create the KS pictures
+. save the config & DATA files with the ". copyFiles.sh" command.
 
 ### ===================================
 ### Data to be initiated in config.py
