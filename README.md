@@ -2,13 +2,22 @@
 
 if you want to make validations (simple ones) without GUI, you can make it with this script. See README file for use.
 
+**05/03/2025** - Add a copyFiles.sh to launch after the validations. It copy config files into /afs/cern.ch/work/a/archiron/private/CONFIG/ folder & DQM ROOT files into /afs/cern.ch/work/a/archiron/private/TEST_GITCLONE/quickValidationsNG/DATA/ folder.
+
 **29/01/2025** - Add a KS check (KS folder) to generate some comparisons pictures with KS.
+
 **26/11/2024** - add a correction for TProfiles into graphicFunctions.py
+
 **22/11/2024** - add a correction for Pt1000 & Fake cases.
+
 **04/11/2024** - add a test for the correct writteness of picture_ext.
+
 **22/10/2024** - minor bug correction : transfert of globalTag into a check function.
+
 **17/10/2024** - minor bug correction (tesForDataSetsFile2()). new display for dataset operation.  
+
 **16/10/2024** - reduce the print/check part with new functions.  
+
 **15/10/2024** - add png pictures creation.  
 
 #### First of all you have to create a local area for the work

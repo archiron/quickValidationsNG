@@ -6,14 +6,12 @@
 # pictures for releases comparison
 # Only work for ZEE_14
 #
-# MUST be launched with the cmsenv cmd after a cmsrel cmd !!
-#                                                                              
 # Arnaud Chiron-Turlay LLR - arnaud.chiron@llr.in2p3.fr                        
 #                                                                              
 ################################################################################
 
 from genericpath import exists
-import os,sys,shutil,re
+import os,sys,re
 import importlib
 import importlib.machinery
 import importlib.util
@@ -173,6 +171,8 @@ for valGeV in listGeV: # loop over GUI configurations
         else:
             leNom += 'mcRun3'
         leNom += relrefVT[0]
+        if ('Only' in referenceExtent):
+            leNom += 'RecoOnly'
 
         print('leNom calculé : {:s}'.format(leNom))
     
@@ -233,7 +233,7 @@ for valGeV in listGeV: # loop over GUI configurations
                 print('Houston we have a pbm !!!')
                 exit()'''
         #print(rootSources)
-        if (leNom == 'rootSourcesRelValZEE_14mcRun3RECO'):
+        '''if (leNom == 'rootSourcesRelValZEE_14mcRun3RECO'):
             print('leNom2 : rootSourcesRelValZEE_14mcRun3RECO')
             rootSources = rootSourcesRelValZEE_14mcRun3RECO
         elif (leNom == 'rootSourcesRelValZEE_14mcRun3PU'):
@@ -271,8 +271,8 @@ for valGeV in listGeV: # loop over GUI configurations
             rootSources = rootSourcesRelValZpToEE_m6000_14TeVmcRun3PU
         else:
             print('\nHouston we have a pbm with {:s} !!!'.format(leNom))
-            exit()
-
+            exit()'''
+        rootSources = locals()[leNom]
         print(rootSources)
         #Stop()
 
