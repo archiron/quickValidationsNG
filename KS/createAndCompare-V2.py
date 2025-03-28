@@ -4,7 +4,7 @@
 ################################################################################
 # createAndCompare : create file for Kolmogorov-Smirnov maximum diff and generate
 # pictures for releases comparison
-# Only work for ZEE_14
+# V2
 #
 # Arnaud Chiron-Turlay LLR - arnaud.chiron@llr.in2p3.fr                        
 #                                                                              
@@ -65,7 +65,7 @@ tp_1 = 'ElectronMcSignalValidator'
 
 from controlFunctions import *
 from graphicFunctions import Graphic
-from graphicAutoEncoderFunctions import createCompLossesPicture, createCompLossesPicture3
+from graphicAutoEncoderFunctions import createCompLossesPicture, createCompLossesPicture3, createCompLossesPicture4
 from DecisionBox import DecisionBox
 from rootSources import *
 from functions import *
@@ -200,168 +200,19 @@ for valGeV in listGeV: # loop over GUI configurations
         tmpSource1 = []
         for elem in rootSources:
             #print(elem)
-            if ((elem[0] == '+') or (elem[0] == '*')):
-                tmpSource1.append(elem[1])
-                if (elem[0] == '*'):
-                    # extract release from source reference
-                    input_ref_file = elem[1]
-                    release = elem[1].split('__')[2].split('-')[0]
-                    print('extracted release : {:s}'.format(release))
+            if (elem[0] == '+') :
+                tmpSource1.append(1)
+            else:
+                tmpSource1.append(0)
         rootFilesList = []
-        for elem in tmpSource1:
-            #print('elem : {:s}'.format(elem))
-            name = pathDATA + '/' + elem
-            if exists(name):
-                rootFilesList.append(elem)
-            else:
-                print("{:s} n'existe pas".format(name))
+        #for elem in tmpSource1:
+        #    #print('elem : {:s}'.format(elem))
+        #    name = pathDATA + '/' + elem
+        #    if exists(name):
+        #        rootFilesList.append(elem)
+        #    else:
+        #        print("{:s} n'existe pas".format(name))
         #print(rootFilesList)
-
-        print('we use the files :')
-        for item in rootFilesList:
-            tmp_branch = []
-            nbHistos = 0
-            print('\n%s' % item)
-            b = (item.split('__')[2]).split('-')
-            rels.append([b[0], b[0][6:], item])
-            f_root = ROOT.TFile(pathDATA + item)
-            h_rel = gr.getHisto(f_root, tp_1)
-            for i in range(0, N_histos): # 1 N_histos histo for debug
-                histo_rel = h_rel.Get(branches[i])
-                if (histo_rel):
-                    d = gr.getHistoConfEntry(histo_rel)
-                    s_tmp = gr.fill_Snew2(d, histo_rel)
-                    if (s_tmp.min() < 0.):
-                        print('pbm whith histo %s, min < 0' % branches[i])
-                    elif (np.floor(s_tmp.sum()) == 0.):
-                        print('pbm whith histo %s, sum = 0' % branches[i])
-                    else:
-                        nbHistos += 1
-                        tmp_branch.append(branches[i])
-                else:
-                    print('%s KO' % branches[i])
-            nb_ttl_histos.append(nbHistos)
-            tmp_branches.append(tmp_branch)
-
-        print('nb_ttl_histos : ', nb_ttl_histos)
-        if(len(set(nb_ttl_histos))==1):
-            print('All elements are the same with value {:d}.'.format(nb_ttl_histos[0]))
-        else:
-            print('All elements are not the same.')
-            print('nb ttl of histos : ' , nb_ttl_histos)
-        newBranches = optimizeBranches(tmp_branches)
-
-        if (len(branches) != len(newBranches)):
-            print('len std branches : {:d}'.format(len(branches)))
-            print('len new branches : {:d}'.format(len(newBranches)))
-            branches = newBranches
-            N_histos = len(branches)
-        print('N_histos : %d' % N_histos)
-
-        #sortedRels = sorted(rels, key = lambda x: x[0]) # gives an array with releases sorted
-        sortedRels = rels
-        #print(rels)
-        #print(sortedRels)
-        
-        # get the "reference" root file datas
-        f_KSref = ROOT.TFile(pathDATA + input_ref_file)
-        print('we use the %s file as KS reference' % input_ref_file)
-
-        h_KSref = gr.getHisto(f_KSref, tp_1)
-        print(h_KSref)
-
-        diffTab1 = pd.DataFrame()
-        print(diffTab1)
-        toto = []
-
-        for i in range(0, N_histos):#, N_histos-1 range(N_histos - 1, N_histos):  # 1 N_histos histo for debug
-            #print('histo : {:s}'.format(branches[i])) # print histo name
-            r_rels = []
-            
-            histo_rel = h_rel.Get(branches[i])
-            if (histo_rel):
-                print('%s OK' % branches[i])
-
-                # create the datas for the p-Value graph
-                # by comparing 1 curve with the others.
-                histo_KSref = h_KSref.Get(branches[i])
-                s_KSref = []
-                for entry in histo_KSref:
-                    s_KSref.append(entry)
-                s_KSref = np.asarray(s_KSref)
-                s_KSref = s_KSref[1:-1]
-                print('s_KSref has {:d} elements'.format(len(s_KSref)))
-
-                #print('\nWorking with sorted rels\n')
-                ind_rel = 0
-                diffValues = []
-                for elem in sortedRels:
-                    #print(elem)
-                    rel = elem[1]
-                    file = elem[2]
-
-                    # get the "new" root file datas
-                    input_rel_file = file
-                    f_rel = ROOT.TFile(pathDATA + input_rel_file)
-                    #print('we use the {:s} file as new release '.format(input_rel_file))
-
-                    h_rel = gr.getHisto(f_rel, tp_1)
-                    histo_rel = h_rel.Get(branches[i])
-
-                    s_new = []
-                    for entry in histo_rel:
-                        s_new.append(entry)
-                    s_new = np.asarray(s_new)
-                    s_new = s_new[1:-1]
-                    #print('s_KSref has {:d} elements for {:s}'.format(len(s_KSref), rel))
-                    #print('s_new has {:d} elements for {:s}'.format(len(s_new), rel))
-                    if (len(s_KSref) != len(s_new)):
-                        print('pbm whith histo %s, lengths are not the same' % branches[i])
-                        continue
-
-                    if (s_new.min() < 0.):
-                        print('pbm whith histo %s, min < 0' % branches[i])
-                        continue
-                    if (np.floor(s_new.sum()) == 0.):
-                        print('pbm whith histo %s, sum = 0' % branches[i])
-                        continue
-                        
-                    # diff max between new & old
-                    diffMax0, posMax0, sDKS = DB.diffMAXKS3(s_KSref, s_new)
-                    #print("diffMax0 : %f - posMax0 : %f" % (diffMax0, posMax0))
-                    #print('ind rel : {:d} : {:s} : {:e}\n'.format(ind_rel, branches[i], diffMax0)) # OK
-
-                    diffValues.append(diffMax0)
-                    r_rels.append(str(rel))
-                    #print(diffValues)
-                    ind_rel += 1
-                
-                toto.append(diffValues)
-                lab = r_rels
-                val = diffValues
-                print('il y a {:d} points dans les valeurs'.format(len(val)))
-                print('il y a {:d} points dans les labels'.format(len(lab)))
-                pictureName = webFolder + dataSetFolder + '/pngs/maxDiff_comparison_' + branches[i] + '_1.png' # 
-                print(pictureName)
-                title = 'KS cum diff values vs releases. ' + branches[i]
-                #createCompLossesPicture(lab,val, pictureName, title, 'Releases', 'max diff')
-                #pictureName = webFolder + dataSetFolder + '/pngs/maxDiff_comparison_' + branches[i] + '_3.png' # 
-                createCompLossesPicture3(lab,val, pictureName, title, 'Releases', 'max diff')
-            else:
-                print('%s KO' % branches[i])
-        diffTab1 = pd.DataFrame(toto, columns=r_rels)
-        globos = diffTab1.mean(axis=0, numeric_only=True)
-
-        # generate pictures
-        dt = globos.head(50)
-        lab = list(dt.index.values)
-        val = globos.to_list()
-        print(dataSetFolder)
-        print(webFolder)
-        pictureName = webFolder + dataSetFolder + '/pngs/maxDiff_comparison_values_1.png' # 
-        print(pictureName)
-        title = r"$\bf{total}$" + ' : KS cum diff values vs releases.'
-        createCompLossesPicture(lab,val, pictureName, title, 'Releases', 'max diff')
 
         # create first picture other the total release list
         tmpSource2 = []
@@ -459,11 +310,12 @@ for valGeV in listGeV: # loop over GUI configurations
                 #print('\nWorking with sorted rels\n')
                 ind_rel = 0
                 diffValues = []
+                diffValues2 = []
+                i_2 = 0
                 for elem in sortedRels2:
                     #print(elem)
                     rel = elem[1]
                     file = elem[2]
-
                     # get the "new" root file datas
                     input_rel_file = file
                     f_rel = ROOT.TFile(pathDATA + input_rel_file)
@@ -477,8 +329,6 @@ for valGeV in listGeV: # loop over GUI configurations
                         s_new.append(entry)
                     s_new = np.asarray(s_new)
                     s_new = s_new[1:-1]
-                    #print('s_KSref has {:d} elements for {:s}'.format(len(s_KSref), rel))
-                    #print('s_new has {:d} elements for {:s}'.format(len(s_new), rel))
                     if (len(s_KSref) != len(s_new)):
                         print('pbm whith histo %s, lengths are not the same' % branches[i])
                         continue
@@ -492,24 +342,30 @@ for valGeV in listGeV: # loop over GUI configurations
                         
                     # diff max between new & old
                     diffMax0, posMax0, sDKS = DB.diffMAXKS3(s_KSref, s_new)
-                    #print("diffMax0 : %f - posMax0 : %f" % (diffMax0, posMax0))
-                    #print('ind rel : {:d} : {:s} : {:e}\n'.format(ind_rel, branches[i], diffMax0)) # OK
 
                     diffValues.append(diffMax0)
+                    if (tmpSource1[i_2] == 1):
+                        diffValues2.append(diffMax0)
+                    else:
+                        diffValues2.append(np.nan)
                     r_rels2.append(str(rel))
-                    #print(diffValues)
                     ind_rel += 1
+                    i_2 += 1
                 
                 toto.append(diffValues)
                 lab = r_rels2
                 val = diffValues
+                val2 = diffValues2
                 print('il y a {:d} points dans les valeurs'.format(len(val)))
                 print('il y a {:d} points dans les labels'.format(len(lab)))
-                pictureName = webFolder + dataSetFolder + '/pngs/maxDiff_comparison_' + branches[i] + '_2.png' # 
+                #pictureName = webFolder + dataSetFolder + '/pngs/maxDiff_comparison_' + branches[i] + '_2.png' # 
+                #print(pictureName)
+                #title = 'KS cum diff values vs releases. ' + branches[i]
+                #createCompLossesPicture3(lab,val, pictureName, title, 'Releases', 'max diff')
+                pictureName = webFolder + dataSetFolder + '/pngs/maxDiff_comparison_' + branches[i] + '_3.png' # 
                 print(pictureName)
                 title = 'KS cum diff values vs releases. ' + branches[i]
-                #createCompLossesPicture(lab,val, pictureName, title, 'Releases', 'max diff')
-                createCompLossesPicture3(lab,val, pictureName, title, 'Releases', 'max diff')
+                createCompLossesPicture4(lab,val,val2, pictureName, title, 'Releases', 'max diff')
             else:
                 print('%s KO' % branches[i])
         diffTab2 = pd.DataFrame(toto, columns=r_rels2)
@@ -518,20 +374,31 @@ for valGeV in listGeV: # loop over GUI configurations
         # generate pictures
         dt = globos.head(50)
         lab = list(dt.index.values)
-        val = globos.to_list()
+        val1 = globos.to_list()
         print(dataSetFolder)
         print(webFolder)
-        pictureName = webFolder + dataSetFolder + '/pngs/maxDiff_comparison_values_2.png' # 
+        #pictureName = webFolder + dataSetFolder + '/pngs/maxDiff_comparison_values_2.png' # 
+        #print(pictureName)
+        #title = r"$\bf{total}$" + ' : KS cum diff values vs releases.'
+        #createCompLossesPicture(lab,val1, pictureName, title, 'Releases', 'max diff')
+
+        val2 = []
+        i = 0
+        for item in tmpSource1:
+            if (item == 1):
+                val2.append(val1[i])
+            else:
+                val2.append(np.nan)
+            i += 1
+        pictureName = webFolder + dataSetFolder + '/pngs/maxDiff_comparison_values_3.png' # 
         print(pictureName)
         title = r"$\bf{total}$" + ' : KS cum diff values vs releases.'
-        createCompLossesPicture(lab,val, pictureName, title, 'Releases', 'max diff')
-
-        print(list(diffTab1.mean(axis=0, numeric_only=True).head(50).index.values))
-        print(diffTab1.mean(axis=0, numeric_only=True).to_list())
+        createCompLossesPicture4(lab, val1, val2, pictureName, title, 'Releases', 'max diff')
         print(list(diffTab2.mean(axis=0, numeric_only=True).head(50).index.values))
         print(diffTab2.mean(axis=0, numeric_only=True).to_list())
-        #print(diffTab1)
-        #print(diffTab2)
+        print(tmpSource1)
+        print(val1)
+        print(val2)
 
     toc = time.time()
     print('Done in {:.4f} seconds'.format(toc-tic))

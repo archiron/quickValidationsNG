@@ -44,6 +44,7 @@ pathChiLib = pathBase[:-19] + '/ChiLib_CMS_Validation'
 print('Lib path : {:s}'.format(pathChiLib))
 
 pathValues = os.getcwd() + '/Values/'
+pathValues = '/eos/project-c/cmsweb/www/egamma/validation/Electrons/KS_Evaluation/Values/'
 print('Values path : {:s}'.format(pathValues))
 
 from controlFunctions import *

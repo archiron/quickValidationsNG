@@ -185,6 +185,7 @@ rootSourcesRelValTTbar_14TeVmcRun3RECO = [
     ['+', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_15_0_0_pre2-142X_mcRun3_2025_realistic_v2_STD_RegeneratedGS_2025_noPU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_15_0_0_pre3-142X_mcRun3_2025_realistic_v5_STD_RegeneratedGS_2025_noPU-v2__DQMIO.root'],
     ['-', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_15_0_0_pre3-142X_mcRun3_2025_realistic_v5_STD_RecycledGS_2025_noPU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_15_0_0-142X_mcRun3_2025_realistic_v7_STD_RegeneratedGS_2025_noPU-v1__DQMIO.root'],
 ]
 
 # RelValTTbar_14TeV-mcRun4-PU
@@ -262,46 +263,9 @@ rootSourcesRelValTTbar_14TeVmcRun3PU = [
     ['+', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_14_2_0_pre4-PU_142X_mcRun3_2025_realistic_v1_STD_2025_PU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_15_0_0_pre1-PU_140X_mcRun3_2024_realistic_v26_STD_2024_PU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_15_0_0_pre2-PU_142X_mcRun3_2025_realistic_v4_STD_RegeneratedGS_2025_PU-v1__DQMIO.root'],
-    ['+', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_15_0_0_pre3-PU_142X_mcRun3_2025_realistic_v5_STD_2025_PU-v1__DQMIO.root'],
-]
-
-# RelValZEE_14-mcRun4-noPU
-rootSourcesRelValZEE_14mcRun4RECO = [
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_5_0_pre4-124X_mcRun4_realistic_v8_2026D88noPU-v1__DQMIO.root'],
-    ['*', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_5_0_pre5-125X_mcRun4_realistic_v2_2026D88noPU-v3__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_6_0_pre2-125X_mcRun4_realistic_v2_2026D88noPU-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_6_0_pre3-125X_mcRun4_realistic_v2_2026D88noPU-v1__DQMIO.root'],
-    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_6_0_pre4-125X_mcRun4_realistic_v2_2026D88noPU-v1__DQMIO.root'],
-    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_0_0_pre3-130X_mcRun4_realistic_v2_2026D88noPU-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_0_0_pre4-130X_mcRun4_realistic_v2_2026D95noPU-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_1_0_pre2-131X_mcRun4_realistic_v2_2026D95noPU-v3__DQMIO.root'],
-    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_1_0_pre3-131X_mcRun4_realistic_v2_2026D98noPU-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_1_0_pre4-131X_mcRun4_realistic_v3_2026D98noPU-v1__DQMIO.root'],
-    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_2_0_pre3-131X_mcRun4_realistic_v6_2026D98noPU-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_2_0-131X_mcRun4_realistic_v6_2026D98noPU-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_3_0_pre1-131X_mcRun4_realistic_v6_2026D98noPU-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_3_0_pre2-131X_mcRun4_realistic_v6_2026D98noPU-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_3_0_pre3-131X_mcRun4_realistic_v6_2026D98noPU-v1__DQMIO.root'],
-    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_3_0_pre5-133X_mcRun4_realistic_v1_2026D98noPU-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_3_0-133X_mcRun4_realistic_v1_std_2026D98noPU-v2__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_0_0_pre1-133X_mcRun4_realistic_v1_2026D98noPU-v1__DQMIO.root'],
-    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_0_0_pre2-133X_mcRun4_realistic_v1_STD_2026D98_noPU-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_0_0_pre3-140X_mcRun4_realistic_v1_STD_2026D98_noPU-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre1-140X_mcRun4_realistic_v2_STD_2026D98_noPU-v2__DQMIO.root'],
-    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre2-140X_mcRun4_realistic_v3_STD_2026D110_noPU-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre3-140X_mcRun4_realistic_v3_STD_2026D110_noPU-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre4-140X_mcRun4_realistic_v3_RegeneratedGS_2026D110_noPU-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre5-140X_mcRun4_realistic_v4_STD_2026D110_noPU-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre6-140X_mcRun4_realistic_v4_2026D110_noPU-v1__DQMIO.root'],
-    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre7-141X_mcRun4_realistic_v1_STD_RegeneratedGS_2026D110_noPU-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_2_0_pre1-141X_mcRun4_realistic_v1_STD_RegeneratedGS_2026D110_noPU-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_2_0_pre2-141X_mcRun4_realistic_v1_STD_RegeneratedGS_2026D110_noPU-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_2_0_pre3-141X_mcRun4_realistic_v3_STD_RegeneratedGS_2026D110_noPU-v1__DQMIO.root'],
-    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_2_0_pre4-141X_mcRun4_realistic_v3_STD_RegeneratedGS_2026D110_noPU-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre1-141X_mcRun4_realistic_v3_STD_RecycledGS_Run4D110_noPU-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre2-141X_mcRun4_realistic_v3_STD_RecycledGS_Run4D110_noPU-v1__DQMIO.root'],
-    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre2-141X_mcRun4_realistic_v3_STD_RegeneratedGS_Run4D110_noPU-v1__DQMIO.root'],
-    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre3-141X_mcRun4_realistic_v3_STD_RecycledGS_Run4D110_noPU-v2__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_15_0_0_pre3-PU_142X_mcRun3_2025_realistic_v5_STD_2025_PU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_15_0_0_pre3-PU_142X_mcRun3_2025_realistic_v5_STD_2025_PU-v2__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_15_0_0-PU_142X_mcRun3_2025_realistic_v7_STD_2025_PU-v2__DQMIO.root'],
 ]
 
 # RelValZEE_14-mcRun3-noPU
@@ -345,6 +309,88 @@ rootSourcesRelValZEE_14mcRun3RECO = [
     ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre2-142X_mcRun3_2025_realistic_v2_STD_RegeneratedGS_2025_noPU-v1__DQMIO.root'],
     ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre3-142X_mcRun3_2025_realistic_v5_STD_RecycledGS_2025_noPU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre3-142X_mcRun3_2025_realistic_v5_STD_RegeneratedGS_2025_noPU-v2__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0-142X_mcRun3_2025_realistic_v7_STD_RegeneratedGS_2025_noPU-v1__DQMIO.root'],
+]
+
+# RelValZEE_14-mcRun3-PU
+rootSourcesRelValZEE_14mcRun3PU = [
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_5_0_pre4-PU_124X_mcRun3_2022_realistic_v10-v2__DQMIO.root'],
+    ['*', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_5_0_pre5-PU_125X_mcRun3_2022_realistic_v3-v2__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_6_0_pre2-PU_125X_mcRun3_2022_realistic_v3-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_6_0_pre3-PU_125X_mcRun3_2022_realistic_v3-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_6_0_pre4-PU_125X_mcRun3_2022_realistic_v4-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_0_0_pre3-PU_130X_mcRun3_2022_realistic_v2-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_0_0_pre4-PU_130X_mcRun3_2022_realistic_v2-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_1_0_pre2-PU_131X_mcRun3_2022_realistic_v1-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_1_0_pre3-PU_131X_mcRun3_2023_realistic_v3_2023-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_1_0_pre4-PU_131X_mcRun3_2023_realistic_v4_2023-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_2_0_pre3-PU_131X_mcRun3_2023_realistic_v8-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_2_0-PU_131X_mcRun3_2023_realistic_v9-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_3_0_pre2-PU_132X_mcRun3_2023_realistic_v2-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_3_0_pre3-PU_132X_mcRun3_2023_realistic_v4-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_3_0_pre4-PU_133X_mcRun3_2023_realistic_v1-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_3_0_pre5-PU_133X_mcRun3_2023_realistic_v2-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_3_0-PU_133X_mcRun3_2023_realistic_v3-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_0_0_pre1-PU_133X_mcRun3_2023_realistic_v3-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_0_0_pre2-PU_133X_mcRun3_2024_realistic_v5_STD_2024_PU-v2__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_0_0_pre3-PU_140X_mcRun3_2024_realistic_v1_STD_2024_PU-v5__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_0_0-PU_140X_mcRun3_2024_realistic_v3_STD_2024_PU-v2__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre1-PU_140X_mcRun3_2024_realistic_v4_STD_2024_PU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre2-PU_140X_mcRun3_2024_realistic_v7_STD_2024_PU-v2__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre3-PU_140X_mcRun3_2024_realistic_v8_STD_2024_PU-v2__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre4-PU_140X_mcRun3_2024_realistic_v11_STD_2024_PU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre5-PU_140X_mcRun3_2024_realistic_v11_STD_2024_PU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre6-140X_mcRun3_2024_realistic_v15_STD_2024_PU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre7-140X_mcRun3_2024_realistic_v21_STD_2024_PU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0-PU_140X_mcRun3_2024_realistic_v21_STD_2024_PU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_2_0_pre1-PU_140X_mcRun3_2024_realistic_v21_STD_2024_PU-v3__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_2_0_pre2-PU_140X_mcRun3_2024_realistic_v25_STD_2024_PU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_2_0_pre3-PU_140X_mcRun3_2024_realistic_v26_STD_2024_PU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_2_0_pre4-PU_142X_mcRun3_2025_realistic_v1_STD_2025_PU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre1-PU_140X_mcRun3_2024_realistic_v26_STD_2024_PU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre2-PU_142X_mcRun3_2025_realistic_v4_STD_RegeneratedGS_2025_PU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre3-PU_142X_mcRun3_2025_realistic_v5_STD_2025_PU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre3-PU_142X_mcRun3_2025_realistic_v5_STD_2025_PU-v2__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0-PU_142X_mcRun3_2025_realistic_v7_STD_2025_PU-v2__DQMIO.root'],
+]
+
+# RelValZEE_14-mcRun4-noPU
+rootSourcesRelValZEE_14mcRun4RECO = [
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_5_0_pre4-124X_mcRun4_realistic_v8_2026D88noPU-v1__DQMIO.root'],
+    ['*', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_5_0_pre5-125X_mcRun4_realistic_v2_2026D88noPU-v3__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_6_0_pre2-125X_mcRun4_realistic_v2_2026D88noPU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_6_0_pre3-125X_mcRun4_realistic_v2_2026D88noPU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_6_0_pre4-125X_mcRun4_realistic_v2_2026D88noPU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_0_0_pre3-130X_mcRun4_realistic_v2_2026D88noPU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_0_0_pre4-130X_mcRun4_realistic_v2_2026D95noPU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_1_0_pre2-131X_mcRun4_realistic_v2_2026D95noPU-v3__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_1_0_pre3-131X_mcRun4_realistic_v2_2026D98noPU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_1_0_pre4-131X_mcRun4_realistic_v3_2026D98noPU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_2_0_pre3-131X_mcRun4_realistic_v6_2026D98noPU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_2_0-131X_mcRun4_realistic_v6_2026D98noPU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_3_0_pre1-131X_mcRun4_realistic_v6_2026D98noPU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_3_0_pre2-131X_mcRun4_realistic_v6_2026D98noPU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_3_0_pre3-131X_mcRun4_realistic_v6_2026D98noPU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_3_0_pre5-133X_mcRun4_realistic_v1_2026D98noPU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_3_0-133X_mcRun4_realistic_v1_std_2026D98noPU-v2__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_0_0_pre1-133X_mcRun4_realistic_v1_2026D98noPU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_0_0_pre2-133X_mcRun4_realistic_v1_STD_2026D98_noPU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_0_0_pre3-140X_mcRun4_realistic_v1_STD_2026D98_noPU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre1-140X_mcRun4_realistic_v2_STD_2026D98_noPU-v2__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre2-140X_mcRun4_realistic_v3_STD_2026D110_noPU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre3-140X_mcRun4_realistic_v3_STD_2026D110_noPU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre4-140X_mcRun4_realistic_v3_RegeneratedGS_2026D110_noPU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre5-140X_mcRun4_realistic_v4_STD_2026D110_noPU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre6-140X_mcRun4_realistic_v4_2026D110_noPU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre7-141X_mcRun4_realistic_v1_STD_RegeneratedGS_2026D110_noPU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_2_0_pre1-141X_mcRun4_realistic_v1_STD_RegeneratedGS_2026D110_noPU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_2_0_pre2-141X_mcRun4_realistic_v1_STD_RegeneratedGS_2026D110_noPU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_2_0_pre3-141X_mcRun4_realistic_v3_STD_RegeneratedGS_2026D110_noPU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_2_0_pre4-141X_mcRun4_realistic_v3_STD_RegeneratedGS_2026D110_noPU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre1-141X_mcRun4_realistic_v3_STD_RecycledGS_Run4D110_noPU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre2-141X_mcRun4_realistic_v3_STD_RecycledGS_Run4D110_noPU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre2-141X_mcRun4_realistic_v3_STD_RegeneratedGS_Run4D110_noPU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre3-141X_mcRun4_realistic_v3_STD_RecycledGS_Run4D110_noPU-v2__DQMIO.root'],
 ]
 
 # RelValZEE_14-mcRun4-PU
@@ -385,46 +431,6 @@ rootSourcesRelValZEE_14mcRun4PU = [
     ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre3-PU_141X_mcRun4_realistic_v3_STD_Run4D110_PU-v1__DQMIO.root'],
 ]
 
-# RelValZEE_14-mcRun3-PU
-rootSourcesRelValZEE_14mcRun3PU = [
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_5_0_pre4-PU_124X_mcRun3_2022_realistic_v10-v2__DQMIO.root'],
-    ['*', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_5_0_pre5-PU_125X_mcRun3_2022_realistic_v3-v2__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_6_0_pre2-PU_125X_mcRun3_2022_realistic_v3-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_6_0_pre3-PU_125X_mcRun3_2022_realistic_v3-v1__DQMIO.root'],
-    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_6_0_pre4-PU_125X_mcRun3_2022_realistic_v4-v1__DQMIO.root'],
-    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_0_0_pre3-PU_130X_mcRun3_2022_realistic_v2-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_0_0_pre4-PU_130X_mcRun3_2022_realistic_v2-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_1_0_pre2-PU_131X_mcRun3_2022_realistic_v1-v1__DQMIO.root'],
-    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_1_0_pre3-PU_131X_mcRun3_2023_realistic_v3_2023-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_1_0_pre4-PU_131X_mcRun3_2023_realistic_v4_2023-v1__DQMIO.root'],
-    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_2_0_pre3-PU_131X_mcRun3_2023_realistic_v8-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_2_0-PU_131X_mcRun3_2023_realistic_v9-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_3_0_pre2-PU_132X_mcRun3_2023_realistic_v2-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_3_0_pre3-PU_132X_mcRun3_2023_realistic_v4-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_3_0_pre4-PU_133X_mcRun3_2023_realistic_v1-v1__DQMIO.root'],
-    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_3_0_pre5-PU_133X_mcRun3_2023_realistic_v2-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_13_3_0-PU_133X_mcRun3_2023_realistic_v3-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_0_0_pre1-PU_133X_mcRun3_2023_realistic_v3-v1__DQMIO.root'],
-    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_0_0_pre2-PU_133X_mcRun3_2024_realistic_v5_STD_2024_PU-v2__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_0_0_pre3-PU_140X_mcRun3_2024_realistic_v1_STD_2024_PU-v5__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_0_0-PU_140X_mcRun3_2024_realistic_v3_STD_2024_PU-v2__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre1-PU_140X_mcRun3_2024_realistic_v4_STD_2024_PU-v1__DQMIO.root'],
-    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre2-PU_140X_mcRun3_2024_realistic_v7_STD_2024_PU-v2__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre3-PU_140X_mcRun3_2024_realistic_v8_STD_2024_PU-v2__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre4-PU_140X_mcRun3_2024_realistic_v11_STD_2024_PU-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre5-PU_140X_mcRun3_2024_realistic_v11_STD_2024_PU-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre6-140X_mcRun3_2024_realistic_v15_STD_2024_PU-v1__DQMIO.root'],
-    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre7-140X_mcRun3_2024_realistic_v21_STD_2024_PU-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0-PU_140X_mcRun3_2024_realistic_v21_STD_2024_PU-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_2_0_pre1-PU_140X_mcRun3_2024_realistic_v21_STD_2024_PU-v3__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_2_0_pre2-PU_140X_mcRun3_2024_realistic_v25_STD_2024_PU-v1__DQMIO.root'],
-    ['-', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_2_0_pre3-PU_140X_mcRun3_2024_realistic_v26_STD_2024_PU-v1__DQMIO.root'],
-    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_2_0_pre4-PU_142X_mcRun3_2025_realistic_v1_STD_2025_PU-v1__DQMIO.root'],
-    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre1-PU_140X_mcRun3_2024_realistic_v26_STD_2024_PU-v1__DQMIO.root'],
-    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre2-PU_142X_mcRun3_2025_realistic_v4_STD_RegeneratedGS_2025_PU-v1__DQMIO.root'],
-    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre3-PU_142X_mcRun3_2025_realistic_v5_STD_2025_PU-v1__DQMIO.root'],
-]
-
 # RelValZpToEE_m6000_14TeV-mcRun3-noPU
 rootSourcesRelValZpToEE_m6000_14TeVmcRun3RECO = [
     ['*', 'DQM_V0001_R000000001__RelValZpToEE_m6000_14TeV__CMSSW_14_0_0_pre2-133X_mcRun3_2024_realistic_v5_STD_2024_noPU-v1__DQMIO.root'],
@@ -447,6 +453,7 @@ rootSourcesRelValZpToEE_m6000_14TeVmcRun3RECO = [
     ['+', 'DQM_V0001_R000000001__RelValZpToEE_m6000_14TeV__CMSSW_15_0_0_pre2-142X_mcRun3_2025_realistic_v2_STD_RegeneratedGS_2025_noPU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValZpToEE_m6000_14TeV__CMSSW_15_0_0_pre3-142X_mcRun3_2025_realistic_v5_STD_RegeneratedGS_2025_noPU-v2__DQMIO.root'],
     ['-', 'DQM_V0001_R000000001__RelValZpToEE_m6000_14TeV__CMSSW_15_0_0_pre3-142X_mcRun3_2025_realistic_v5_STD_RecycledGS_2025_noPU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZpToEE_m6000_14TeV__CMSSW_15_0_0-142X_mcRun3_2025_realistic_v7_STD_RegeneratedGS_2025_noPU-v1__DQMIO.root'],
 ]
 
 # RelValZpToEE_m6000_14TeV-mcRun3-PU
@@ -469,7 +476,9 @@ rootSourcesRelValZpToEE_m6000_14TeVmcRun3PU = [
     ['+', 'DQM_V0001_R000000001__RelValZpToEE_m6000_14TeV__CMSSW_14_2_0_pre4-PU_142X_mcRun3_2025_realistic_v1_STD_2025_PU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValZpToEE_m6000_14TeV__CMSSW_15_0_0_pre1-PU_140X_mcRun3_2024_realistic_v26_STD_2024_PU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValZpToEE_m6000_14TeV__CMSSW_15_0_0_pre2-PU_142X_mcRun3_2025_realistic_v4_STD_RegeneratedGS_2025_PU-v1__DQMIO.root'],
-    ['+', 'DQM_V0001_R000000001__RelValZpToEE_m6000_14TeV__CMSSW_15_0_0_pre3-PU_142X_mcRun3_2025_realistic_v5_STD_2025_PU-v1__DQMIO.root'],
+    ['-', 'DQM_V0001_R000000001__RelValZpToEE_m6000_14TeV__CMSSW_15_0_0_pre3-PU_142X_mcRun3_2025_realistic_v5_STD_2025_PU-v1__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZpToEE_m6000_14TeV__CMSSW_15_0_0_pre3-PU_142X_mcRun3_2025_realistic_v5_STD_2025_PU-v2__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZpToEE_m6000_14TeV__CMSSW_15_0_0-PU_142X_mcRun3_2025_realistic_v7_STD_2025_PU-v2__DQMIO.root'],
 ]
 
 # RelValTTbar_14TeV-mcRun3-PU-RecoOnly
@@ -491,6 +500,7 @@ rootSourcesRelValTTbar_14TeVmcRun3PURecoOnly = [
     ['+', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_15_0_0_pre1-PU_142X_mcRun3_2025_realistic_v1_STD_RecoOnly_2025_PU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_15_0_0_pre2-PU_142X_mcRun3_2025_realistic_v4_STD_RecoOnly_2025_PU-v2__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_15_0_0_pre3-PU_142X_mcRun3_2025_realistic_v4_STD_RecoOnly_2025_PU-v2__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_15_0_0-PU_142X_mcRun3_2025_realistic_v5_STD_RecoOnly_2025_PU-v3__DQMIO.root'],
 ]
 
 # RelValTTbar_14TeV-mcRun4-PU-RecoOnly
@@ -540,6 +550,7 @@ rootSourcesRelValZEE_14mcRun3PURecoOnly = [
     ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre1-PU_142X_mcRun3_2025_realistic_v1_STD_RecoOnly_2025_PU-v1__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre2-PU_142X_mcRun3_2025_realistic_v4_STD_RecoOnly_2025_PU-v2__DQMIO.root'],
     ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0_pre3-PU_142X_mcRun3_2025_realistic_v4_STD_RecoOnly_2025_PU-v2__DQMIO.root'],
+    ['+', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_0_0-PU_142X_mcRun3_2025_realistic_v5_STD_RecoOnly_2025_PU-v3__DQMIO.root'],
 ]
 
 # RelValZEE_14-mcRun4-PU-RecoOnly

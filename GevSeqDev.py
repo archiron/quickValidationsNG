@@ -437,6 +437,7 @@ class GevSeq():
                                     ycFlag = False
 
                             #print('ycFlag : %s : %s' % (short_histo_names[0], ycFlag))
+                            gr.initRootStyle()
                             gr.PictureChoice(histo_1, histo_2, histo_positions[1], histo_positions[2], picture_name, 0)
                             if ycFlag:
                                 tl.createPngDatasetFolder()
