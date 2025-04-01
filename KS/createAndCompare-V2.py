@@ -394,11 +394,11 @@ for valGeV in listGeV: # loop over GUI configurations
         print(pictureName)
         title = r"$\bf{total}$" + ' : KS cum diff values vs releases.'
         createCompLossesPicture4(lab, val1, val2, pictureName, title, 'Releases', 'max diff')
-        print(list(diffTab2.mean(axis=0, numeric_only=True).head(50).index.values))
-        print(diffTab2.mean(axis=0, numeric_only=True).to_list())
-        print(tmpSource1)
-        print(val1)
-        print(val2)
+        #print(list(diffTab2.mean(axis=0, numeric_only=True).head(50).index.values))
+        #print(diffTab2.mean(axis=0, numeric_only=True).to_list())
+        #print(tmpSource1)
+        #print(val1)
+        #print(val2)
 
     toc = time.time()
     print('Done in {:.4f} seconds'.format(toc-tic))

@@ -77,6 +77,7 @@ for elem in rootList:
     pathTable = pathValues + elem
     print('chemin : {:s}'.format(pathTable))
     tl.checkCreateWebFolder(pathTable)
+    fichTableau = open(pathTable + '/' + elem + '.txt', "w")
 
     tmp = elem.replace("rootSources", "")
     tmp2 = tmp.split('mcRun')
@@ -101,11 +102,14 @@ for elem in rootList:
     #print(rootSources)
     for file in rootSources:
         print('fichier : {:s}'.format(file[1])) # fichier ROOT
+        #tmp3 = (file[1].split('__')[2]).split('-')[0]
+        #print('release : {:s}'.format(tmp3))
 
         # get the branches for ElectronMcSignalHistos.txt
         i = 0
         for it in it_list:
             fileName = pathTable + '/' + file[1].split('.')[0] + '_' + str(i) + '.txt' # fichier text correspondant au fichier ROOT
+            fichTableau.write(file[1].split('.')[0] + '_' + str(i) + '.txt' + '\n')
             print('fichier : {:s}'.format(fileName))
             fichier = open(fileName, "w")
             branches = []
@@ -139,9 +143,8 @@ for elem in rootList:
                     print('%s KO' % branches[i])
 
             i +=1
-
-        fichier.close()
-
+            fichier.close()
+    fichTableau.close()
 toc = time.time()
 print('Done in {:.4f} seconds'.format(toc-tic))
 
