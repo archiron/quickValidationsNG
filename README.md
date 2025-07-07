@@ -2,7 +2,9 @@
 
 if you want to make validations (simple ones) without GUI, you can make it with this script. See README file for use.
 
-**05/03/2025** - Add a copyFiles.sh to launch after the validations. It copy config files into /afs/cern.ch/work/a/archiron/private/CONFIG/ folder & DQM ROOT files into /afs/cern.ch/work/a/archiron/private/TEST_GITCLONE/quickValidationsNG/DATA/ folder.
+**07/07/2025** - update GevSeq.py to GevSeqDev.py
+
+**05/03/2025** - Add a copyFiles.sh to launch after the validations. It copy config files into /afs/cern.ch/work/a/archiron/private/CONFIG/ folder & DQM ROOT files into /afs/cern.ch/work/a/archiron/private/TEST_GITCLONE/quickValidationsNG/DATA/ folder (BLUE: new file, GREEN: update).
 
 **29/01/2025** - Add a KS check (KS folder) to generate some comparisons pictures with KS.
 

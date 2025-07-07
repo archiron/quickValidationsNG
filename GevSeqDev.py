@@ -4,6 +4,7 @@
 ################################################################################
 # GevSeqDev: a tool to generate Release Comparison                              
 #
+# version 3.2 : add png pictures
 # version 3.3 : reduce the print/check part with new functions
 #                                                                              
 # Arnaud Chiron-Turlay LLR - arnaud.chiron@llr.in2p3.fr                         
@@ -55,6 +56,7 @@ class GevSeq():
             cf2 = importlib.util.module_from_spec( spec )
             loader.exec_module( cf2 )
         else:
+            print("classical way")
             import config as cf2
 
         Validation_reference = cf2.Validation_reference
@@ -129,9 +131,10 @@ class GevSeq():
                 if ( it3 == '' ):
                     N_GT -= 1
             tl.checkN_GT(N_GT, N, globalTag)
-            
+
             # need to test if there is as rel & ref files as datasets
             N_Files = len(validation[6])
+            print('N_Files : {:d}'.format(N_Files))
             for it3 in validation[6]:
                 if ( it3 == '' ):
                     N_Files -= 1
@@ -155,13 +158,17 @@ class GevSeq():
                 for it4 in relFile:
                     if re.search(release, it4):
                         nb_coherFiles +=1
+                        print('rel OK')
                     else:
                         nb_coherFiles -=1
+                        print('rel KO')
                 for it4 in refFile:
                     if re.search(reference, it4):
                         nb_coherFiles +=1
+                        print('ref OK')
                     else:
                         nb_coherFiles -=1
+                        print('ref KO')
             tl.checkN_coherFiles(nb_coherFiles, N)
 
             if ( nb_coherFiles > 0 ):
@@ -199,7 +206,7 @@ class GevSeq():
                 for item in referencesList_1:
                     if re.search(shortReference, item):
                         list_ref.append(item)
-                #tl.p_listRelRef(list_rel, list_ref, release, reference)
+                tl.p_listRelRef(list_rel, list_ref, release, reference)
 
                 list_rel2 = [] # get the list of the files for all the datasets for release
                 nb_rel2 = [] # get the number of files per dataset
@@ -270,6 +277,8 @@ class GevSeq():
             print('')
             os.chdir(webFolder) # going into finalFolder
 
+            print(relFile)
+            print(refFile)
             globos = [] # summary of datasets relFile & refFile
             for elem1 in datasets:
                 toto = []
@@ -281,10 +290,12 @@ class GevSeq():
                     if re.search(elem1, elem2):
                         toto.append(elem2)
                 globos.append(toto)
+            print(globos)
 
             relFile = []
             refFile = []
             for elem1 in globos:
+                print(elem1)
                 relFile.append(elem1[1])
                 refFile.append(elem1[2])
 
@@ -407,7 +418,7 @@ class GevSeq():
                             png_name = "pngs/" + short_histo_names[0] + ".png" # for DB yellow curves
                             png_cumul_name = "pngs/" + short_histo_names[0] + "_cum.png" # for DB yellow curves
                             #print('\npicture name : {:s}'.format(picture_name))
-                            print('[{:s}, {:s}] - {:s}/{:s}'.format(relrefVT[0], relrefVT[1], dts, short_histo_name))
+                            print('{:s} : [{:s}, {:s}] - {:s}/{:s}'.format(val, relrefVT[0], relrefVT[1], dts, short_histo_name))
 
                             # creating shortHistoName file in DBox folder
                             if DB_flag:
