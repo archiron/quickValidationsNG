@@ -28,7 +28,10 @@ ROOT.PyConfig.IgnoreCommandLineOptions = True
 #from ROOT import gROOT
 root_version = ROOT.gROOT.GetVersion()
 
-import pandas as pd
+from multiprocessing import Pool
+
+import uproot as up
+#import pandas as pd
 import numpy as np
 
 print('PYTHON     version : {}'.format(sys.version))
@@ -102,8 +105,6 @@ for elem in rootList:
     #print(rootSources)
     for file in rootSources:
         print('fichier : {:s}'.format(file[1])) # fichier ROOT
-        #tmp3 = (file[1].split('__')[2]).split('-')[0]
-        #print('release : {:s}'.format(tmp3))
 
         # get the branches for ElectronMcSignalHistos.txt
         i = 0
@@ -124,23 +125,41 @@ for elem in rootList:
             cleanBranches(branches) # remove some histo wich have a pbm with KS.
             N_histos = len(branches)
             print('N_histos : %d' % N_histos)
-            f_root = ROOT.TFile(pathDATA + file[1])
-            h_rel = gr.getHisto(f_root, tp)
-            for ii in range(0, N_histos):#, N_histos-1 range(N_histos - 1, N_histos):  # 1 N_histos histo for debug
-                #print('histo : {:s}'.format(branches[i])) # print histo name
-                histo_rel = h_rel.Get(branches[ii])
-                if (histo_rel):
-                    print('%s OK' % branches[ii])
-                    s_new = []
-                    for entry in histo_rel:
-                        s_new.append(entry)
-                    s_new = np.asarray(s_new)
-                    s_new = s_new[1:-1]
-                    fichier.write('{:s} '.format(branches[ii]))
-                    fichier.write(' '.join("{:10.04e}".format(x) for x in s_new))
-                    fichier.write('\n')
-                else:
-                    print('%s KO' % branches[i])
+            '''f_root = ROOT.TFile(pathDATA + file[1])
+            h_rel = gr.getHisto(f_root, tp)'''
+            with up.open(pathDATA + file[1], open_options={"minimal_ttree_metadata": True}) as f_root:
+                #print(f_root.keys())
+                histos_keys = f_root['DQMData/Run 1/EgammaV/Run summary/' + tp + '/'].keys()
+                #print(histos_keys)
+                for ii in range(0, N_histos):#, N_histos-1 range(N_histos - 1, N_histos):  # 1 N_histos histo for debug
+                    #print('histo : {:s}'.format(branches[i])) # print histo name
+                    ### histo_rel = h_rel.Get(branches[ii])
+                    if ( branches[ii] + ';1' in histos_keys ):
+                        histo_rel = f_root['DQMData/Run 1/EgammaV/Run summary/' + tp + '/' + branches[ii]]
+                        print('[{:03d}] : {:s} OK'.format(ii, branches[ii]))
+                        '''
+                        s_new = []
+                        for entry in histo_rel:
+                            s_new.append(entry)
+                        s_new = np.asarray(s_new)
+                        s_new = s_new[1:-1]
+                        '''
+                        s_new = histo_rel.values(flow=False)
+                        fichier.write('{:s} '.format(branches[ii]))
+                        fichier.write(' '.join("{:10.04e}".format(x) for x in s_new))
+                        fichier.write('\n')
+                    else:
+                        print('[{:03d}] : {:s} KO'.format(ii, branches[ii]))
+                '''def writeHistosValues(k_lj):
+                    #k, lj, df_entries = k_lj
+                    #k, lj, s0, s1 = k_lj
+                    s0, s1 = k_lj
+                    #series0 = df_entries.iloc[k, :]
+                    #series1 = df_entries.iloc[lj, :]
+                    return DB.diffMAXKS3c(s0, s1) # series0, series1
+                with Pool(processes=4) as pool:
+                    args = [(df_entries.iloc[k, :], df_entries.iloc[lj, :]) for k, lj in itertools.combinations(range(Nrows), 2)]
+                    totalDiff = pool.map(writeHistosValues, args)'''
 
             i +=1
             fichier.close()

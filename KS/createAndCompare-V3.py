@@ -234,18 +234,21 @@ for valGeV in listGeV: # loop over GUI configurations
             print('\n%s' % item)
             b = (item.split('__')[2]).split('-')
             rels2.append([b[0], b[0][6:], item])
-            with up.open(pathDATA + item) as f_root:
+            with up.open(pathDATA + item, open_options={"minimal_ttree_metadata": True}) as f_root:
+                #print(f_root.keys())
+                histos_keys = f_root['DQMData/Run 1/EgammaV/Run summary/' + tp_1 + '/'].keys()
                 for i in range(0, N_histos): # 1 N_histos histo for debug
-                    histo_rel = f_root['DQMData/Run 1/EgammaV/Run summary/' + tp_1 + '/' + branches[i]]
-                    print('[{:03d}] : {:s}'.format(i, branches[i]))
-                    s_tmp = gr.histogram_to_dataframe5(histo_rel)#['Content']
-                    if (s_tmp['Content'].min() < 0.):
-                        print('pbm whith histo %s, min < 0' % branches[i])
-                    elif (np.floor(s_tmp['Content'].sum()) == 0.):
-                        print('pbm whith histo %s, sum = 0' % branches[i])
-                    else:
-                        nbHistos += 1
-                        tmp_branch.append(branches[i])
+                    if ( branches[i] + ';1' in histos_keys ):
+                        histo_rel = f_root['DQMData/Run 1/EgammaV/Run summary/' + tp_1 + '/' + branches[i]]
+                        print('[{:03d}] : {:s}'.format(i, branches[i]))
+                        s_tmp = gr.histogram_to_dataframe5(histo_rel)#['Content']
+                        if (s_tmp['Content'].min() < 0.):
+                            print('pbm whith histo %s, min < 0' % branches[i])
+                        elif (np.floor(s_tmp['Content'].sum()) == 0.):
+                            print('pbm whith histo %s, sum = 0' % branches[i])
+                        else:
+                            nbHistos += 1
+                            tmp_branch.append(branches[i])
                 nb_ttl_histos2.append(nbHistos)
                 tmp_branches2.append(tmp_branch)
 
@@ -268,7 +271,7 @@ for valGeV in listGeV: # loop over GUI configurations
         #sortedRels2 = sorted(rels2, key = lambda x: x[0]) # gives an array with releases sorted
         sortedRels2 = rels2 # keep releases order
         # get the "reference" root file datas
-        f_KSref = up.open(pathDATA + input_ref_file)
+        f_KSref = up.open(pathDATA + input_ref_file, open_options={"minimal_ttree_metadata": True})
         print('we use the %s file as KS reference' % input_ref_file)
 
         diffTab2 = pd.DataFrame()
@@ -299,7 +302,7 @@ for valGeV in listGeV: # loop over GUI configurations
                 file = elem[2]
                 # get the "new" root file datas
                 input_rel_file = file
-                with up.open(pathDATA + input_rel_file) as f_rel:
+                with up.open(pathDATA + input_rel_file, open_options={"minimal_ttree_metadata": True}) as f_rel:
                     #print('we use the {:s} file as new release '.format(input_rel_file))
 
                     histo_rel = f_rel['DQMData/Run 1/EgammaV/Run summary/' + tp_1 + '/' + branches[i]]
