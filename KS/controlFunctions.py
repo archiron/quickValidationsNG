@@ -15,6 +15,7 @@ import os
 
 from os import listdir
 from os.path import isfile, join
+import pandas as pd
 
 def checkFolderName(folderName):
     if folderName[-1] != '/':
@@ -75,6 +76,7 @@ def getListFiles(path, ext='root'):
     #print('path : %s' % path)
     onlyfiles = [f for f in listdir(path) if isfile(join(path, f))]
     onlyfiles = [f for f in onlyfiles if f.endswith(ext)] # keep only root files
+    onlyfiles = [f for f in onlyfiles if f.startswith('DQM_')] # keep only root files
     #print(onlyfiles)
     return onlyfiles
 
@@ -128,12 +130,12 @@ def reduceBranch(branch):
     shn = branch.replace("h_", "").replace("ele_", "").replace("scl_", "").replace("bcl_", "")
     return shn
 
-def optimizeBranches(tmp_branches):
+def optimizeBranches_old(tmp_branches):
     #tmp_branches = np.asarray(tmp_branches)
     nb_branches = len(tmp_branches)
     print('nb branches : %d' % nb_branches)
     t0 = tmp_branches[0]
-    print(t0)
+    #print(t0)
     for i in range(1,nb_branches):
         #print(i)
         t1 = tmp_branches[i]
@@ -141,9 +143,33 @@ def optimizeBranches(tmp_branches):
             if (t1.count(item) == 0):
                 print('%s not in t1' % item)
                 t0.remove(item)
-        print('{:d} : '.format(i), t0)
-    print(len(t0))
+        #print('{:d} : '.format(i), t0)
+    #print(len(t0))
     return t0
+
+def optimizeBranches(tmp_branches):
+    #tmp_branches = np.asarray(tmp_branches)
+    nb_branches = len(tmp_branches)
+    print('nb branches : %d' % nb_branches)
+    for i in range(0, nb_branches):
+        print('nb leaves : {:d}'.format(len(tmp_branches[i])))
+    t0 = tmp_branches[0]
+    for i in range(0,len(t0)):
+        #print(t0[i])
+        for j in range(1,nb_branches):
+            t1 = tmp_branches[j]
+            if (t1[i] == 'KOKO'):
+                print('{:s} must be removed'.format(t0[i]))
+                t0[i] = 'KOKO'
+
+    t0 = list(set(t0))
+    t0 = list(filter(lambda x: x != 'KOKO', t0))
+    return t0
+
+def optimizeBranches2(tmp_branches):
+    # Aplatir la liste de listes
+    tmpBr1 = [val for sous_liste in tmp_branches for val in sous_liste]
+    return tmpBr1
 
 def change_nbFiles(nbFiles_computed, nbFiles):
     if (nbFiles_computed != nbFiles):

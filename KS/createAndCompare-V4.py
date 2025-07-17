@@ -11,11 +11,14 @@
 ################################################################################
 
 from genericpath import exists
-import os,sys,re
+import os
+import sys
+import re
 import importlib
 import importlib.machinery
 import importlib.util
 import time
+from collections import Counter
 
 sys.path.append('../../ChiLib_CMS_Validation')
 
@@ -241,9 +244,7 @@ for valGeV in listGeV: # loop over GUI configurations
                 if ( histo_rel ):
                     '''d = gr.getHistoConfEntry(histo_rel)'''
                     print('[{:03d}] : {:s}'.format(i, branches[i]))
-                    '''s_tmp = gr.fill_Snew3(d, histo_rel)
-                    print(s_tmp)
-                    print(histo_rel.values())'''
+                    '''s_tmp = gr.fill_Snew3(d, histo_rel)'''
                     s_tmp = histo_rel.values()
 
                     if (s_tmp.min() < 0.):
@@ -257,7 +258,17 @@ for valGeV in listGeV: # loop over GUI configurations
                 tmp_branches2.append(tmp_branch)
 
         #print('nb_ttl_histos : ', nb_ttl_histos2)
-        newBranches2 = optimizeBranches(tmp_branches2)
+        #newBranches2 = optimizeBranches2(tmp_branches2)
+        newBr2 = [val for sous_liste in tmp_branches2 for val in sous_liste]
+        compteur = Counter(newBr2)
+        d_occurrences = dict(compteur)
+        '''for valeur, nb in compteur.items():
+            print(f"{valeur} : {nb}")'''
+        c_min = min(d_occurrences.values())
+        c_max = max(d_occurrences.values())
+        print('[min, max] : [{:d}, {:d}]'.format(c_min, c_max))
+        newBranches2 = [cle for cle, nb in d_occurrences.items() if nb == c_max]
+        #print(newBranches2)
 
         if (len(branches) != len(newBranches2)):
             print('len std branches : {:d}'.format(len(branches)))

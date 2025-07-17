@@ -11,11 +11,14 @@
 ################################################################################
 
 from genericpath import exists
-import os,sys,re
+import os
+import sys
+import re
 import importlib
 import importlib.machinery
 import importlib.util
 import time
+from collections import Counter
 
 sys.path.append('../../ChiLib_CMS_Validation')
 
@@ -23,6 +26,10 @@ sys.path.append('../../ChiLib_CMS_Validation')
 from sys import argv
 
 import ROOT
+import pandas as pd
+import numpy as np
+import matplotlib
+
 ROOT.gROOT.SetBatch(True)
 ROOT.gErrorIgnoreLevel = ROOT.kFatal # ROOT.kBreak # 
 ROOT.PyConfig.DisableRootLogon = True
@@ -30,10 +37,6 @@ ROOT.PyConfig.IgnoreCommandLineOptions = True
 
 #from ROOT import gROOT
 root_version = ROOT.gROOT.GetVersion()
-
-import pandas as pd
-import numpy as np
-import matplotlib
 
 print('PANDAS     version : {}'.format(pd.__version__))
 print('PYTHON     version : {}'.format(sys.version))
@@ -45,7 +48,7 @@ print("ROOT      version : {}".format(root_version))
 matplotlib.use('agg')
 #from matplotlib import pyplot as plt
 
-print("\ncreateAndCompare")
+print("\ncreateAndCompare V2")
 
 extFile = sys.argv[1]
 CompleteExtFile = os.getcwd()+'/'+ extFile
@@ -95,7 +98,7 @@ listGeV = []
 for elem in mods:
     if re.search('GeV_', elem):
         listGeV.append(elem)
-print(listGeV)
+#print(listGeV)
 
 tic = time.time()
 for valGeV in listGeV: # loop over GUI configurations
@@ -159,7 +162,7 @@ for valGeV in listGeV: # loop over GUI configurations
     cleanBranches(branches) # remove some histo wich have a pbm with KS.
 
     N_histos = len(branches)
-    N_histos = 1
+    #N_histos = 21
     print('N_histos : %d' % N_histos)
 
     #dts = 'ZEE_14'
@@ -178,13 +181,12 @@ for valGeV in listGeV: # loop over GUI configurations
         print('leNom calculé : {:s}'.format(leNom))
     
         rootSources = locals()[leNom]
-        print(rootSources)
-        #Stop()
+        #print(rootSources)
 
         rels = []
         tmp_branches = []
         nb_ttl_histos = []
-        rels2 = []
+        sortedRels2 = []
         tmp_branches2 = []
         nb_ttl_histos2 = []
 
@@ -225,30 +227,26 @@ for valGeV in listGeV: # loop over GUI configurations
                 rootFilesList2.append(elem)
             else:
                 print("{:s} n'existe pas".format(name))
-        print(rootFilesList2)
+        #print(rootFilesList2)
 
-        print('we use the files :')
+        print('for branch enumeration, we use the files :')
         for item in rootFilesList2:
             tmp_branch = []
             nbHistos = 0
             print('\n%s' % item)
             b = (item.split('__')[2]).split('-')
-            rels2.append([b[0], b[0][6:], item])
+            sortedRels2.append([b[0], b[0][6:], item])
             f_root = ROOT.TFile(pathDATA + item)
             h_rel = gr.getHisto(f_root, tp_1)
+
             for i in range(0, N_histos): # 1 N_histos histo for debug
                 histo_rel = h_rel.Get(branches[i])
-                print('[{:03d}] : {:s}'.format(i, branches[i]))
-                if (histo_rel):
-                    d = gr.getHistoConfEntry(histo_rel)
-                    #ibin=0
-                    print('nb bins : {:d}'.format(histo_rel.GetXaxis().GetNbins()))
-                    '''for entry in range(0,histo_rel.GetXaxis().GetNbins()+1): #histo_rel:
-                        #print('{:f}'.format(entry))
-                        print('[{:03d}] : {:f}'.format(ibin, histo_rel.GetBinContent(ibin)))
-                        ibin+=1
-                    print('[{:03d}] : {:f}'.format(ibin, histo_rel.GetBinContent(ibin)))'''
-                    s_tmp = gr.fill_Snew3(d, histo_rel)
+                if ( histo_rel ):
+                    '''d = gr.getHistoConfEntry(histo_rel)'''
+                    #print('[{:03d}] : {:s}'.format(i, branches[i]))
+                    '''s_tmp = gr.fill_Snew3(d, histo_rel)'''
+                    s_tmp = histo_rel.values()
+
                     if (s_tmp.min() < 0.):
                         print('pbm whith histo %s, min < 0' % branches[i])
                     elif (np.floor(s_tmp.sum()) == 0.):
@@ -256,19 +254,21 @@ for valGeV in listGeV: # loop over GUI configurations
                     else:
                         nbHistos += 1
                         tmp_branch.append(branches[i])
-                else:
-                    print('%s KO' % branches[i])
-            nb_ttl_histos2.append(nbHistos)
-            tmp_branches2.append(tmp_branch)
+                nb_ttl_histos2.append(nbHistos)
+                tmp_branches2.append(tmp_branch)
 
-        print('nb_ttl_histos : ', nb_ttl_histos2)
-        print('set_histos : ', set(nb_ttl_histos))
-        if(len(set(nb_ttl_histos))==1):
-            print('All elements are the same with value {:d}.'.format(nb_ttl_histos[0]))
-        else:
-            print('All elements are not the same.')
-            print('nb ttl of histos : ' , nb_ttl_histos)
-        newBranches2 = optimizeBranches(tmp_branches2)
+        #print('nb_ttl_histos : ', nb_ttl_histos2)
+        #newBranches2 = optimizeBranches2(tmp_branches2)
+        newBr2 = [val for sous_liste in tmp_branches2 for val in sous_liste]
+        compteur = Counter(newBr2)
+        d_occurrences = dict(compteur)
+        '''for valeur, nb in compteur.items():
+            print(f"{valeur} : {nb}")'''
+        c_min = min(d_occurrences.values())
+        c_max = max(d_occurrences.values())
+        print('[min, max] : [{:d}, {:d}]'.format(c_min, c_max))
+        newBranches2 = [cle for cle, nb in d_occurrences.items() if nb == c_max]
+        #print(newBranches2)
 
         if (len(branches) != len(newBranches2)):
             print('len std branches : {:d}'.format(len(branches)))
@@ -278,111 +278,88 @@ for valGeV in listGeV: # loop over GUI configurations
 
         print('N_histos : %d' % N_histos)
 
-        #sortedRels2 = sorted(rels2, key = lambda x: x[0]) # gives an array with releases sorted
-        sortedRels2 = rels2 # keep releases order
         # get the "reference" root file datas
         f_KSref = ROOT.TFile(pathDATA + input_ref_file)
         print('we use the %s file as KS reference' % input_ref_file)
-
         h_KSref = gr.getHisto(f_KSref, tp_1)
-        print(h_KSref)
+        #print(h_KSref)
 
         diffTab2 = pd.DataFrame()
-        print(diffTab2)
+        #print(diffTab2)
         toto = []
 
         for i in range(0, N_histos):#, N_histos-1 range(N_histos - 1, N_histos):  # 1 N_histos histo for debug
-            #print('histo : {:s}'.format(branches[i])) # print histo name
+            print('[{:03d}] - histo : {:s}'.format(i, branches[i])) # print histo name
             r_rels2 = []
             
-            histo_rel = h_rel.Get(branches[i])
-            if (histo_rel):
-                print('%s OK' % branches[i])
+            print('%s OK' % branches[i])
 
-                # create the datas for the p-Value graph
-                # by comparing 1 curve with the others.
-                histo_KSref = h_KSref.Get(branches[i])
-                s_KSref = []
-                ij = 0
-                for entry in range(1,histo_KSref.GetXaxis().GetNbins()+1):
-                    #print('s_KSref - [{:03d}] : {:f}'.format(ij, histo_KSref.GetBinContent(ij)))
-                    s_KSref.append(histo_KSref.GetBinContent(ij))
-                    ij += 1
-                s_KSref = np.asarray(s_KSref)
-                #s_KSref = s_KSref[1:-1]
-                print('nb bins : {:d}'.format(histo_KSref.GetXaxis().GetNbins()))
-                print('s_KSref has {:d} elements'.format(len(s_KSref)))
+            # create the datas for the p-Value graph
+            # by comparing 1 curve with the others.
+            histo_KSref = h_KSref.Get(branches[i])
 
-                #print('\nWorking with sorted rels\n')
-                ind_rel = 0
-                diffValues = []
-                diffValues2 = []
-                i_2 = 0
-                for elem in sortedRels2:
-                    print(elem)
-                    rel = elem[1]
-                    file = elem[2]
-                    # get the "new" root file datas
-                    input_rel_file = file
-                    f_rel = ROOT.TFile(pathDATA + input_rel_file)
-                    #print('we use the {:s} file as new release '.format(input_rel_file))
 
-                    h_rel = gr.getHisto(f_rel, tp_1)
-                    histo_rel = h_rel.Get(branches[i])
+            s_KSref = histo_KSref.values()
+            print('s_KSref has {:d} elements'.format(len(s_KSref)))
 
-                    s_new = []
-                    ij = 0
-                    for entry in range(1,histo_rel.GetXaxis().GetNbins()+1):
-                        print('s_new - [{:03d}] : {:f}'.format(ij, histo_rel.GetBinContent(ij)))
-                        s_new.append(histo_rel.GetBinContent(ij))
-                        ij += 1
-                    s_new = np.asarray(s_new)
-                    #s_new = s_new[1:-1]
-                    if (len(s_KSref) != len(s_new)):
-                        print('pbm whith histo %s, lengths are not the same' % branches[i])
-                        continue
+            #print('\nWorking with sorted rels\n')
+            ind_rel = 0
+            diffValues = []
+            diffValues2 = []
+            i_2 = 0
+            for elem in sortedRels2:
+                #print(elem)
+                rel = elem[1]
+                file = elem[2]
+                # get the "new" root file datas
+                input_rel_file = file
+                f_rel = ROOT.TFile(pathDATA + input_rel_file)
+                h_rel = gr.getHisto(f_rel, tp_1)
+                #print('we use the {:s} file as new release '.format(input_rel_file))
 
-                    if (s_new.min() < 0.):
-                        print('pbm whith histo %s, min < 0' % branches[i])
-                        continue
-                    if (np.floor(s_new.sum()) == 0.):
-                        print('pbm whith histo %s, sum = 0' % branches[i])
-                        continue
-                        
-                    # diff max between new & old
-                    diffMax0 = DB.diffMAXKS3c(s_KSref, s_new)
-                    print('{:s} - max : {:f}'.format(rel, diffMax0))
 
-                    diffValues.append(diffMax0)
-                    if (tmpSource1[i_2] == 1):
-                        diffValues2.append(diffMax0)
-                    else:
-                        diffValues2.append(np.nan)
-                    r_rels2.append(str(rel))
-                    ind_rel += 1
-                    i_2 += 1
-                    f_rel.Close() # close TFile
-                
-                toto.append(diffValues)
-                lab = r_rels2
-                val = diffValues
-                val2 = diffValues2
-                print(diffValues)
-                print(diffValues2)
-                print('il y a {:d} points dans les valeurs'.format(len(val)))
-                print('il y a {:d} points dans les labels'.format(len(lab)))
-                print(val)
-                print(val2)
-                #pictureName = webFolder + dataSetFolder + '/pngs/maxDiff_comparison_' + branches[i] + '_2.png' # 
-                #print(pictureName)
-                #title = 'KS cum diff values vs releases. ' + branches[i]
-                #createCompLossesPicture3(lab,val, pictureName, title, 'Releases', 'max diff')
-                pictureName = webFolder + dataSetFolder + '/pngs/maxDiff_comparison_' + branches[i] + '_3.png' # 
-                print(pictureName)
-                title = 'KS cum diff values vs releases. ' + branches[i]
-                createCompLossesPicture4(lab,val,val2, pictureName, title, 'Releases', 'max diff')
-            else:
-                print('%s KO' % branches[i])
+                histo_rel = h_rel.Get(branches[i])
+
+
+                s_new = histo_rel.values()
+
+                if (len(s_KSref) != len(s_new)):
+                    print('pbm whith histo %s, lengths are not the same' % branches[i])
+                    continue
+
+                if (s_new.min() < 0.):
+                    print('pbm whith histo %s, min < 0' % branches[i])
+                    continue
+                if (np.floor(s_new.sum()) == 0.):
+                    print('pbm whith histo %s, sum = 0' % branches[i])
+                    continue
+                    
+                # diff max between new & old
+                diffMax0 = DB.diffMAXKS3c(s_KSref, s_new)
+                #print('{:s} - max : {:f}'.format(rel, diffMax0))
+
+                diffValues.append(diffMax0)
+                if (tmpSource1[i_2] == 1):
+                    diffValues2.append(diffMax0)
+                else:
+                    diffValues2.append(np.nan)
+                r_rels2.append(str(rel))
+                ind_rel += 1
+                i_2 += 1
+                f_rel.Close() # close TFile
+            
+            toto.append(diffValues)
+            lab = r_rels2
+            val = diffValues
+            val2 = diffValues2
+            print('il y a {:d} points dans les valeurs'.format(len(val)))
+            print('il y a {:d} points dans les labels'.format(len(lab)))
+
+            pictureName = webFolder + dataSetFolder + '/pngs/maxDiff_comparison_' + branches[i] + '_3.png' # 
+            print(pictureName)
+            title = 'KS cum diff values vs releases. ' + branches[i]
+            createCompLossesPicture4(lab,val,val2, pictureName, title, 'Releases', 'max diff')
+
         diffTab2 = pd.DataFrame(toto, columns=r_rels2)
         globos = diffTab2.mean(axis=0, numeric_only=True)
 
@@ -390,12 +367,8 @@ for valGeV in listGeV: # loop over GUI configurations
         dt = globos.head(50)
         lab = list(dt.index.values)
         val1 = globos.to_list()
-        print(dataSetFolder)
-        print(webFolder)
-        #pictureName = webFolder + dataSetFolder + '/pngs/maxDiff_comparison_values_2.png' # 
-        #print(pictureName)
-        #title = r"$\bf{total}$" + ' : KS cum diff values vs releases.'
-        #createCompLossesPicture(lab,val1, pictureName, title, 'Releases', 'max diff')
+        #print(dataSetFolder)
+        #print(webFolder)
 
         val2 = []
         i = 0
@@ -409,11 +382,6 @@ for valGeV in listGeV: # loop over GUI configurations
         print(pictureName)
         title = r"$\bf{total}$" + ' : KS cum diff values vs releases.'
         createCompLossesPicture4(lab, val1, val2, pictureName, title, 'Releases', 'max diff')
-        #print(list(diffTab2.mean(axis=0, numeric_only=True).head(50).index.values))
-        #print(diffTab2.mean(axis=0, numeric_only=True).to_list())
-        #print(tmpSource1)
-        #print(val1)
-        #print(val2)
 
     toc = time.time()
     print('Done in {:.4f} seconds'.format(toc-tic))
