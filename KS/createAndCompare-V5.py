@@ -50,7 +50,7 @@ print("ROOT      version : {}".format(root_version))
 matplotlib.use('agg')
 #from matplotlib import pyplot as plt
 
-print("\ncreateAndCompare V4")
+print("\ncreateAndCompare V5")
 
 extFile = sys.argv[1]
 CompleteExtFile = os.getcwd()+'/'+ extFile
@@ -273,8 +273,6 @@ for valGeV in listGeV: # loop over GUI configurations
         newBr2 = [val for sous_liste in tmp_branches2 for val in sous_liste]
         compteur = Counter(newBr2)
         d_occurrences = dict(compteur)
-        '''for valeur, nb in compteur.items():
-            print(f"{valeur} : {nb}")'''
         c_min = min(d_occurrences.values())
         c_max = max(d_occurrences.values())
         print('[min, max] : [{:d}, {:d}]'.format(c_min, c_max))
@@ -297,7 +295,9 @@ for valGeV in listGeV: # loop over GUI configurations
         diffTab2 = pd.DataFrame()
         toto = []
 
-        for i in range(0, N_histos):#, N_histos-1 range(N_histos - 1, N_histos):  # 1 N_histos histo for debug
+        
+        #print("==========\nSEQUENTIAL VERSION\n==========")
+        '''for i in range(0, N_histos):#, N_histos-1 range(N_histos - 1, N_histos):  # 1 N_histos histo for debug
             print('[{:03d}] - histo : {:s}'.format(i, branches[i])) # print histo name
             r_rels2 = []
             
@@ -305,28 +305,25 @@ for valGeV in listGeV: # loop over GUI configurations
 
             diffValues = []
             diffValues2 = []
-            def process_histo(tt_histos):
-                #hist_dict, elem1, bri, t_histos = tt_histos
-                elem1, bri, t_histos = tt_histos
-                s_new = hist_dict.get((elem1, bri), None)
-                if (len(t_histos) != len(s_new)):
-                    print('{:s} process pbm whith histo {:s}, lengths are not the same [{:d}, {:d}]'.format(elem1, branches[i], len(t_histos), len(s_new)))
-                    print(t_histos)
-                    print(s_new)
-                    return np.nan
+            #print("==========\nSEQUENTIAL VERSION\n==========")
+            for i_2, elem in enumerate(sortedRels2):
+                # Filter for specific item and hist
+                s_new = hist_dict.get((elem[1], branches[i]))
+                if (len(s_KSref) != len(s_new)):
+                    print('pbm whith histo {:s}, lengths are not the same [{:d}, {:d}]'.format(branches[i], len(s_KSref), len(s_new)))
+                    continue
                 if (s_new.min() < 0.):
                     print('pbm whith histo %s, min < 0' % branches[i])
-                    return np.nan
+                    continue
                 if (np.floor(s_new.sum()) == 0.):
                     print('pbm whith histo %s, sum = 0' % branches[i])
-                    return np.nan
-                diffMax0 = DB.diffMAXKS3c(t_histos, s_new)
-                return diffMax0
+                    continue
+                diffMax0 = DB.diffMAXKS3c(s_KSref, s_new)
+
+                diffValues.append(diffMax0)
+                diffValues2.append(diffMax0 if tmpSource1[i_2] == 1 else np.nan)
             
-            with Pool(processes=4) as pool:
-                #args = [ (hist_dict, elem[1], branches[i], s_KSref.copy()) for elem in sortedRels2]
-                args = [ (elem[1], branches[i], s_KSref.copy()) for elem in sortedRels2]
-                diffValues = pool.map(process_histo, args)
+            #print("==========\nPARALLEL VERSION\n==========")
             r_rels2 = [str(elem[1]) for elem in sortedRels2]
             toto.append(diffValues)
             lab = r_rels2
@@ -336,8 +333,49 @@ for valGeV in listGeV: # loop over GUI configurations
             pictureName = webFolder + dataSetFolder + '/pngs/maxDiff_comparison_' + branches[i] + '_3.png' # 
             #print(pictureName)
             title = 'KS cum diff values vs releases. ' + branches[i]
+            createCompLossesPicture4(lab,diffValues,diffValues2, pictureName, title, 'Releases', 'max diff')'''
+
+        #print(r_rels2)
+        print("==========\nPARALLEL VERSION\n==========")
+        def process_histo(tt_histos):
+            i, bri, t_histos = tt_histos
+            print('[{:03d}] - histo : {:s}'.format(i, bri)) # print histo name
+            #r_rels2 = []
+            s_KSref = hist_dict.get((release[6:], bri))
+            diffValues = []
+            diffValues2 = []
+            #print("==========\nSEQUENTIAL VERSION\n==========")
+            for i_2, elem in enumerate(sortedRels2):
+                # Filter for specific item and hist
+                s_new = hist_dict.get((elem[1], branches[i]))
+                if (len(s_KSref) != len(s_new)):
+                    print('pbm whith histo {:s}, lengths are not the same [{:d}, {:d}]'.format(branches[i], len(s_KSref), len(s_new)))
+                    continue
+                if (s_new.min() < 0.):
+                    print('pbm whith histo %s, min < 0' % branches[i])
+                    continue
+                if (np.floor(s_new.sum()) == 0.):
+                    print('pbm whith histo %s, sum = 0' % branches[i])
+                    continue
+                diffMax0 = DB.diffMAXKS3c(s_KSref, s_new)
+
+                diffValues.append(diffMax0)
+                diffValues2.append(diffMax0 if tmpSource1[i_2] == 1 else np.nan)
+
+            lab = [str(elem[1]) for elem in sortedRels2]
+            diffValues2 = np.where(tmpSource1, diffValues, np.nan)
+            pictureName = webFolder + dataSetFolder + '/pngs/maxDiff_comparison_' + branches[i] + '_3d.png' # 
+            title = 'KS cum diff values vs releases. ' + branches[i]
             createCompLossesPicture4(lab,diffValues,diffValues2, pictureName, title, 'Releases', 'max diff')
 
+            return diffValues
+
+        with Pool(processes=4) as pool:
+            args = [ (i, branches[i], []) for i in range(N_histos)]
+            toto = pool.map(process_histo, args)
+        
+        r_rels2 = [str(elem[1]) for elem in sortedRels2]
+        #print(r_rels2)
         diffTab2 = pd.DataFrame(toto, columns=r_rels2)
         globos = diffTab2.mean(axis=0, numeric_only=True)
 

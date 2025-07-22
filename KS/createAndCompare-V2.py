@@ -292,35 +292,24 @@ for valGeV in listGeV: # loop over GUI configurations
             print('[{:03d}] - histo : {:s}'.format(i, branches[i])) # print histo name
             r_rels2 = []
             
-            print('%s OK' % branches[i])
-
-            # create the datas for the p-Value graph
             # by comparing 1 curve with the others.
             histo_KSref = h_KSref.Get(branches[i])
-
-
             s_KSref = histo_KSref.values()
             print('s_KSref has {:d} elements'.format(len(s_KSref)))
 
             #print('\nWorking with sorted rels\n')
-            ind_rel = 0
             diffValues = []
             diffValues2 = []
             i_2 = 0
             for elem in sortedRels2:
-                #print(elem)
                 rel = elem[1]
                 file = elem[2]
                 # get the "new" root file datas
                 input_rel_file = file
                 f_rel = ROOT.TFile(pathDATA + input_rel_file)
                 h_rel = gr.getHisto(f_rel, tp_1)
-                #print('we use the {:s} file as new release '.format(input_rel_file))
-
 
                 histo_rel = h_rel.Get(branches[i])
-
-
                 s_new = histo_rel.values()
 
                 if (len(s_KSref) != len(s_new)):
@@ -334,7 +323,7 @@ for valGeV in listGeV: # loop over GUI configurations
                     print('pbm whith histo %s, sum = 0' % branches[i])
                     continue
                     
-                # diff max between new & old
+                # diff max between new & ref
                 diffMax0 = DB.diffMAXKS3c(s_KSref, s_new)
                 #print('{:s} - max : {:f}'.format(rel, diffMax0))
 
@@ -344,7 +333,6 @@ for valGeV in listGeV: # loop over GUI configurations
                 else:
                     diffValues2.append(np.nan)
                 r_rels2.append(str(rel))
-                ind_rel += 1
                 i_2 += 1
                 f_rel.Close() # close TFile
             
