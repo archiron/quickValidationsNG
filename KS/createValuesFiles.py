@@ -55,7 +55,8 @@ from graphicFunctions import Graphic
 from functions import *
 from networkFunctions import networkFunctions
 from valEnv_default import env_default
-from rootSources import *
+#from rootSources import *
+from rootSourcesRegenerated import *
 
 gr = Graphic()
 gr.initRoot()
@@ -92,17 +93,13 @@ for elem in rootList:
     it_list = it_list1
     if (len(relrefVT) > 4):
         recOnly = 'RecoOnly'
-        #print(relrefVT)
-        #relrefVT = relrefVT.replace('RecoOnly', '')
         relrefVT = relrefVT[:-8]
-        #print(relrefVT)
     print(dataset, choice, relrefVT, recOnly)
     if (relrefVT == 'PU'):
         tp_list = tp_list2 # liste des chemins dans les fichiers ROOT
         it_list = it_list2
     print('tp_list', tp_list)
     rootSources = locals()[str(elem)]
-    #print(rootSources)
     for file in rootSources:
         print('fichier : {:s}'.format(file[1])) # fichier ROOT
 
@@ -114,52 +111,27 @@ for elem in rootList:
             print('fichier : {:s}'.format(fileName))
             fichier = open(fileName, "w")
             branches = []
-            print('ip', it)
-            print('i', i)
+            print('[it, i] = [{:s}, {:d}]'.format(it, i))
             source = pathChiLib + it
             print('tp_list', tp_list)
             tp = tp_list[i]
-            print('source %s' % source)
-            print('tp : {:s}'.format(tp))
+            print('source {:s}, tp : {:s}'.format(source, tp))
             branches = getBranches(tp, source)
             cleanBranches(branches) # remove some histo wich have a pbm with KS.
             N_histos = len(branches)
             print('N_histos : %d' % N_histos)
-            '''f_root = ROOT.TFile(pathDATA + file[1])
-            h_rel = gr.getHisto(f_root, tp)'''
             with up.open(pathDATA + file[1], open_options={"minimal_ttree_metadata": True}) as f_root:
-                #print(f_root.keys())
                 histos_keys = f_root['DQMData/Run 1/EgammaV/Run summary/' + tp + '/'].keys()
-                #print(histos_keys)
                 for ii in range(0, N_histos):#, N_histos-1 range(N_histos - 1, N_histos):  # 1 N_histos histo for debug
-                    #print('histo : {:s}'.format(branches[i])) # print histo name
-                    ### histo_rel = h_rel.Get(branches[ii])
                     if ( branches[ii] + ';1' in histos_keys ):
                         histo_rel = f_root['DQMData/Run 1/EgammaV/Run summary/' + tp + '/' + branches[ii]]
                         print('[{:03d}] : {:s} OK'.format(ii, branches[ii]))
-                        '''
-                        s_new = []
-                        for entry in histo_rel:
-                            s_new.append(entry)
-                        s_new = np.asarray(s_new)
-                        s_new = s_new[1:-1]
-                        '''
                         s_new = histo_rel.values(flow=False)
                         fichier.write('{:s} '.format(branches[ii]))
                         fichier.write(' '.join("{:10.04e}".format(x) for x in s_new))
                         fichier.write('\n')
                     else:
                         print('[{:03d}] : {:s} KO'.format(ii, branches[ii]))
-                '''def writeHistosValues(k_lj):
-                    #k, lj, df_entries = k_lj
-                    #k, lj, s0, s1 = k_lj
-                    s0, s1 = k_lj
-                    #series0 = df_entries.iloc[k, :]
-                    #series1 = df_entries.iloc[lj, :]
-                    return DB.diffMAXKS3c(s0, s1) # series0, series1
-                with Pool(processes=4) as pool:
-                    args = [(df_entries.iloc[k, :], df_entries.iloc[lj, :]) for k, lj in itertools.combinations(range(Nrows), 2)]
-                    totalDiff = pool.map(writeHistosValues, args)'''
 
             i +=1
             fichier.close()

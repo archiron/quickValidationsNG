@@ -9,12 +9,13 @@
 #Purple       0;35     Light Purple  1;35
 #Cyan         0;36     Light Cyan    1;36
 #Light Gray   0;37     White         1;37
+#B_BLUE="\\e[1;34m"
+
 
 RED='\033[0;31m'
 BLUE='\033[0;34m'
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
-echo -e "I ${BLUE}love${GREEN} Stack Overflow${NC}"
 
 # cp CONFIG_FILES/config.*.py -v /afs/cern.ch/work/a/archiron/private/CONFIG/
 a=`ls config.*.py`
@@ -27,8 +28,8 @@ do
     echo -e "cp ${BLUE}$name${NC} $target"
     cp $name $target
   else
-    echo -e "cp ${GREEN}$name${NC} $target"
-    cp $name $target
+    echo -e "${GREEN}$name${NC}"
+    #cp $name $target
   fi
 done
 
@@ -43,7 +44,7 @@ do
     echo -e "cp ${BLUE}$name${NC} $target"
     cp $name $target
   else
-    echo -e "cp ${GREEN}$name${NC} $target"
-    cp $name $target
+    echo -e "${GREEN}$name${NC}"
+    #cp $name $target
   fi
 done

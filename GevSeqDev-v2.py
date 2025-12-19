@@ -498,7 +498,7 @@ if __name__=="__main__":
 
                         histo_1 = h_1.Get(short_histo_names[0]) #
                         histo_2 = h_2.Get(short_histo_names[0]) #
-                        ycFlag = False
+                        #ycFlag = False
                         if DB_flag:
                             try:
                                 histo_3 = h3.Get(short_histo_names[0]) # KS reference
@@ -518,7 +518,7 @@ if __name__=="__main__":
 
                         gr.initRootStyle()
                         gr.PictureChoice(histo_1, histo_2, histo_positions[1], histo_positions[2], picture_name, 0)
-                        if ycFlag:
+                        '''if ycFlag:
                             tl.createPngDatasetFolder()
                             gr.PictureChoice_DB(histo_1, histo_3, histo_positions[1], histo_positions[2], png_name, 0, yellowCurves)
                             gr.PictureChoice_DB3(histo_1, histo_3, histo_positions[1], histo_positions[2], png_cumul_name, 0, yellowCurvesCum)
@@ -541,7 +541,7 @@ if __name__=="__main__":
                                 DB.DBwebPage(fHisto, Names, KS_V, DB_picture, webURL, shortWebFolder, dataSetFolder, KS_Path0, KS_Path1, ycFlag, shortRelease, shortReference)
 
                         if DB_flag:
-                            fHisto.close()
+                            fHisto.close()'''
                 return
 
             with Pool(processes=4) as pool:

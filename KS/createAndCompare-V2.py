@@ -70,7 +70,8 @@ from controlFunctions import *
 from graphicFunctions import Graphic
 from graphicAutoEncoderFunctions import createCompLossesPicture4 # createCompLossesPicture, createCompLossesPicture3, 
 from DecisionBox import DecisionBox
-from rootSources import *
+#from rootSources import *
+from rootSourcesRegenerated import *
 from functions import *
 from networkFunctions import networkFunctions
 from valEnv_default import env_default
@@ -238,14 +239,14 @@ for valGeV in listGeV: # loop over GUI configurations
             sortedRels2.append([b[0], b[0][6:], item])
             f_root = ROOT.TFile(pathDATA + item)
             h_rel = gr.getHisto(f_root, tp_1)
-
             for i in range(0, N_histos): # 1 N_histos histo for debug
                 histo_rel = h_rel.Get(branches[i])
+                s_tmp = []
                 if ( histo_rel ):
                     '''d = gr.getHistoConfEntry(histo_rel)'''
-                    #print('[{:03d}] : {:s}'.format(i, branches[i]))
                     '''s_tmp = gr.fill_Snew3(d, histo_rel)'''
                     s_tmp = histo_rel.values()
+                    #print('[{:03d}] : {:s} & {:d} for size'.format(i, branches[i], len(s_tmp)))
 
                     if (s_tmp.min() < 0.):
                         print('pbm whith histo %s, min < 0' % branches[i])
@@ -254,6 +255,9 @@ for valGeV in listGeV: # loop over GUI configurations
                     else:
                         nbHistos += 1
                         tmp_branch.append(branches[i])
+                else:
+                    print('pbm with {:s}'.format(branches[i]))
+                    s_tmp = []
                 nb_ttl_histos2.append(nbHistos)
                 tmp_branches2.append(tmp_branch)
 
@@ -262,8 +266,6 @@ for valGeV in listGeV: # loop over GUI configurations
         newBr2 = [val for sous_liste in tmp_branches2 for val in sous_liste]
         compteur = Counter(newBr2)
         d_occurrences = dict(compteur)
-        '''for valeur, nb in compteur.items():
-            print(f"{valeur} : {nb}")'''
         c_min = min(d_occurrences.values())
         c_max = max(d_occurrences.values())
         print('[min, max] : [{:d}, {:d}]'.format(c_min, c_max))
@@ -280,12 +282,9 @@ for valGeV in listGeV: # loop over GUI configurations
 
         # get the "reference" root file datas
         f_KSref = ROOT.TFile(pathDATA + input_ref_file)
-        print('we use the %s file as KS reference' % input_ref_file)
         h_KSref = gr.getHisto(f_KSref, tp_1)
-        #print(h_KSref)
 
         diffTab2 = pd.DataFrame()
-        #print(diffTab2)
         toto = []
 
         for i in range(0, N_histos):#, N_histos-1 range(N_histos - 1, N_histos):  # 1 N_histos histo for debug
@@ -313,19 +312,15 @@ for valGeV in listGeV: # loop over GUI configurations
                 s_new = histo_rel.values()
 
                 if (len(s_KSref) != len(s_new)):
-                    print('pbm whith histo %s, lengths are not the same' % branches[i])
+                    print('pbm whith histo {:s}, lengths are not the same [{:d}, {:d}]'.format(branches[i], len(s_KSref), len(s_new)))
                     continue
-
                 if (s_new.min() < 0.):
                     print('pbm whith histo %s, min < 0' % branches[i])
                     continue
                 if (np.floor(s_new.sum()) == 0.):
                     print('pbm whith histo %s, sum = 0' % branches[i])
                     continue
-                    
-                # diff max between new & ref
                 diffMax0 = DB.diffMAXKS3c(s_KSref, s_new)
-                #print('{:s} - max : {:f}'.format(rel, diffMax0))
 
                 diffValues.append(diffMax0)
                 if (tmpSource1[i_2] == 1):
@@ -337,16 +332,12 @@ for valGeV in listGeV: # loop over GUI configurations
                 f_rel.Close() # close TFile
             
             toto.append(diffValues)
-            lab = r_rels2
-            val = diffValues
-            val2 = diffValues2
-            print('il y a {:d} points dans les valeurs'.format(len(val)))
-            print('il y a {:d} points dans les labels'.format(len(lab)))
+            #print('il y a {:d} points dans les valeurs'.format(len(val)))
+            #print('il y a {:d} points dans les labels'.format(len(lab)))
 
             pictureName = webFolder + dataSetFolder + '/pngs/maxDiff_comparison_' + branches[i] + '_3.png' # 
-            print(pictureName)
             title = 'KS cum diff values vs releases. ' + branches[i]
-            createCompLossesPicture4(lab,val,val2, pictureName, title, 'Releases', 'max diff')
+            createCompLossesPicture4(r_rels2,diffValues,diffValues2, pictureName, title, 'Releases', 'max diff')
 
         diffTab2 = pd.DataFrame(toto, columns=r_rels2)
         globos = diffTab2.mean(axis=0, numeric_only=True)
@@ -367,7 +358,7 @@ for valGeV in listGeV: # loop over GUI configurations
                 val2.append(np.nan)
             i += 1
         pictureName = webFolder + dataSetFolder + '/pngs/maxDiff_comparison_values_3.png' # 
-        print(pictureName)
+        #print(pictureName)
         title = r"$\bf{total}$" + ' : KS cum diff values vs releases.'
         createCompLossesPicture4(lab, val1, val2, pictureName, title, 'Releases', 'max diff')
 

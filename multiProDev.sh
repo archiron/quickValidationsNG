@@ -8,7 +8,7 @@ NC="\\e[0m"
 
 #source /cvmfs/sft.cern.ch/lcg/app/releases/ROOT/6.32.04/x86_64-almalinux9.4-gcc114-opt/bin/thisroot.sh 
 #source /cvmfs/sft.cern.ch/lcg/app/releases/ROOT/6.32.06/x86_64-almalinux9.4-gcc114-opt/bin/thisroot.sh
-source /cvmfs/sft.cern.ch/lcg/app/releases/ROOT/6.36.00/x86_64-almalinux9.5-gcc115-opt/bin/thisroot.sh
+source /cvmfs/sft.cern.ch/lcg/app/releases/ROOT/6.36.04/x86_64-almalinux9.5-gcc115-opt/bin/thisroot.sh
 
 if [[ -n "$1" ]]; then
     python3 GevSeqDev-v2.py $1

@@ -11,7 +11,9 @@
 #                                                                              
 ################################################################################
 
-import os,sys,shutil
+import os
+import sys
+import shutil
 import time
 import importlib.machinery
 import importlib.util
@@ -25,15 +27,13 @@ from DecisionBox import DecisionBox
 from valEnv_default import env_default
 from config import * # WARNING, must be the local version and not the remote one !!!
 
-#from sys import argv
-#argv.append( '-b-' )
+#from multiprocessing import Pool
+
 import ROOT
 ROOT.gROOT.SetBatch(True)
-#ROOT.gErrorIgnoreLevel = ROOT.kWarning # remove info like : Info in <TCanvas::Print>: gif file gifs/h_ele_vertexPhi.gif has been created
 ROOT.gErrorIgnoreLevel = ROOT.kFatal # ROOT.kBreak # 
 ROOT.PyConfig.DisableRootLogon = True
 ROOT.PyConfig.IgnoreCommandLineOptions = True
-#argv.remove( '-b-' )
 
 root_version = ROOT.gROOT.GetVersion()
 print('PYTHON     version : {}'.format(sys.version))
@@ -82,6 +82,13 @@ class GevSeq():
         self.KS_reference_release = KS_reference_release
         if (KS_reference_release != ''):
             print('Kolmogorov-Smirnov reference release to be used if needed : %s' % KS_reference_release)
+
+        '''def process_histo(i_histos):
+            print(i_histos)
+
+        with Pool() as pool:
+            args = [i for i in range(0, len(listGeV))]
+            pool.map(process_histo, args)'''
 
         # get time for begin
         start = time.time()           # let's see how long this takes
@@ -299,8 +306,8 @@ class GevSeq():
                 relFile.append(elem1[1])
                 refFile.append(elem1[2])
 
-            #relFile = ['DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_14_1_0_pre7-140X_mcRun3_2024_realistic_v21_STD_RegeneratedGS_2024_noPU-v1__DQMIO.root', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre7-140X_mcRun3_2024_realistic_v21_STD_RegeneratedGS_2024_noPU-v1__DQMIO.root', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_14_1_0_pre7-140X_mcRun3_2024_realistic_v21_STD_2024_PU-v1__DQMIO.root', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre7-140X_mcRun3_2024_realistic_v21_STD_2024_PU-v1__DQMIO.root']
-            #refFile = ['DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_14_1_0_pre5-140X_mcRun3_2024_realistic_v11_STD_2024_noPU-v1__DQMIO.root', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre5-140X_mcRun3_2024_realistic_v11_STD_2024_noPU-v1__DQMIO.root', 'DQM_V0001_R000000001__RelValTTbar_14TeV__CMSSW_14_1_0_pre5-PU_140X_mcRun3_2024_realistic_v11_STD_2024_PU-v1__DQMIO.root', 'DQM_V0001_R000000001__RelValZEE_14__CMSSW_14_1_0_pre5-PU_140X_mcRun3_2024_realistic_v11_STD_2024_PU-v1__DQMIO.root']
+            #relFile = ['DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_1_0_pre5-PU_151X_mcRun3_2025_realistic_v4_STD_2025_PU-v2__DQMIO_NewISO.root']
+            #refFile = ['DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_1_0_pre5-PU_151X_mcRun3_2025_realistic_v4_STD_2025_PU-v2__DQMIO_NewISO.root']
 
             for i, elt in enumerate(datasets):
                 dts = elt
@@ -474,6 +481,23 @@ class GevSeq():
 
                             if DB_flag:
                                 fHisto.close()
+                
+                '''def process_histo(i_histos):
+                    print(i_histos)
+
+                with Pool() as pool:
+                    args = [i for i in range(0, len(titlesList))]
+                    pool.map(process_histo, args)'''
+
+                '''def process_histo(t_histos):
+                    for elem in t_histos:
+                        if ( elem != "endLine" ):
+                            print(elem)
+
+                with Pool() as pool:
+                    args = [histoArray_0[titlesList[i]] for i in range(0, len(titlesList))]
+                    pool.map(process_histo, args)'''
+
 
                 if DB_flag:
                     DB.generateExplanation()

@@ -11,7 +11,9 @@
 #                                                                              
 ################################################################################
 
-import os,sys,shutil
+import os
+import sys
+import shutil
 import time
 import importlib.machinery
 import importlib.util
@@ -26,14 +28,12 @@ from valEnv_default import env_default
 from config import * # WARNING, must be the local version and not the remote one !!!
 
 #from sys import argv
-#argv.append( '-b-' )
+
 import ROOT
 ROOT.gROOT.SetBatch(True)
-#ROOT.gErrorIgnoreLevel = ROOT.kWarning # remove info like : Info in <TCanvas::Print>: gif file gifs/h_ele_vertexPhi.gif has been created
 ROOT.gErrorIgnoreLevel = ROOT.kFatal # ROOT.kBreak # 
 ROOT.PyConfig.DisableRootLogon = True
 ROOT.PyConfig.IgnoreCommandLineOptions = True
-#argv.remove( '-b-' )
 
 root_version = ROOT.gROOT.GetVersion()
 print('PYTHON     version : {}'.format(sys.version))
@@ -299,8 +299,8 @@ class GevSeq():
                 relFile.append(elem1[1])
                 refFile.append(elem1[2])
 
-            #relFile = ['DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_1_0_pre5-121X_mcRun3_2021_realistic_v15-v1__DQMIO.root']
-            #refFile = ['DQM_V0001_R000000001__RelValZEE_14__CMSSW_12_1_0_pre4-121X_mcRun3_2021_realistic_v10-v1__DQMIO.root']
+            #relFile = ['DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_1_0_pre5-PU_151X_mcRun3_2025_realistic_v4_STD_2025_PU-v2__DQMIO_NewISO.root']
+            #refFile = ['DQM_V0001_R000000001__RelValZEE_14__CMSSW_15_1_0_pre5-PU_151X_mcRun3_2025_realistic_v4_STD_2025_PU-v2__DQMIO_NewISO.root']
 
             for i, elt in enumerate(datasets):
                 dts = elt
