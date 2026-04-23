@@ -11,6 +11,7 @@
 ###########################################################################
 
 import os
+from os.path import exists
 import sys
 import time
 from collections import Counter
@@ -285,8 +286,15 @@ for valGeV in validations_RECO: # loop over GUI configurations
         #print('diffValues')
         #print(diffValues2)
         pictureName = webFolder + '/newDiff_comparison_' + vul + '_1.png'
+        snd_pictureName = web_repo[0] + '/' + shortRelease + '_2025_DQM_' + web_repo[1]
+        snd_pictureName += '/FullvsFull_CMSSW_' + shortReference + '/' + relrefVT[0] + '-' + relrefVT[1]
+        snd_pictureName += '_' + datasets[0] + '/pngs/'
+        print('snd_pictureName ==> {:s}'.format(snd_pictureName))
         title = r"$\bf{total}$" + ' : diff values vs releases.'
         createCompLossesPicture5(lab, diffValues2, pictureName, title, 'Releases', 'max diff')
+        if ( exists(snd_pictureName) ):
+            snd_pictureName += '/newDiff_comparison_' + vul + '_1.png'
+            createCompLossesPicture5(lab, diffValues2, snd_pictureName, title, 'Releases', 'max diff')
         #greatDiffValues.append(diffValues)
     
     #pprint(greatDiffValues)
@@ -301,8 +309,14 @@ for valGeV in validations_RECO: # loop over GUI configurations
     sumDiffValues /= N_histos
     print('mean', sumDiffValues)
     pictureName = webFolder + '/newSumDiff_comparison_1.png'
+    snd_pictureName = web_repo[0] + '/' + shortRelease + '_2025_DQM_' + web_repo[1]
+    snd_pictureName += '/FullvsFull_CMSSW_' + shortReference + '/' + relrefVT[0] + '-' + relrefVT[1]
+    snd_pictureName += '_' + datasets[0] + '/pngs/'
     title = r"$\bf{total}$" + ' : diff values vs releases.'
     createCompLossesPicture5(lab, sumDiffValues, pictureName, title, 'Releases', 'max diff')
+    if ( exists(snd_pictureName) ):
+        snd_pictureName += '/newDiff_comparison_' + vul + '_1.png'
+        createCompLossesPicture5(lab, sumDiffValues, snd_pictureName, title, 'Releases', 'max diff')
 
     toc = time.time()
     print('Done in {:.4f} seconds\n'.format(toc-tic))
