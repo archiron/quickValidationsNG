@@ -4,7 +4,7 @@
 ################################################################################
 # createAndCompare : create file for Kolmogorov-Smirnov maximum diff and generate
 # pictures for releases comparison
-# V2
+# V5 multiprocessing version
 #
 # Arnaud Chiron-Turlay LLR - arnaud.chiron@llr.in2p3.fr                        
 #                                                                              
@@ -72,7 +72,8 @@ from controlFunctions import *
 from graphicFunctions import Graphic
 from graphicAutoEncoderFunctions import createCompLossesPicture4 # createCompLossesPicture, createCompLossesPicture3, 
 from DecisionBox import DecisionBox
-from rootSources import *
+#from rootSources import *
+from rootSourcesRegenerated import *
 from functions import *
 from networkFunctions import networkFunctions
 from valEnv_default import env_default
@@ -292,7 +293,7 @@ for valGeV in listGeV: # loop over GUI configurations
         
         def process_histo(tt_histos):
             i, bri, t_histos = tt_histos
-            print('[{:03d}] - histo : {:s}/{:s}'.format(i, dts, bri)) # print histo name
+            print('[{:03d}] : [{:s}, {:s}] - {:s}/{:s}'.format(i, relrefVT[0], relrefVT[1], dts, bri)) # print histo name
             s_KSref = hist_dict.get((release[6:], bri))
             diffValues = []
             diffValues2 = []
